@@ -21,7 +21,7 @@ addLayer("L", {
         if (hasUpgrade('L', 23)) mult = mult.times(1.5)
         if (hasUpgrade('L', 21)) mult = mult.times(1.75)
 
-        if (hasUpgrade('L', 32)) mult = mult.times(player.L.Points.log(3))
+        if (hasUpgrade('L', 32)) mult = mult.times(player.L.points.log(6))
         if (hasUpgrade('L', 31)) mult = mult.times(3.5)
 
         return mult
