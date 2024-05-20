@@ -21,7 +21,7 @@ addLayer("L", {
         if (hasUpgrade('L', 23)) mult = mult.times(1.5)
         if (hasUpgrade('L', 21)) mult = mult.times(1.75)
 
-        if (hasUpgrade('L', 32)) mult = mult.times(player.L.points.log(6))
+        if (hasUpgrade('L', 32)) mult = mult.times(upgradeEffect('L', 32));
         if (hasUpgrade('L', 31)) mult = mult.times(3.5)
 
         return mult
@@ -65,9 +65,17 @@ addLayer("L", {
             cost: new Decimal(100000),
         },
         32: {
+
+            effect() {
+                return player.L.points.plus(1).log(6);
+              },
+    
             title: "Lime Synergy I (#6)",
-            description: "Limes boost themselves [log6(lime)]",
+            description() { 
+               return "Limes boost themselves [log6(lime)] by " + format(upgradeEffect('L', 32), 2) + "x"
+            },
             cost: new Decimal(1000),
+      
         },
     },
 })
