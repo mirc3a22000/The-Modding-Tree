@@ -1,26 +1,26 @@
 let modInfo = {
-	name: "The ??? Tree",
-	id: "mymod",
-	author: "nobody",
-	pointsName: "points",
+	name: "The Lime Upgrade Tree",
+	id: "limesave",
+	author: "mirc3a22000",
+	pointsName: "Limes",
 	modFiles: ["layers.js", "tree.js"],
 
-	discordName: "",
-	discordLink: "",
-	initialStartPoints: new Decimal (10), // Used for hard resets and new players
+	discordName: "None",
+	discordLink: "discord.gg/channels/@me",
+	initialStartPoints: new Decimal (0), // Used for hard resets and new players
 	offlineLimit: 1,  // In hours
 }
 
 // Set your version in num and name
 let VERSION = {
-	num: "0.0",
-	name: "Literally nothing",
+	num: "0.0.1",
+	name: "Early Begginings",
 }
 
 let changelog = `<h1>Changelog:</h1><br>
 	<h3>v0.0</h3><br>
-		- Added things.<br>
-		- Added stuff.`
+		- Added Limes<br>
+		- Added Lime Upgrades.`
 
 let winText = `Congratulations! You have reached the end and beaten this game, but for now...`
 
