@@ -13,14 +13,20 @@ let modInfo = {
 
 // Set your version in num and name
 let VERSION = {
-	num: "0.0.1",
-	name: "Early Begginings",
+	num: "0.0.2",
+	name: "Continuing liming",
 }
 
 let changelog = `<h1>Changelog:</h1><br>
-	<h3>v0.0</h3><br>
+	<h3>v0.0.1</h3><br>
 		- Added Limes!<br>
-		- Added Lime Upgrades.`
+		- Added Lime Upgrades.<br>
+		<br>
+	<h3>v0.0.2</h3><br>
+		- More lime upgrades!<br>
+		- bug fixes`
+
+	
 
 let winText = `Congratulations! You have reached the end and beaten this game, but for now...`
 

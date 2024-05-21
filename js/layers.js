@@ -21,19 +21,28 @@ addLayer("L", {
         if (hasUpgrade('L', 23)) mult = mult.times(1.5)
         if (hasUpgrade('L', 21)) mult = mult.times(1.75)
 
-        if (hasUpgrade('L', 32)) mult = mult.times(upgradeEffect('L', 32));
+        if (hasUpgrade('L', 32)) mult = mult.times(upgradeEffect('L', 32)).plus(1);
         if (hasUpgrade('L', 31)) mult = mult.times(3.5)
+        if (hasUpgrade('L', 33)) mult = mult.times(3.14)
+
+        if (hasUpgrade('L', 41)) mult = mult.times(4)
 
         return mult
     },
     gainExp() { // Calculate the exponent on main currency from bonuses
         return new Decimal(1)
     },
+
+    prestigeButtonText() {
+        return "Click for +" + getResetGain("L") + " limes"
+    },
+
     row: 0, // Row the layer is in on the tree (0 is the first row)
-    hotkeys: [
-        {key: "l", description: "L: Get Limes", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
-    ],
     layerShown(){return true},
+    passiveGeneration() {
+        if (hasUpgrade("L", 51)) return 10
+        return 0
+     },
 
     upgrades: {
         11: {
@@ -47,22 +56,26 @@ addLayer("L", {
             title: "Lime Tripler (#3)",
             description: "Triple Limes",
             cost: new Decimal(115),
+            unlocked() {return hasUpgrade("L", 11)},
         },
         21: {
             title: "Lime Booster II (#5)",
             description: "1.75x Limes",
             cost: new Decimal(550),
+            unlocked() {return hasUpgrade("L", 22)},
         },
         23: {
             title: "Lime Booster I (#4)",
             description: "1.5x Limes",
             cost: new Decimal(365),
+            unlocked() {return hasUpgrade("L", 22)},
         },
 
         31: {
             title: "Lime Booster IV (#9)",
             description: "3.5x Limes",
             cost: new Decimal(100000),
+            unlocked() {return hasUpgrade("L", 21)},
         },
         32: {
 
@@ -72,10 +85,39 @@ addLayer("L", {
     
             title: "Lime Synergy I (#6)",
             description() { 
-               return "Limes boost themselves [log6(lime)] by " + format(upgradeEffect('L', 32), 2) + "x"
+               if (hasUpgrade("L", 32)) return "Limes boost themselves [log6(lime)] by " + format(upgradeEffect('L', 32).plus(1), 2) + "x"
+               return "Limes boost themselves [log6(lime)]"
             },
             cost: new Decimal(1000),
+            unlocked() {return hasUpgrade("L", 22)},
       
+        },
+
+        33: {
+            title: "Lime Booster III (#8)",
+            description: "3.14x Limes",
+            cost: new Decimal(30000),
+            unlocked() {return hasUpgrade("L", 23)},
+        },
+
+        41: {
+            title: "Lime Quadrupler (#7)",
+            description: "Quadruple Limes",
+            cost: new Decimal(7500),
+            unlocked() {return hasUpgrade("L", 32)},
+        },
+        42: {
+            title: "No More Lime (#15)",
+            description: "Unlock Lemons (placeholder)",
+            cost: new Decimal("3.25e9"),
+            unlocked() {return hasUpgrade("L", 41)},
+        },
+
+        51: {
+            title: "Lime Autoclicker (#10)",
+            description: "Generates 1000% of limes per second.",
+            cost: new Decimal(350000),
+            unlocked() {return hasUpgrade("L", 41)},
         },
     },
 })
