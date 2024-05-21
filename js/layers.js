@@ -1,3 +1,32 @@
+addLayer("achievementslmao", {
+    row: "side",
+    name: "Achievements",
+    symbol: "A",
+    color: "#FFFF00",
+    poisition: 0,
+    type: "none",
+    tooltip() {return "Achievements"},
+
+    achievements: {
+        11: {
+            name: "First lime",
+            tooltip: 'Click for your first lime',
+            done() {return player.L.points >= 1},
+        },
+        12: {
+            name: "Lots of limes",
+            tooltip: 'Click for your first 100 limes',
+            done() {return player.L.points >= 100},
+        },
+        13: {
+            name: "No more clicking!",
+            tooltip: 'Buy upgrade #10',
+            done() {return hasUpgrade("L",51)},
+        },
+    }
+})
+
+
 addLayer("L", {
     name: "The Lime Clicker(tm) (#1)", // This is optional, only used in a few places, If absent it just uses the layer id.
     symbol: "L", // This appears on the layer's node. Default is the id with the first letter capitalized
