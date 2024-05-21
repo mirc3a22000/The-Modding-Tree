@@ -50,11 +50,21 @@ addLayer("L", {
         if (hasUpgrade('L', 23)) mult = mult.times(1.5)
         if (hasUpgrade('L', 21)) mult = mult.times(1.75)
 
+        if (hasUpgrade('L', 61)) mult = mult.times(upgradeEffect('L', 61)).plus(1);
+       
+
         if (hasUpgrade('L', 32)) mult = mult.times(upgradeEffect('L', 32)).plus(1);
         if (hasUpgrade('L', 31)) mult = mult.times(3.5)
         if (hasUpgrade('L', 33)) mult = mult.times(3.14)
 
         if (hasUpgrade('L', 41)) mult = mult.times(4)
+
+        if (hasUpgrade('L', 71)) mult = mult.times(10)
+
+        if (hasUpgrade('L', 81)) mult = mult.times(upgradeEffect('L', 81));
+
+        if (hasUpgrade('L', 71)) mult = mult.times(7.5)
+
 
         return mult
     },
@@ -148,6 +158,56 @@ addLayer("L", {
             cost: new Decimal(350000),
             unlocked() {return hasUpgrade("L", 41)},
         },
+
+        61: {
+            title: "Lime Synergy II (#11)",
+            effect() {
+                return player.L.points.plus(1).log(15);
+              },
+            description() {  
+            if (hasUpgrade("L", 61)) return "Limes boost upgrade Lime Synergy I (#6) by " + format(upgradeEffect('L', 61).plus(1), 2) + "x"
+            return "Limes boost upgrade Lime Synergy I (#6)"
+            },
+            cost: new Decimal(650000),
+            unlocked() {return hasUpgrade("L", 51)},
+        },
+
+        71: {
+            title: "Huge Boost I (#12)",
+            description: "10x Limes",
+            cost: new Decimal("7.5e6"),
+            unlocked() {return hasUpgrade("L", 61)},
+        },
+
+        81: {
+            title: "Playtime Boost (#13)",
+            effect() {
+                return Math.log(player.timePlayed) / Math.log(5);
+              },
+            description() {  
+                if (hasUpgrade("L", 81)) return "Get a boost based on active playtime by " + format(upgradeEffect('L', 81), 2) + "x"
+                return "Get a boost based on active playtime"
+                },
+            cost: new Decimal("85e6"),
+            unlocked() {return hasUpgrade("L", 71)},
+        },
+
+        91: {
+            title: "Huge Boost II (#14)",
+            description: "7.5x Limes",
+            cost: new Decimal("425e6"),
+            unlocked() {return hasUpgrade("L", 61)},
+        },
     },
 })
 
+addLayer("lemons", {
+    row: 1,
+    name: "Lemons",
+    symbol: "L",
+    color: "#FFFF00",
+    poisition: 0,
+    type: "custom",
+    resetsNothing: true,
+
+})
