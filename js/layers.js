@@ -200,18 +200,3 @@ addLayer("L", {
         },
     },
 })
-
-```addLayer("lemons", {
-    row: 1,
-    name: "Lemons",
-    symbol: "L",
-    color: "#FFFF00",
-    poisition: 0,
-    type: "custom",
-    resetsNothing: true,
-
-    getResetGain("lemons") {
-return limes.div(3e9).log(7.5)
-}
-
-})```
