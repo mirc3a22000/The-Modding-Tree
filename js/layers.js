@@ -210,8 +210,8 @@ addLayer("lemons", {
     type: "custom",
     resetsNothing: true,
     baseResource: player.L.points,
-    baseAmount() {return player.L.points}
-    require: new decimal(3e9)
+    baseAmount() {return player.L.points},
+    require: new decimal(3e9),
 
     getResetGain() {
 return player.L.points.div(3e9).log(7.5)
