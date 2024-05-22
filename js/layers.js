@@ -209,9 +209,20 @@ addLayer("lemons", {
     poisition: 0,
     type: "custom",
     resetsNothing: true,
+    baseResource: player.L.points,
+    baseAmount()
+    require: new decimal(3e9)
 
     getResetGain() {
 return player.L.points.div(3e9).log(7.5)
+}
+
+    getNextAt() {
+return tmp.L.resetGain.plus(1).pow_base(7.5).times(3e9)
+}
+
+    onPrestige(gain) {
+player.L.points = 0
 }
 
 })
