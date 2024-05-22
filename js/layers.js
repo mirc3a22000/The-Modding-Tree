@@ -206,7 +206,7 @@ addLayer("lemons", {
     name: "Lemons",
     symbol: "L",
     color: "#FFFF00",
-    poisition: 0,
+    position: 0,
     type: "custom",
     resetsNothing: true,
     baseResource: player.L.points,
