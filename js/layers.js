@@ -210,4 +210,8 @@ addLayer("lemons", {
     type: "custom",
     resetsNothing: true,
 
+    getResetGain("lemons") {
+return limes.div(3e9).log(7.5)
+}
+
 })
