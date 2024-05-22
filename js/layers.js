@@ -201,7 +201,7 @@ addLayer("L", {
     },
 })
 
-```addLayer("lemons", {
+addLayer("lemons", {
     row: 1,
     name: "Lemons",
     symbol: "L",
@@ -210,8 +210,8 @@ addLayer("L", {
     type: "custom",
     resetsNothing: true,
 
-    getResetGain("lemons") {
+    getResetGain() {
 return player.L.points.div(3e9).log(7.5)
 }
 
-})```
+})
