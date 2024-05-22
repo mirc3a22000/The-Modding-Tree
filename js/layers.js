@@ -201,7 +201,7 @@ addLayer("L", {
     },
 })
 
-addLayer("lemons", {
+```addLayer("lemons", {
     row: 1,
     name: "Lemons",
     symbol: "L",
@@ -225,4 +225,4 @@ return tmp.L.resetGain.plus(1).pow_base(7.5).times(3e9)
 player.L.points = 0
 },
 
-})
+})```
