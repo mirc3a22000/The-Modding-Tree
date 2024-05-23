@@ -210,7 +210,7 @@ addLayer("lemons", {
     position: 0,
     type: "custom",
     resetsNothing: true,
-    resource: "Lemons"
+    resource: "Lemons",
     baseResource: "Limes",
     baseAmount() {return player.L.points},
     requires: new Decimal(3e9),
