@@ -3,7 +3,7 @@ addLayer("achievementslmao", {
     name: "Achievements",
     symbol: "A",
     color: "#FFFF00",
-    poisition: 0,
+    position: 0,
     type: "none",
     tooltip() {return "Achievements"},
 
