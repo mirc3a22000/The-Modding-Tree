@@ -226,4 +226,8 @@ return tmp.L.resetGain.plus(1).pow_base(7.5).times(3e9)
 player.L.points = new Decimal(0)
 },
 
+layerShown() {
+return hasUpgrade("L", 42)
+},
+
 })
