@@ -223,7 +223,7 @@ return tmp.L.resetGain.plus(1).pow_base(7.5).times(3e9)
 },
 
     onPrestige(gain) {
-player.L.points = 0
+player.L.points = new decimal(0)
 },
 
 })
