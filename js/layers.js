@@ -233,7 +233,7 @@ player.L.points = new Decimal(0)
 },
 
 layerShown() {
-return hasUpgrade("lemons", 42)
+return hasUpgrade("L", 42)
 },
 
 })
