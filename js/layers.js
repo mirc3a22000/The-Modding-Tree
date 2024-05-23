@@ -212,7 +212,7 @@ addLayer("lemons", {
     resetsNothing: true,
     baseResource: "Limes",
     baseAmount() {return player.L.points},
-    requires: new decimal(3e9),
+    requires: new Decimal(3e9),
 
     getResetGain() {
 return player.L.points.div(3e9).log(7.5)
