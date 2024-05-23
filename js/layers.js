@@ -219,7 +219,7 @@ addLayer("lemons", {
     },
 
     getResetGain() {
-return player.L.points.div(3e9).log(7.5)
+return player.L.points.plus(1).div(3e9).log(7.5)
 },
 
     getNextAt() {
