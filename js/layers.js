@@ -213,7 +213,7 @@ addLayer("lemons", {
     baseResource: "Limes",
     baseAmount() {return player.L.points},
     requires: new Decimal(3e9),
-    branches: ["L"]
+    branches: [L]
 
     prestigeButtonText() {
         return "Reset for +" + getResetGain("lemons") + " lemons"
