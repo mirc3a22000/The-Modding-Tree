@@ -224,7 +224,7 @@ return player.L.points.plus(1).div(3e9).log(7.5)
 
     getNextAt() {
 lemongain = new Decimal(0).plus(tmp.L.resetGain)
-return lemongain.plus(1).pow_base(7.5).times(3e9)
+return format(lemongain.plus(1).pow_base(7.5).times(3e9), 1)
 },
 
     onPrestige(gain) {
