@@ -215,7 +215,7 @@ addLayer("lemons", {
     requires: new Decimal(3e9),
 
     prestigeButtonText() {
-        return "Reset for +" + getResetGain("L") + " lemons"
+        return "Reset for +" + getResetGain("lemons") + " lemons"
     },
 
     getResetGain() {
