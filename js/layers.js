@@ -200,29 +200,3 @@ addLayer("L", {
         },
     },
 })
-
-```addLayer("lemons", {
-    row: 1,
-    name: "Lemons",
-    symbol: "L",
-    color: "#FFFF00",
-    position: 0,
-    type: "custom",
-    resetsNothing: true,
-    baseResource: player.L.points,
-    baseAmount() {return player.L.points},
-    requires: new decimal(3e9),
-
-    getResetGain() {
-return player.L.points.div(3e9).log(7.5)
-},
-
-    getNextAt() {
-return tmp.L.resetGain.plus(1).pow_base(7.5).times(3e9)
-} 
-
-    onPrestige(gain) {
-player.L.points = 0
-},
-
-})```
