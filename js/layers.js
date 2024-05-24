@@ -220,7 +220,7 @@ addLayer("lemons", {
     ["prestige-button"],
     "blank",
     ["display-text",
-        function() {return "You have " + player.L.points + "limes."}],
+        function() {return "You have " + format(player.L.points) + " limes."}],
     ],
     
     canReset() {
