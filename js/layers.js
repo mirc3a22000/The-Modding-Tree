@@ -220,7 +220,7 @@ addLayer("lemons", {
         return player.L.points >= new Decimal(3e9)
 },
 
-    resetDescription() {
+    prestigeButtonText() {
         return "Reset for +" + getResetGain("lemons") + " lemons"
     },
 
