@@ -218,6 +218,9 @@ addLayer("lemons", {
     tabFormat: [
     "main-display",
     ["prestige-button"],
+    "blank",
+    ["display-text",
+        function() {return "You have " + player.L.points + "limes."}],
     ],
     
     canReset() {
