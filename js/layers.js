@@ -217,7 +217,7 @@ addLayer("lemons", {
     branches: ["L"],
     
     canReset() {
-        return player.L.points >= new Decimal(3e9)
+        return player.L.points.gte(new Decimal(3e9))
 },
 
     prestigeButtonText() {
