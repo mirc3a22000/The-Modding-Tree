@@ -215,6 +215,10 @@ addLayer("lemons", {
     baseAmount() {return player.L.points},
     requires: new Decimal(3e9),
     branches: ["L"],
+    tabFormat: [
+    "main-display",
+    ["prestige-button"],
+    ],
     
     canReset() {
         return player.L.points.gte(new Decimal(3e9))
