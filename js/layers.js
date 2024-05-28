@@ -65,6 +65,8 @@ addLayer("L", {
 
         if (hasUpgrade('L', 71)) mult = mult.times(7.5)
 
+        if (getBuyableAmount("lemons", 11).gte(1)) mult = mult.times(2).times(getBuyableAmount("lemons", 11)).plus(1)
+
 
         return mult
     },
@@ -73,7 +75,7 @@ addLayer("L", {
     },
 
     prestigeButtonText() {
-        return "Click for +" + getResetGain("L") + " limes"
+        return "Click for +" + format(getResetGain("L")) + " limes"
     },
 
     row: 0, // Row the layer is in on the tree (0 is the first row)
@@ -210,6 +212,10 @@ addLayer("lemons", {
     position: 0,
     type: "custom",
     resetsNothing: true,
+    startData() { return {
+        unlocked: false,
+		points: new Decimal(0),
+    }},
     resource: "Lemons",
     baseResource: "Limes",
     baseAmount() {return player.L.points},
@@ -217,8 +223,9 @@ addLayer("lemons", {
     branches: ["L"],
     tabFormat: [
     "main-display",
-    ["prestige-button"],
+    "prestige-button",
     "blank",
+    "buyables",
     ["display-text",
         function() {return "You have " + format(player.L.points) + " limes."}],
     ],
@@ -228,11 +235,14 @@ addLayer("lemons", {
 },
 
     prestigeButtonText() {
-        return "Reset for +" + getResetGain("lemons") + " lemons"
+        if (player.L.points.gte(3e9)) return "Reset for +" + format(getResetGain("lemons")) + " lemons"
+        return "You need 3e9 limes to lemonize!"
     },
 
     getResetGain() {
-return format(player.L.points.plus(1).div(3e9).log(7.5), 1)
+gain = player.L.points.plus(1).div(3e9).log(7.5).plus(1)
+
+return
 },
 
     getNextAt() {
@@ -242,10 +252,40 @@ return format(lemongain.plus(1).pow_base(7.5).times(3e9), 1)
 
     onPrestige(gain) {
 player.L.points = new Decimal(0)
+if (getBuyableAmount("lemons", 12).gte(1)) gain = gain.times(buyableEffect("lemons", 12)).plus(1)
+return gain
 },
 
 layerShown() {
 return hasUpgrade("L", 42)
+},
+
+buyables: {
+    11: {
+        title: "Lime Doubler",
+        purchaseLimit: 200,
+        effect() {
+            return getBuyableAmount(this.layer, this.id).times(2);
+          },
+        cost(x) { return new Decimal(1).mul(x).times(2).plus(1) },
+        display() { return "Blah, buy for " + this.cost() + " lemons \n" + getBuyableAmount("lemons", 11) + "/200"},
+        canAfford() { return player[this.layer].points.gte(this.cost()) },
+        buy() {
+            player[this.layer].points = player[this.layer].points.sub(this.cost())
+            setBuyableAmount(this.layer, this.id, getBuyableAmount(this.layer, this.id).add(1))
+        },
+    },
+    12: {
+        title: "Lemon Doubler",
+        purchaseLimit: 150,
+        cost(x) { return new Decimal(1).mul(x).times(5).plus(1) },
+        display() { return "Blah, buy for " + this.cost() + " lemons \n" + getBuyableAmount("lemons", 12) + "/150"},
+        canAfford() { return player[this.layer].points.gte(this.cost()) },
+        buy() {
+            player[this.layer].points = player[this.layer].points.sub(this.cost())
+            setBuyableAmount(this.layer, this.id, getBuyableAmount(this.layer, this.id).add(1))
+        },
+    },
 },
 
 })
