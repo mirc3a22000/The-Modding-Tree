@@ -5,23 +5,47 @@ addLayer("achievementslmao", {
     color: "#FFFF00",
     position: 0,
     type: "none",
+    startData() { return {
+        unlocked: true,
+        points: new Decimal(0)}
+    },
     tooltip() {return "Achievements"},
 
     achievements: {
         11: {
             name: "First lime",
             tooltip: 'Click for your first lime',
-            done() {return player.L.points >= 1},
+            done() {return player.L.points.gte(1)},
         },
         12: {
             name: "Lots of limes",
             tooltip: 'Click for your first 100 limes',
-            done() {return player.L.points >= 100},
+            done() {return player.L.points.gte(100)},
         },
         13: {
             name: "No more clicking!",
             tooltip: 'Buy upgrade #10',
             done() {return hasUpgrade("L",51)},
+        },
+        21: {
+            name: "Hey, I was promised limes!",
+            tooltip: 'Get your first lime',
+            done() {return player.lemons.points.gte(1)},
+        },
+        22: {
+            name: "Generation? Already?",
+            tooltip: `Buy upgrade #18`,
+            done() {return hasUpgrade('L', 62)},
+        },
+        23: {
+            name: "Lemons are finally useful",
+            tooltip: `Buy upgrade #21`,
+            done() {return hasUpgrade('lemons', 11)}
+        },
+        31: {
+            name: "Why would you do that?",
+            tooltip: "Unnecessary click.",
+            done() {return hasUpgrade("L",99)}
         },
     }
 })
@@ -45,6 +69,7 @@ addLayer("L", {
     gainMult() { // Calculate the multiplier for main currency from bonuses
         mult = new Decimal(1)
         if (hasUpgrade('L', 11)) mult = mult.times(2)
+        if (hasUpgrade("L", 12)) mult = mult.times(100)
 
         if (hasUpgrade('L', 22)) mult = mult.times(3)
         if (hasUpgrade('L', 23)) mult = mult.times(1.5)
@@ -65,13 +90,26 @@ addLayer("L", {
 
         if (hasUpgrade('L', 71)) mult = mult.times(7.5)
 
-        if (getBuyableAmount("lemons", 11).gte(1)) mult = mult.times(2).times(getBuyableAmount("lemons", 11)).plus(1)
+        if (getBuyableAmount("lemons", 11).gte(1)) mult = mult.mul((getBuyableAmount("lemons", 11)))
 
+        if (hasUpgrade(`L`, 42)) mult = mult.mul(3)
 
+        if (hasUpgrade(`L`, 52)) mult = mult.times(4.25)
+
+        if (hasUpgrade(`L`, 62)) mult = mult.times(10)
+
+        if (hasUpgrade(`L`, 72)) mult = mult.times(50)
+
+        if (hasUpgrade("lemons", 11)) mult = mult.times(1.25)
+        
         return mult
     },
     gainExp() { // Calculate the exponent on main currency from bonuses
-        return new Decimal(1)
+        exp = new Decimal(1)
+
+        if (hasUpgrade('L', 82)) exp = exp.plus(0.08) 
+
+        return exp
     },
 
     prestigeButtonText() {
@@ -84,6 +122,13 @@ addLayer("L", {
         if (hasUpgrade("L", 51)) return 10
         return 0
      },
+
+    onPrestige() {
+        if (tmp.L.passiveGeneration > 0 && !hasAchievement("achievementslmao", 31)) {
+            player.achievementslmao.achievements.push(14)
+            doPopup("achievement","Unnecessary Click")
+        }
+    },
 
     upgrades: {
         11: {
@@ -121,7 +166,11 @@ addLayer("L", {
         32: {
 
             effect() {
-                return player.L.points.plus(1).log(6);
+                thing = player.L.points.plus(1).log(6);
+                if (hasUpgrade("L", 82)) {
+                    lemonboost = player.lemons.points.pow(0.1).log(65).plus(1)
+                    thing = thing.pow(lemonboost)}
+                return thing
               },
     
             title: "Lime Synergy I (#6)",
@@ -161,10 +210,18 @@ addLayer("L", {
             unlocked() {return hasUpgrade("L", 41)},
         },
 
+        52: {
+            title: "Lemonade (#17)",
+            description: "5.5x Lemons and 4.25x Limes",
+            cost: new Decimal("1e15"),
+            unlocked() {return hasUpgrade("L", 42)}
+        },
+
         61: {
             title: "Lime Synergy II (#11)",
             effect() {
-                return player.L.points.plus(1).log(15);
+                thing = player.L.points.plus(1).log(15);
+                return thing
               },
             description() {  
             if (hasUpgrade("L", 61)) return "Limes boost upgrade Lime Synergy I (#6) by " + format(upgradeEffect('L', 61).plus(1), 2) + "x"
@@ -174,11 +231,25 @@ addLayer("L", {
             unlocked() {return hasUpgrade("L", 51)},
         },
 
+        62: {
+            title: "No More Clicking (#18)",
+            description: "10x Limes, Lemons and finally generate Lemons!",
+            cost: new Decimal("5e16"),
+            unlocked() {return hasUpgrade(`L`, 52)},
+        },
+
         71: {
             title: "Huge Boost I (#12)",
             description: "10x Limes",
             cost: new Decimal("7.5e6"),
             unlocked() {return hasUpgrade("L", 61)},
+        },
+
+        72: {
+            title: "Huge Boost III (#19)",
+            description: "50x Limes, 20x Lemons",
+            cost: new Decimal("35e25"),
+            unlocked() {return hasUpgrade('L', 71)},
         },
 
         81: {
@@ -194,12 +265,28 @@ addLayer("L", {
             unlocked() {return hasUpgrade("L", 71)},
         },
 
+        82: {
+            title: "Limus (#20)",
+            description() {
+                if (hasUpgrade("L", 82)) return "Lemons give an exponent boost to Upgrade #6's Effect: ^" + format(upgradeEffect(`L`, 82), 2)
+                return "Lemons give an exponent boost to Upgrade #6's Effect (also unlocks Lemon Upgrades)"},
+            cost: new Decimal("1e22"),
+            unlocked() {return hasUpgrade('L', 72)},
+        },
+
         91: {
             title: "Huge Boost II (#14)",
             description: "7.5x Limes",
             cost: new Decimal("425e6"),
             unlocked() {return hasUpgrade("L", 61)},
         },
+
+        92: {
+            title: "Lime Booster V (#22)",
+            description: "+0.08 to Lime's exponent",
+            cost: new Decimal("5.5e30"),
+            unlocked() {return hasUpgrade('L', 82)}
+        }
     },
 })
 
@@ -241,8 +328,15 @@ addLayer("lemons", {
 
     getResetGain() {
 gain = player.L.points.plus(1).div(3e9).log(7.5).plus(1)
+mult = new Decimal(1)
+exp = new Decimal(1)
 
-return
+if (getBuyableAmount("lemons", 11).gte(1)) mult = mult.mul(2).times(getBuyableAmount("lemons", 11)).plus(1)
+
+if (hasUpgrade("lemons", 11)) mult = mult.mul(35)
+if (hasUpgrade("lemons", 12)) mult = mult.mul(11)
+
+return gain.times(mult).pow(exp)
 },
 
     getNextAt() {
@@ -252,39 +346,74 @@ return format(lemongain.plus(1).pow_base(7.5).times(3e9), 1)
 
     onPrestige(gain) {
 player.L.points = new Decimal(0)
-if (getBuyableAmount("lemons", 12).gte(1)) gain = gain.times(buyableEffect("lemons", 12)).plus(1)
-return gain
+    if (getBuyableAmount("lemons", 12).gte(1)) gain = gain.times(buyableEffect("lemons", 12)).plus(1)
+
+    if (hasUpgrade(`L`, 42)) gain = gain.mul(2)
+
+    if (hasUpgrade(`L`, 52)) gain = gain.times(5.5)
+
+    if (hasUpgrade(`L`, 62)) gain = gain.times(10)
+
+    if (hasUpgrade(`L`, 72)) gain = gain.times(25)
+
+    return gain
 },
 
 layerShown() {
 return hasUpgrade("L", 42)
 },
 
+passiveGeneration() {
+        if (hasUpgrade("L", 62)) return 1
+        return 0
+     },
+
 buyables: {
     11: {
         title: "Lime Doubler",
         purchaseLimit: 200,
         effect() {
-            return getBuyableAmount(this.layer, this.id).times(2);
+            return getBuyableAmount(this.layer, this.id).pow_base(2);
           },
-        cost(x) { return new Decimal(1).mul(x).times(2).plus(1) },
-        display() { return "Blah, buy for " + this.cost() + " lemons \n" + getBuyableAmount("lemons", 11) + "/200"},
+        cost(x) {return x.pow_base(2) },
+        display() { return "Blah, buy for " + format(this.cost()) + " lemons \n" + getBuyableAmount("lemons", 11) + "/200"},
         canAfford() { return player[this.layer].points.gte(this.cost()) },
         buy() {
-            player[this.layer].points = player[this.layer].points.sub(this.cost())
-            setBuyableAmount(this.layer, this.id, getBuyableAmount(this.layer, this.id).add(1))
+            const affordable = player[this.layer].points.log(2).floor();
+            player[this.layer].points = player[this.layer].points.minus(this.cost(affordable));
+            setBuyableAmount(this.layer, this.id, affordable.plus(1));
         },
     },
     12: {
         title: "Lemon Doubler",
         purchaseLimit: 150,
-        cost(x) { return new Decimal(1).mul(x).times(5).plus(1) },
-        display() { return "Blah, buy for " + this.cost() + " lemons \n" + getBuyableAmount("lemons", 12) + "/150"},
+        effect() {
+            return getBuyableAmount(this.layer, this.id).pow_base(2)
+        },
+        cost(x) { return x.pow_base(5) },
+        display() { return "Blah, buy for " + format(this.cost()) + " lemons \n" + getBuyableAmount("lemons", 12) + "/150"},
         canAfford() { return player[this.layer].points.gte(this.cost()) },
         buy() {
-            player[this.layer].points = player[this.layer].points.sub(this.cost())
-            setBuyableAmount(this.layer, this.id, getBuyableAmount(this.layer, this.id).add(1))
+            const affordable = player[this.layer].points.log(5).floor();
+            player[this.layer].points = player[this.layer].points.minus(this.cost(affordable));
+            setBuyableAmount(this.layer, this.id, affordable.plus(1));
         },
+    },
+},
+
+upgrades: {
+    11: {
+        title: "lemon upgrade :o (#21)",
+        description: "35x Lemons, 1.25x Limes",
+        cost: new Decimal("2.5e12"),
+        unlocked() {return hasUpgrade('L', 82)},
+    },
+
+    12: {
+        title: "Single Lemons (#23)",
+        description: "11x Lemons",
+        cost: new Decimal("85e13"),
+        unlocked() {return hasUpgrade('lemons', 11)},
     },
 },
 

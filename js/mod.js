@@ -13,8 +13,8 @@ let modInfo = {
 
 // Set your version in num and name
 let VERSION = {
-	num: "0.0.2.1",
-	name: "Continuing liming",
+	num: "0.0.2.2",
+	name: "The comeback nobody asked for",
 }
 
 let changelog = `<h1>Changelog:</h1><br>
@@ -28,7 +28,11 @@ let changelog = `<h1>Changelog:</h1><br>
 		<br>
 	<h3>v0.0.2.1</h3><br>
 		- Added endgame screen<br>
-		- Added achievements`
+		- Added achievements
+	<h3>v0.0.2.1</h3><br>
+		- Added lemons (working) <br>
+		- Added more achievements
+		- even MORE upgrades`
 
 	
 
