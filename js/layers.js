@@ -125,7 +125,7 @@ addLayer("L", {
 
     onPrestige() {
         if (tmp.L.passiveGeneration > 0 && !hasAchievement("achievementslmao", 31)) {
-            player.achievementslmao.achievements.push(14)
+            player.achievementslmao.achievements.push(31)
             doPopup("achievement","Unnecessary Click")
         }
     },
