@@ -45,7 +45,7 @@ addLayer("achievementslmao", {
         31: {
             name: "Why would you do that?",
             tooltip: "Unnecessary click.",
-            done() {return hasUpgrade("L",99)}
+            done() {return false}
         },
     }
 })
