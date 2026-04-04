@@ -43,8 +43,13 @@ addLayer("achievementslmao", {
             done() {return hasUpgrade('lemons', 11)}
         },
         31: {
-            name: "Why would you do that?",
-            tooltip: "Unnecessary click.",
+            name: "Unnecessary click",
+            tooltip: "Why would you do that?",
+            done() {return false}
+        },
+        32: {
+            name: "Lime Hater",
+            tooltip: "The sequel to Unnecessary click",
             done() {return false}
         },
     }
@@ -361,6 +366,11 @@ return format(lemongain.plus(1).pow_base(7.5).times(3e9), 1)
 },
 
     onPrestige() {
+ if (tmp.L.passiveGeneration > 0 && !hasAchievement("achievementslmao", 32)) {
+            player.achievementslmao.achievements.push(32)
+            doPopup("achievement","Lime Hater")
+}
+
 player.L.points = new Decimal(0)
 
 return tmp.lemons.resetGain
