@@ -92,13 +92,13 @@ addLayer("L", {
 
         if (getBuyableAmount("lemons", 11).gte(1)) mult = mult.mul((getBuyableAmount("lemons", 11)))
 
-        if (hasUpgrade(`L`, 42)) mult = mult.mul(3)
+        if (hasUpgrade(`L`, 52)) mult = mult.mul(3)
 
-        if (hasUpgrade(`L`, 52)) mult = mult.times(4.25)
+        if (hasUpgrade(`L`, 62)) mult = mult.times(4.25)
 
-        if (hasUpgrade(`L`, 62)) mult = mult.times(10)
+        if (hasUpgrade(`L`, 72)) mult = mult.times(10)
 
-        if (hasUpgrade(`L`, 72)) mult = mult.times(50)
+        if (hasUpgrade(`L`, 82)) mult = mult.times(50)
 
         if (hasUpgrade("lemons", 11)) mult = mult.times(1.25)
         
@@ -107,7 +107,7 @@ addLayer("L", {
     gainExp() { // Calculate the exponent on main currency from bonuses
         exp = new Decimal(1)
 
-        if (hasUpgrade('L', 82)) exp = exp.plus(0.08) 
+        if (hasUpgrade('L', 93)) exp = exp.plus(0.08) 
 
         return exp
     },
@@ -211,10 +211,17 @@ addLayer("L", {
         },
 
         52: {
+            title: "Need More Limes",
+            description: "Triple Limes and Double Lemons",
+            cost: new Decimal("1e13"),
+            unlocked() {return hasUpgrade("L", 42)},
+        },
+
+        62: {
             title: "Lemonade (#17)",
             description: "5.5x Lemons and 4.25x Limes",
             cost: new Decimal("1e15"),
-            unlocked() {return hasUpgrade("L", 42)}
+            unlocked() {return hasUpgrade("L", 52)}
         },
 
         61: {
@@ -231,11 +238,11 @@ addLayer("L", {
             unlocked() {return hasUpgrade("L", 51)},
         },
 
-        62: {
+        72: {
             title: "No More Clicking (#18)",
             description: "10x Limes, Lemons and finally generate Lemons!",
             cost: new Decimal("5e16"),
-            unlocked() {return hasUpgrade(`L`, 52)},
+            unlocked() {return hasUpgrade(`L`, 62)},
         },
 
         71: {
@@ -245,11 +252,11 @@ addLayer("L", {
             unlocked() {return hasUpgrade("L", 61)},
         },
 
-        72: {
+        82: {
             title: "Huge Boost III (#19)",
             description: "50x Limes, 20x Lemons",
             cost: new Decimal("35e25"),
-            unlocked() {return hasUpgrade('L', 71)},
+            unlocked() {return hasUpgrade('L', 72)},
         },
 
         81: {
@@ -265,13 +272,13 @@ addLayer("L", {
             unlocked() {return hasUpgrade("L", 71)},
         },
 
-        82: {
+        92: {
             title: "Limus (#20)",
             description() {
                 if (hasUpgrade("L", 82)) return "Lemons give an exponent boost to Upgrade #6's Effect: ^" + format(upgradeEffect(`L`, 82), 2)
                 return "Lemons give an exponent boost to Upgrade #6's Effect (also unlocks Lemon Upgrades)"},
             cost: new Decimal("1e22"),
-            unlocked() {return hasUpgrade('L', 72)},
+            unlocked() {return hasUpgrade('L', 82)},
         },
 
         91: {
@@ -281,11 +288,11 @@ addLayer("L", {
             unlocked() {return hasUpgrade("L", 61)},
         },
 
-        92: {
+        93: {
             title: "Lime Booster V (#22)",
             description: "+0.08 to Lime's exponent",
             cost: new Decimal("5.5e30"),
-            unlocked() {return hasUpgrade('L', 82)}
+            unlocked() {return hasUpgrade('L', 92)}
         }
     },
 })
@@ -331,7 +338,7 @@ gain = player.L.points.plus(1).div(3e9).log(7.5).plus(1)
 mult = new Decimal(1)
 exp = new Decimal(1)
 
-if (getBuyableAmount("lemons", 11).gte(1)) mult = mult.mul(2).times(getBuyableAmount("lemons", 11)).plus(1)
+if (getBuyableAmount("lemons", 12).gte(1)) mult = mult.mul(new Decimal(2).times(getBuyableAmount("lemons", 12))).plus(1)
 
 if (hasUpgrade("lemons", 11)) mult = mult.mul(35)
 if (hasUpgrade("lemons", 12)) mult = mult.mul(11)
@@ -348,13 +355,13 @@ return format(lemongain.plus(1).pow_base(7.5).times(3e9), 1)
 player.L.points = new Decimal(0)
     if (getBuyableAmount("lemons", 12).gte(1)) gain = gain.times(buyableEffect("lemons", 12)).plus(1)
 
-    if (hasUpgrade(`L`, 42)) gain = gain.mul(2)
+    if (hasUpgrade(`L`, 52)) gain = gain.mul(2)
 
-    if (hasUpgrade(`L`, 52)) gain = gain.times(5.5)
+    if (hasUpgrade(`L`, 62)) gain = gain.times(5.5)
 
-    if (hasUpgrade(`L`, 62)) gain = gain.times(10)
+    if (hasUpgrade(`L`, 72)) gain = gain.times(10)
 
-    if (hasUpgrade(`L`, 72)) gain = gain.times(25)
+    if (hasUpgrade(`L`, 82)) gain = gain.times(25)
 
     return gain
 },
@@ -364,7 +371,7 @@ return hasUpgrade("L", 42)
 },
 
 passiveGeneration() {
-        if (hasUpgrade("L", 62)) return 1
+        if (hasUpgrade("L", 72)) return 1
         return 0
      },
 
