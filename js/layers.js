@@ -216,7 +216,7 @@ addLayer("L", {
         },
 
         52: {
-            title: "Need More Limes",
+            title: "Need More Limes (#16)",
             description: "Triple Limes and Double Lemons",
             cost: new Decimal("1e13"),
             unlocked() {return hasUpgrade("L", 42)},
@@ -260,7 +260,7 @@ addLayer("L", {
         82: {
             title: "Huge Boost III (#19)",
             description: "50x Limes, 20x Lemons",
-            cost: new Decimal("35e25"),
+            cost: new Decimal("1e25"),
             unlocked() {return hasUpgrade('L', 72)},
         },
 
