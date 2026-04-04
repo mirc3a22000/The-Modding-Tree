@@ -35,7 +35,7 @@ addLayer("achievementslmao", {
         22: {
             name: "Generation? Already?",
             tooltip: `Buy upgrade #18`,
-            done() {return hasUpgrade('L', 62)},
+            done() {return hasUpgrade('L', 72)},
         },
         23: {
             name: "Lemons are finally useful",
