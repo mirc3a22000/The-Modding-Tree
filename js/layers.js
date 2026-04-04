@@ -90,7 +90,7 @@ addLayer("L", {
 
         if (hasUpgrade('L', 71)) mult = mult.times(7.5)
 
-        if (getBuyableAmount("lemons", 11).gte(1)) mult = mult.mul((getBuyableAmount("lemons", 11)))
+        if (getBuyableAmount("lemons", 11).gte(1)) mult = mult.mul((buyableEffect("lemons", 11)))
 
         if (hasUpgrade(`L`, 52)) mult = mult.mul(3)
 
@@ -338,22 +338,11 @@ gain = player.L.points.plus(1).div(3e9).log(7.5).plus(1)
 mult = new Decimal(1)
 exp = new Decimal(1)
 
-if (getBuyableAmount("lemons", 12).gte(1)) mult = mult.mul(new Decimal(2).times(getBuyableAmount("lemons", 12))).plus(1)
+    if (getBuyableAmount("lemons", 12).gte(1)) mult = mult.times(buyableEffect("lemons", 12)).plus(1)
 
-if (hasUpgrade("lemons", 11)) mult = mult.mul(35)
-if (hasUpgrade("lemons", 12)) mult = mult.mul(11)
+    if (hasUpgrade("lemons", 11)) mult = mult.mul(35)
+    if (hasUpgrade("lemons", 12)) mult = mult.mul(11)
 
-return gain.times(mult).pow(exp)
-},
-
-    getNextAt() {
-lemongain = new Decimal(0).plus(tmp.L.resetGain)
-return format(lemongain.plus(1).pow_base(7.5).times(3e9), 1)
-},
-
-    onPrestige(gain) {
-player.L.points = new Decimal(0)
-    if (getBuyableAmount("lemons", 12).gte(1)) gain = gain.times(buyableEffect("lemons", 12)).plus(1)
 
     if (hasUpgrade(`L`, 52)) gain = gain.mul(2)
 
@@ -363,7 +352,18 @@ player.L.points = new Decimal(0)
 
     if (hasUpgrade(`L`, 82)) gain = gain.times(25)
 
-    return gain
+    return gain.times(mult).pow(exp)
+},
+
+    getNextAt() {
+lemongain = new Decimal(0).plus(tmp.L.resetGain)
+return format(lemongain.plus(1).pow_base(7.5).times(3e9), 1)
+},
+
+    onPrestige() {
+player.L.points = new Decimal(0)
+
+return tmp.lemons.resetGain
 },
 
 layerShown() {
