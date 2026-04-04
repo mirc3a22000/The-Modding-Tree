@@ -167,7 +167,7 @@ addLayer("L", {
 
             effect() {
                 thing = player.L.points.plus(1).log(6);
-                if (hasUpgrade("L", 82)) {
+                if (hasUpgrade("L", 92)) {
                     lemonboost = player.lemons.points.pow(0.1).log(65).plus(1)
                     thing = thing.pow(lemonboost)}
                 return thing
@@ -275,7 +275,7 @@ addLayer("L", {
         92: {
             title: "Limus (#20)",
             description() {
-                if (hasUpgrade("L", 82)) return "Lemons give an exponent boost to Upgrade #6's Effect: ^" + format(upgradeEffect(`L`, 82), 2)
+                if (hasUpgrade("L", 92)) return "Lemons give an exponent boost to Upgrade #6's Effect: ^" + format(upgradeEffect(`L`, 92), 2)
                 return "Lemons give an exponent boost to Upgrade #6's Effect (also unlocks Lemon Upgrades)"},
             cost: new Decimal("1e22"),
             unlocked() {return hasUpgrade('L', 82)},
@@ -413,7 +413,7 @@ upgrades: {
         title: "lemon upgrade :o (#21)",
         description: "35x Lemons, 1.25x Limes",
         cost: new Decimal("2.5e12"),
-        unlocked() {return hasUpgrade('L', 82)},
+        unlocked() {return hasUpgrade('L', 92)},
     },
 
     12: {
