@@ -6,7 +6,10 @@ addLayer("achievementslmao", {
     position: 0,
     type: "none",
     tabFormat: [
-        "achievements"
+        ["display-text",
+        function() { return 'Achievements' },
+        { "color": "yellow", "font-size": "32px", "font-family": "Comic Sans MS" }],
+        "achievements",
     ],
     startData() { return {
         unlocked: true,
@@ -622,7 +625,7 @@ buyables: {
             return getBuyableAmount(this.layer, this.id).pow_base(2);
           },
         cost(x) {return x.pow_base(2).mul(1.5) },
-        display() { return "Blah, buy for " + format(this.cost()) + " lemons \n" + getBuyableAmount("lemons", 11) + "/300"},
+        display() { return "Buy for " + format(this.cost()) + " lemons \n" + getBuyableAmount("lemons", 11) + "/300 \n Currently: x" + format(getBuyableAmount("lemons",11).pow_base(2),2)},
         canAfford() { return player[this.layer].points.gte(this.cost()) },
         buy() {
             affordable = player[this.layer].points.div(1.5).log(2).floor();
@@ -638,7 +641,7 @@ buyables: {
             return getBuyableAmount(this.layer, this.id).pow_base(2)
         },
         cost(x) { return x.pow_base(5).mul(5) },
-        display() { return "Blah, buy for " + format(this.cost()) + " lemons \n" + getBuyableAmount("lemons", 12) + "/150"},
+        display() { return "Buy for " + format(this.cost()) + " lemons \n" + getBuyableAmount("lemons", 12) + "/150 \n Currently: x" + format(getBuyableAmount("lemons",11).pow_base(5),2)},
         canAfford() { return player[this.layer].points.gte(this.cost()) },
         buy() {
             affordable = player[this.layer].points.div(5).log(5).floor();
