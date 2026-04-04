@@ -142,12 +142,6 @@ addLayer("L", {
             cost: new Decimal(50),
         },
 
-        12: {
-            title: "Testing",
-            description: "testing",
-            cost: new Decimal(1),
-        },
-
 
         22: {
             title: "Lime Tripler (#3)",
