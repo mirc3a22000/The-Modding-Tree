@@ -13,8 +13,8 @@ let modInfo = {
 
 // Set your version in num and name
 let VERSION = {
-	num: "0.0.2.3",
-	name: "A little more upgrades",
+	num: "0.0.2.4",
+	name: "The calm before the mild breeze",
 }
 
 let changelog = `<h1>Changelog:</h1><br>
@@ -26,23 +26,29 @@ let changelog = `<h1>Changelog:</h1><br>
 		- More lime upgrades!<br>
 		- bug fixes<br>
 		<br>
-	<h3>v0.0.2.1</h3><br>
+		v0.0.2.1<br>
 		- Added endgame screen<br>
 		- Added achievements<br>
 		<br>
-	<h3>v0.0.2.2</h3><br>
+		v0.0.2.2<br>
 		- Added lemons (working)<br>
 		- Added more achievements<br>
 		- even MORE upgrades<br>
 		<br>
-	<h3>v0.0.2.3</h3><br>
+		v0.0.2.3<br>
 		- Added more (one) achievements<br>
-		- even MORE upgrades<br>`
+		- even MORE upgrades<br>
+		<br>
+		v0.0.2.4<br>
+		- Added more achievements<br>
+		- even MORE upgrades<br>
+		- preparing for the next big update<br>
+		<br>`
 	
 
 	
 
-let winText = `Congratulations! You have reached the end and finished The Lime Upgrade Tree, but for now we wait...`
+let winText = `Congratulations! You have reached the (&$%@(*@$%&!1.7977e308%!@^(&*!)(%) `
 
 // If you add new functions anywhere inside of a layer, and those functions have an effect when called, add them here.
 // (The ones here are examples, all official functions are already taken care of)
@@ -76,7 +82,7 @@ var displayThings = [
 
 // Determines when the game "ends"
 function isEndgame() {
-	return hasUpgrade("L", 72)
+	return hasUpgrade("L", 94)
 }
 
 
