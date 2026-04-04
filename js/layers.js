@@ -5,6 +5,9 @@ addLayer("achievementslmao", {
     color: "#FFFF00",
     position: 0,
     type: "none",
+    tabFormat: [
+        "achievements"
+    ],
     startData() { return {
         unlocked: true,
         points: new Decimal(0)}
