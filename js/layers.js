@@ -32,7 +32,7 @@ addLayer("achievementslmao", {
         },
         21: {
             name: "Hey, I was promised limes!",
-            tooltip: 'Get your first lime',
+            tooltip: 'Get your first lemon',
             done() {return player.lemons.points.gte(1)},
         },
         22: {
