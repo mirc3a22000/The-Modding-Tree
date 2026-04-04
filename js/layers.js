@@ -381,7 +381,7 @@ return hasUpgrade("L", 42)
 },
 
 passiveGeneration() {
-        if (hasUpgrade("L", 72)) return 1
+        if (hasUpgrade("L", 72)) return 10
         return 0
      },
 
