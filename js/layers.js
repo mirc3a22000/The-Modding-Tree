@@ -392,7 +392,7 @@ buyables: {
         effect() {
             return getBuyableAmount(this.layer, this.id).pow_base(2);
           },
-        cost(x) {return x.pow_base(2) },
+        cost(x) {return x.pow_base(2).mul(1.5) },
         display() { return "Blah, buy for " + format(this.cost()) + " lemons \n" + getBuyableAmount("lemons", 11) + "/200"},
         canAfford() { return player[this.layer].points.gte(this.cost()) },
         buy() {
@@ -407,7 +407,7 @@ buyables: {
         effect() {
             return getBuyableAmount(this.layer, this.id).pow_base(2)
         },
-        cost(x) { return x.pow_base(5) },
+        cost(x) { return x.pow_base(5).mul(5) },
         display() { return "Blah, buy for " + format(this.cost()) + " lemons \n" + getBuyableAmount("lemons", 12) + "/150"},
         canAfford() { return player[this.layer].points.gte(this.cost()) },
         buy() {
