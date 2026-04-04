@@ -282,7 +282,7 @@ addLayer("L", {
             description() {
                 if (hasUpgrade("L", 92)) return "Lemons give an exponent boost to Upgrade #6's Effect: ^" + format(upgradeEffect(`L`, 92), 2)
                 return "Lemons give an exponent boost to Upgrade #6's Effect (also unlocks Lemon Upgrades)"},
-            cost: new Decimal("1e22"),
+            cost: new Decimal("35e28"),
             unlocked() {return hasUpgrade('L', 82)},
         },
 
