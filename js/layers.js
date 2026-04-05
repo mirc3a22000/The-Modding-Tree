@@ -145,7 +145,7 @@ addLayer("L", {
         mult = new Decimal(1)
         if (hasUpgrade('L', 11)) mult = mult.times(2)
         if (hasUpgrade('L', 12)) mult = mult.times("1e50")
-        if (hasUpgrade('L', 22)) mult = mult.times(3)
+       // if (hasUpgrade('L', 22)) mult = mult.times(3)
         if (hasUpgrade('L', 23)) mult = mult.times(1.5)
         if (hasUpgrade('L', 21)) mult = mult.times(1.75)
         if (hasUpgrade('L', 32)) mult = mult.times(upgradeEffect('L', 32)).plus(1);
@@ -235,11 +235,11 @@ addLayer("L", {
             cost: new Decimal(50),
         },
 
-        12: {
+        /*12: {
           titile: "testing",
             description: "testing",
             cost: new Decimal(1),
-        },
+        },*/
 
 
         22: {
