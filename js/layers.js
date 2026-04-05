@@ -38,6 +38,11 @@ addLayer("achievementslmao", {
             tooltip: "Hows that supposed to contribute?",
             done() {return false},
         },
+        15: {
+            name: "Infinite effort, no gain",
+            tooltip: "Are you just sabotaging yourself?",
+            done() {return false},
+        },
         21: {
             name: "First lime",
             tooltip: 'Click for your first lime',
@@ -58,49 +63,64 @@ addLayer("achievementslmao", {
             tooltip: "Get 1e100 limes",
             done() {return player.L.points.gte("1e100")}
         },
+        25: {
+            name: "A tiny amount of Limes",
+            tooltip: "Get 1e1000 limes",
+            done() {return player.L.points.gte("1e1000")}
+        },
         31: {
             name: "Hey, I was promised limes!",
             tooltip: 'Get your first lemon',
             done() {return player.lemons.points.gte(1)},
+            unlocked() {return hasUpgrade('L', 42)}
         },
         32: {
             name: "Generation? Already?",
             tooltip: `Buy upgrade #18`,
             done() {return hasUpgrade('L', 45)},
+            unlocked() {return hasUpgrade('L', 42)}
         },
         33: {
             name: "Lemons are finally useful",
             tooltip: `Buy upgrade #21`,
-            done() {return hasUpgrade('lemons', 11)}
+            done() {return hasUpgrade('lemons', 11)},
+            unlocked() {return hasUpgrade('L', 42)}
         },
         34: {
             name: "No longer useful",
             tooltip: `Max Lemon buyables`,
-            done() {return getBuyableAmount('lemons', 11).plus(getBuyableAmount('lemons', 12)).gte(450)}
+            done() {return getBuyableAmount('lemons', 11).plus(getBuyableAmount('lemons', 12)).gte(450)},
+            unlocked() {return hasUpgrade('L', 42)}
         },
         41: {
-            name: "ALL.",
-            tooltip: "INTO ONE",
-            done() {return false},
-            unlocked() {return hasUpgrade('L', 94)}
+            name: "Singularity.",
+            tooltip: "Infinity for the first time",
+            done() {return player.Infinity.points.gte(1)},
+            unlocked() {return hasUpgrade('L', 95)}
         },
         42: {
+            name: "Oh, an actual singularity.",
+            tooltip: "Unlock the Black Hole",
+            done() {return hasUpgrade('Infinity', 22)},
+            unlocked() {return hasUpgrade('L', 95)}
+        },
+        43: {
+            name: "No effort!",
+            tooltip: "Automate Lemon Buyables",
+            done() {return hasUpgrade('Infinity', 31) && hasUpgrade('Infinity', 33)},
+            unlocked() {return hasUpgrade('L', 95)}
+        },
+        44: {
             name: "BREAK.",
             tooltip: "INTO MULTIPLE",
             done() {return false},
-            unlocked() {return hasUpgrade('L', 94)}
+            unlocked() {return hasUpgrade('L', 95)}
         },
-        43: {
-            name: "AUTOMATE.",
-            tooltip: "THE SECOND",
-            done() {return false},
-            unlocked() {return hasUpgrade('L', 94)}
-        },
-        44: {
+        45: {
             name: "FINISH.",
             tooltip: "AUTOMATION",
             done() {return false},
-            unlocked() {return hasUpgrade('L', 94)}
+            unlocked() {return hasUpgrade('L', 95)}
         },
     }
 })
@@ -124,7 +144,7 @@ addLayer("L", {
     gainMult() { // Calculate the multiplier for main currency from bonuses
         mult = new Decimal(1)
         if (hasUpgrade('L', 11)) mult = mult.times(2)
-        //if (hasUpgrade('L', 12)) mult = mult.times("1e50")
+        if (hasUpgrade('L', 12)) mult = mult.times("1e50")
         if (hasUpgrade('L', 22)) mult = mult.times(3)
         if (hasUpgrade('L', 23)) mult = mult.times(1.5)
         if (hasUpgrade('L', 21)) mult = mult.times(1.75)
@@ -157,6 +177,15 @@ addLayer("L", {
         if (hasUpgrade('L', 93)) mult = mult.times("1e6")
         if (hasUpgrade('L', 94)) mult = mult.times("1e8")
         if (hasUpgrade('L', 95)) mult = mult.times("75e22")
+
+        if(hasUpgrade('Infinity', 12)) mult = mult.times(5)
+        if(hasUpgrade('Infinity', 13)) mult = mult.times(3)
+        if(hasUpgrade('Infinity', 23)) mult = mult.times(2)
+        if(hasUpgrade("Infinity", 33)) mult = mult.times(3)
+        if(hasUpgrade("Infinity", 31)) mult = mult.times(2)   
+        if(hasUpgrade("Infinity", 34)) mult = mult.times(2.5) 
+
+        if(hasUpgrade('Infinity', 22)) mult = mult.times(player.Infinity.mass.clampMin(1).log(3).plus(1))
         
         return mult
     },
@@ -206,11 +235,11 @@ addLayer("L", {
             cost: new Decimal(50),
         },
 
-        /*12: {
+        12: {
           titile: "testing",
             description: "testing",
             cost: new Decimal(1),
-        },*/
+        },
 
 
         22: {
@@ -536,7 +565,7 @@ addLayer("lemons", {
     name: "Lemons",
     symbol: "Le",
     color: "#FFFF00",
-    position: 0,
+    position: 1,
     type: "custom",
     resetsNothing: true,
     startData() { return {
@@ -555,7 +584,9 @@ addLayer("lemons", {
     "buyables",
     "upgrades",
     ["display-text",
-        function() {return "You have " + format(player.L.points) + " limes."}],
+        function() {
+            if(!hasUpgrade('Infinity', 99) && player.L.points.gte("1.79e308")) return "You have Infinite limes"
+            return "You have " + format(player.L.points) + " limes."}],
     ],
     
     canReset() {
@@ -595,6 +626,14 @@ exp = new Decimal(1)
     if (hasUpgrade('L', 86)) mult = mult.times(50)
     if (hasUpgrade('L', 93)) mult = mult.times(50000)
     if (hasUpgrade('L', 94)) mult = mult.times("1e6")
+
+    if(hasUpgrade('Infinity', 12)) mult = mult.times(2.5)
+    if(hasUpgrade('Infinity', 11)) mult = mult.times(3)
+    if(hasUpgrade('Infinity', 21)) mult = mult.times(2)
+    if(hasUpgrade("Infinity", 32)) mult = mult.times(2)
+    if(hasUpgrade("Infinity", 34)) mult = mult.times(2.5)
+    
+    if(hasUpgrade('Infinity', 22) && player.Infinity.mass.gte(10000)) mult = mult.times(player.Infinity.mass.clampMin(1).div(10000).log(5).plus(1))
 
     if (hasUpgrade('L', 65)) exp = exp.plus(0.065)
     if (hasUpgrade('L', 82)) exp = exp.plus(0.065)
@@ -647,9 +686,10 @@ buyables: {
         buy() {
             affordable = player[this.layer].points.div(1.5).log(2).floor();
             if (affordable.gt(300)) affordable = new Decimal(299)
-            player[this.layer].points = player[this.layer].points.minus(this.cost(affordable));
+            if (!hasUpgrade("Infinity", 31)) player[this.layer].points = player[this.layer].points.minus(this.cost(affordable));
             setBuyableAmount(this.layer, this.id, affordable.plus(1));
         },
+        automatethis() {if(hasUpgrade("Infinity", 31) && this.canAfford()) this.buy()},
     },
     12: {
         title: "Lemon Doubler",
@@ -658,16 +698,20 @@ buyables: {
             return getBuyableAmount(this.layer, this.id).pow_base(2)
         },
         cost(x) { return x.pow_base(5).mul(5) },
-        display() { return "Buy for " + format(this.cost()) + " lemons \n" + getBuyableAmount("lemons", 12) + "/150 \n Currently: x" + format(getBuyableAmount("lemons",11).pow_base(5),2)},
+        display() { return "Buy for " + format(this.cost()) + " lemons \n" + getBuyableAmount("lemons", 12) + "/150 \n Currently: x" + format(getBuyableAmount("lemons",12).pow_base(5),2)},
         canAfford() { return player[this.layer].points.gte(this.cost()) },
         buy() {
             affordable = player[this.layer].points.div(5).log(5).floor();
             if (affordable.gt(150)) affordable = new Decimal(149)
-            player[this.layer].points = player[this.layer].points.minus(this.cost(affordable));
+            if (!hasUpgrade("Infinity", 33)) player[this.layer].points = player[this.layer].points.minus(this.cost(affordable));
             setBuyableAmount(this.layer, this.id, affordable.plus(1));
         },
+        automatethis() {if(hasUpgrade("Infinity", 33) && this.canAfford()) this.buy()},
     },
+    
 },
+
+
 
 upgrades: {
     11: {
@@ -728,20 +772,41 @@ addLayer("Infinity", {
     startData() { return {
         unlocked: false,
 		points: new Decimal(0),
+        mass: new Decimal(0),
     }},
     resource: "IP",
     baseResource: "Limes",
     baseAmount() {return player.L.points},
     requires: new Decimal("1.79e308"),
-    branches: ["lemons"],
-    tabFormat: [
-    "main-display",
-    "prestige-button",
-    "blank",
-    "upgrades",
-    ["display-text",
-        function() {return "You have " + format(player.L.points) + " limes."}],
-    ],
+    branches: ["L"],
+    tabFormat: {
+    "Main": {content :["main-display",
+        "prestige-button",
+        ["display-text",
+            function() {
+                if(!hasUpgrade('Infinity', 99) && player.L.points.gte("1.79e308")) return "You have Infinite limes"
+                return "You have " + format(player.L.points) + " limes."}],
+        "blank",
+        "upgrades",],},
+    "Black Hole": {content :["main-display",
+        ["display-text",
+            function() {return "Your Black Hole has " + format(player.Infinity.mass) + " mass."}],
+        "blank",
+        ["display-text",
+            function() {return "Lime Boost: x" + format(player.Infinity.mass.clampMin(1).log(3).plus(1))}, { "color": "white", "font-size": "16px", "font-family": "Comic Sans MS" }
+        ],
+        ["display-text",
+            function() {
+                if(player.Infinity.mass.lt(10000)) return "Lemon Boost unlocked at 10000 mass"
+                return "Lemon Boost: x" + format(player.Infinity.mass.clampMin(1).div(10000).log(5).plus(1))}, { "color": "yellow", "font-size": "16px", "font-family": "Comic Sans MS" }
+        ],
+        ["display-text",
+            function() {
+                if(player.Infinity.mass.lt("1e9")) return "IP Boost unlocked at 1e9 mass"
+                return "IP Boost: x" + format(player.Infinity.mass.clampMin(1).div("1e9").log(7).plus(1))}, { "color": "orange", "font-size": "16px", "font-family": "Comic Sans MS" }
+        ],],
+        unlocked() {return hasUpgrade("Infinity", 22)}},
+    },
     
     canReset() {
         return player.L.points.gte("1.79e308")
@@ -757,13 +822,108 @@ addLayer("Infinity", {
         mult = new Decimal(1)
         exp = new Decimal(1)
         if(hasUpgrade("Infinity", 99)) gain = player.L.points.div("1.79e308").log(5)
+
+        if(hasUpgrade("Infinity", 32)) mult = mult.times(2)
+        
+
+        if(hasUpgrade('Infinity', 22) && player.Infinity.mass.gte("1e9")) mult = mult.times(player.Infinity.mass.clampMin(1).div("1e9").log(7).plus(1))
         
         return gain.times(mult).pow(exp)
     },
 
+    passiveGeneration() {
+        return 0
+    },
+
+    update(dt) {
+        if (!hasUpgrade("Infinity", 22)) return
+        massgain = new Decimal(1).times(dt)
+        mult = new Decimal(1)
+        exp = new Decimal(1)
+
+        if(hasUpgrade("Infinity", 32)) mult = mult.times(2)
+        if(hasUpgrade("Infinity", 31)) mult = mult.times(4)
+        if(hasUpgrade("Infinity", 33)) mult = mult.times(1.5)
+
+        massgain = massgain.times(mult).pow(exp)
+        player.Infinity.mass = player.Infinity.mass.plus(massgain)
+    },
+
     getNextAt() {
     infgain = new Decimal(0).plus(tmp.Infinity.resetGain)
-    return format(infgain.mul(1.79e308).pow(5), 1)
-    },    
+    return format(infgain.mul("1.79e308").pow(5), 1)
+    },
+    layerShown() {return hasUpgrade('L', 95) || hasUpgrade('Infinity', 12)},
+
+    upgrades: {
+        12: {
+            title: "Recovering I (#1)",
+            description: "5x Limes and 2.5x Lemons",
+            cost: new Decimal(1),
+        },
+        
+        11: {
+            title: "Choice II (#3)",
+            description: "3x Lemons",
+            cost: new Decimal(1),
+            unlocked() {return hasUpgrade('Infinity', 12)}
+        },
+
+        13: {
+            title: "Choice I (#2)",
+            description: "3x Limes",
+            cost: new Decimal(1),
+            unlocked() {return hasUpgrade('Infinity', 12)}
+        },
+
+        22: {
+            title: "Incredile Mass (#6)",
+            description: "Unlock the Black Hole",
+            cost: new Decimal(2),
+            unlocked() {return hasUpgrade('Infinity', 12)}
+        },
+
+        21: {
+            title: "Recovering III (#5)",
+            description: "2x Lemons",
+            cost: new Decimal(1),
+            unlocked() {return hasUpgrade('Infinity', 11)}
+        },
+
+        23: {
+            title: "Recovering II (#4)",
+            description: "2x Limes",
+            cost: new Decimal(1),
+            unlocked() {return hasUpgrade('Infinity', 13)}
+        },
+
+        32: {
+            title: "Funny Boosts (#7)",
+            description: "2x IP, 2x BH Mass and 2x Lemons",
+            cost: new Decimal(2),
+            unlocked() {return hasUpgrade('Infinity', 22)}
+        },
+
+        31: {
+            title: "Automation I (#8)",
+            description: "4x BH Mass, 2x Limes and autobuy the first lemon buyable",
+            cost: new Decimal(3),
+            unlocked() {return hasUpgrade('Infinity', 32)}
+        },
+
+        33: {
+            title: "Automation II (#9)",
+            description: "3x Limes, 1.5x BH Mass and autobuy the second lemon buyable",
+            cost: new Decimal(3),
+            unlocked() {return hasUpgrade('Infinity', 32)}
+        },
+
+        34: {
+            title: "Booster XI (#10)",
+            description: "2.5x Limes and Lemons",
+            cost: new Decimal(3),
+            unlocked() {return hasUpgrade('Infinity', 33)}
+        },
+    },
 },
 )

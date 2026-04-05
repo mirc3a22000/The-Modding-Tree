@@ -13,8 +13,8 @@ let modInfo = {
 
 // Set your version in num and name
 let VERSION = {
-	num: "0.0.2.4",
-	name: "The calm before the mild breeze",
+	num: "0.0.3",
+	name: "RESET LAYERR!!!",
 }
 
 let changelog = `<h1>Changelog:</h1><br>
@@ -25,30 +25,31 @@ let changelog = `<h1>Changelog:</h1><br>
 	<h3>v0.0.2</h3><br>
 		- More lime upgrades!<br>
 		- bug fixes<br>
-		<br>
 		v0.0.2.1<br>
 		- Added endgame screen<br>
 		- Added achievements<br>
-		<br>
 		v0.0.2.2<br>
 		- Added lemons (working)<br>
 		- Added more achievements<br>
 		- even MORE upgrades<br>
-		<br>
 		v0.0.2.3<br>
 		- Added more (one) achievements<br>
 		- even MORE upgrades<br>
-		<br>
 		v0.0.2.4<br>
 		- Added more achievements<br>
 		- even MORE upgrades<br>
 		- preparing for the next big update<br>
-		<br>`
+		<br>
+	<h3>v0.0.3</h3><br>
+		- Added Infinity<br>
+		- Added Achievements<br>
+		- Achievements only appear if you unlocked their layer now<br>
+		- New "Mechanic"<br>`
 	
 
 	
 
-let winText = `Congratulations! You have reached the (&$%@(*@$%&!1.7977e308%!@^(&*!)(%) `
+let winText = `Congratulations! You have reached the current end of The Lime Upgrade Tree! Rest of infinity is coming soon`
 
 // If you add new functions anywhere inside of a layer, and those functions have an effect when called, add them here.
 // (The ones here are examples, all official functions are already taken care of)
@@ -78,17 +79,20 @@ function addedPlayerData() { return {
 
 // Display extra things at the top of the page
 var displayThings = [
-	`<span v-if="player.L.points.gte('1.79e308') && !hasUpgrade('Infinity', 99)"  class="overlayThing">You have </span>
-		<h2  class="overlayThing" id="points">Infinite</h2> limes
-	<span v-if="player.L.points.lt('1e1000')"  class="overlayThing">You have </span>
-		<h2  class="overlayThing" id="points">{{format(player.L.points)}}</h2>
-		<span v-if="player.L.points.lt('1e1e6')"  class="overlayThing"> {{modInfo.pointsName}}</span>
-		<br>`
+	function displayPoints() {if (player.L.points.gte('1.79e308') && !hasUpgrade("Infinity",99)) return `You have </span>
+		<h2  class="overlayThing" id="points">Infinite</h2> limes`
+		if(player.L.points.lt('1e1000')) return `You have </span>
+		<h2  class="overlayThing" id="points">${format(player.L.points)}</h2> ${modInfo.pointsName}`
+		if(player.L.points.lt('1e1e6')) return `<h2  class="overlayThing" id="points">${format(player.L.points)}</h2> ${modInfo.pointsName}</span>
+	<br>`
+	},
+	function displayPointsPSecond() {if(player.L.points.gte('1.79e308') && hasUpgrade('L', 51)) return `Infinite Limes/sec`
+		if(hasUpgrade('L', 51)) return format(tmp.L.resetGain.times(10)) + ` Limes/sec</span>`}
 ]
 
 // Determines when the game "ends"
 function isEndgame() {
-	return hasUpgrade("L", 94)
+	return hasUpgrade("Infinity", 34)
 }
 
 
