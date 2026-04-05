@@ -1,3 +1,7 @@
+lemonsunlocked = false
+infinityunlocked = false
+
+
 addLayer("achievementslmao", {
     row: "side",
     name: "Achievements",
@@ -72,55 +76,55 @@ addLayer("achievementslmao", {
             name: "Hey, I was promised limes!",
             tooltip: 'Get your first lemon',
             done() {return player.lemons.points.gte(1)},
-            unlocked() {return hasUpgrade('L', 42)}
+            unlocked() {return lemonsunlocked}
         },
         32: {
             name: "Generation? Already?",
             tooltip: `Buy upgrade #18`,
             done() {return hasUpgrade('L', 45)},
-            unlocked() {return hasUpgrade('L', 42)}
+            unlocked() {return lemonsunlocked}
         },
         33: {
             name: "Lemons are finally useful",
             tooltip: `Buy upgrade #21`,
             done() {return hasUpgrade('lemons', 11)},
-            unlocked() {return hasUpgrade('L', 42)}
+            unlocked() {return lemonsunlocked}
         },
         34: {
             name: "No longer useful",
             tooltip: `Max Lemon buyables`,
             done() {return getBuyableAmount('lemons', 11).plus(getBuyableAmount('lemons', 12)).gte(450)},
-            unlocked() {return hasUpgrade('L', 42)}
+            unlocked() {return lemonsunlocked}
         },
         41: {
             name: "Singularity.",
             tooltip: "Infinity for the first time",
             done() {return player.Infinity.points.gte(1)},
-            unlocked() {return hasUpgrade('L', 95)}
+            unlocked() {return infinityunlocked}
         },
         42: {
             name: "Oh, an actual singularity.",
             tooltip: "Unlock the Black Hole",
             done() {return hasUpgrade('Infinity', 22)},
-            unlocked() {return hasUpgrade('L', 95)}
+            unlocked() {return infinityunlocked}
         },
         43: {
             name: "No effort!",
             tooltip: "Automate Lemon Buyables",
             done() {return hasUpgrade('Infinity', 31) && hasUpgrade('Infinity', 33)},
-            unlocked() {return hasUpgrade('L', 95)}
+            unlocked() {return infinityunlocked}
         },
         44: {
             name: "BREAK.",
             tooltip: "INTO MULTIPLE",
             done() {return false},
-            unlocked() {return hasUpgrade('L', 95)}
+            unlocked() {return infinityunlocked}
         },
         45: {
             name: "FINISH.",
             tooltip: "AUTOMATION",
             done() {return false},
-            unlocked() {return hasUpgrade('L', 95)}
+            unlocked() {return infinityunlocked}
         },
     }
 })
@@ -226,6 +230,8 @@ addLayer("L", {
 
     update() {
         if (player.L.points.gt("1.79e308")) player.L.points = new Decimal("1.79e308")
+        if(hasUpgrade('L', 42)) lemonsunlocked = true;
+        if(hasUpgrade('L', 95)) infinityunlocked = true;
     },
 
     upgrades: {
