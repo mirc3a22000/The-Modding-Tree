@@ -173,7 +173,7 @@ addLayer("L", {
         if (hasUpgrade('lemons', 16)) mult = mult.times(100)
         if (hasUpgrade('lemons', 21)) mult = mult.times(350)
         if (hasUpgrade('L', 86)) mult = mult.times(25000)
-        if (hasUpgrade('L', 92)) mult = mult.times(25000)
+        if (hasUpgrade('L', 92)) mult = mult.times(250000)
         if (hasUpgrade('L', 93)) mult = mult.times("1e6")
         if (hasUpgrade('L', 94)) mult = mult.times("1e8")
         if (hasUpgrade('L', 95)) mult = mult.times("75e22")
@@ -516,7 +516,7 @@ addLayer("L", {
 
         86: {
             title: "Booster VIII (#46)",
-            description: "25000x Limes and 50x Lemons",
+            description: "250000x Limes and 50x Lemons",
             cost: new Decimal("2.44e225"),
             unlocked() {return hasUpgrade('L', 85)},
         },
