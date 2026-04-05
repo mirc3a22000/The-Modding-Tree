@@ -156,6 +156,7 @@ addLayer("L", {
         if (hasUpgrade('L', 92)) mult = mult.times(25000)
         if (hasUpgrade('L', 93)) mult = mult.times("1e6")
         if (hasUpgrade('L', 94)) mult = mult.times("1e8")
+        if (hasUpgrade('L', 95)) mult = mult.times("75e22")
         
         return mult
     },
@@ -184,10 +185,18 @@ addLayer("L", {
      },
 
     onPrestige() {
-        if (tmp.L.passiveGeneration > 0 && !hasAchievement("achievementslmao", 31)) {
-            player.achievementslmao.achievements.push(31)
+        if (tmp.L.passiveGeneration > 0 && !hasAchievement("achievementslmao", 11)) {
+            player.achievementslmao.achievements.push(11)
             doPopup("achievement","Unnecessary Click")
         }
+        if (player.L.points.gte("1.79e308") && !hasAchievement("achievementslmao", 14)) {
+            player.achievementslmao.achievements.push(14)
+            doPopup("achievement","Water gun into an ocean")
+        }
+    },
+
+    update() {
+        if (player.L.points.gt("1.79e308")) player.L.points = new Decimal("1.79e308")
     },
 
     upgrades: {
@@ -511,12 +520,19 @@ addLayer("L", {
             unlocked() {return hasUpgrade('L', 93)},
         },
 
+        95: {
+            title: "Holy Lime (#50)",
+            description: "Here comes the Reset Layer! Multiply Limes by 750Sx and +0.065 to Lemon's exponent",
+            cost: new Decimal("5e271"),
+            unlocked() {return hasUpgrade('L', 94)},
+        },
+
     },
 })
 
 
 addLayer("lemons", {
-    row: 1,
+    row: 0,
     name: "Lemons",
     symbol: "Le",
     color: "#FFFF00",
@@ -584,6 +600,7 @@ exp = new Decimal(1)
     if (hasUpgrade('L', 82)) exp = exp.plus(0.065)
     if (hasUpgrade('L', 83)) exp = exp.plus(0.1)
     if (hasUpgrade('L', 85)) exp = exp.plus(0.045)
+    if (hasUpgrade('L', 95)) exp = exp.plus(0.065)
 
     return gain.times(mult).pow(exp)
 },
@@ -594,12 +611,12 @@ return format(lemongain.plus(1).pow_base(7.5).times(3e9), 1)
 },
 
     onPrestige() {
- if (tmp.lemons.passiveGeneration > 0 && !hasAchievement("achievementslmao", 32)) {
-            player.achievementslmao.achievements.push(32)
+ if (tmp.lemons.passiveGeneration > 0 && !hasAchievement("achievementslmao", 12)) {
+            player.achievementslmao.achievements.push(12)
             doPopup("achievement","Lime Hater")
 }
-if (getBuyableAmount('lemons', 11).plus(getBuyableAmount('lemons', 12)).gte(450) && !hasAchievement("achievementslmao", 33)) {
-            player.achievementslmao.achievements.push(33)
+if (getBuyableAmount('lemons', 11).plus(getBuyableAmount('lemons', 12)).gte(450) && !hasAchievement("achievementslmao", 13)) {
+            player.achievementslmao.achievements.push(13)
             doPopup("achievement","Unneeded Currency")
 }
 
@@ -699,3 +716,54 @@ upgrades: {
 },
 
 })
+
+
+addLayer("Infinity", {
+    row: 1,
+    name: "Infinity",
+    symbol: "IP",
+    color: "#ff6f00",
+    position: 0,
+    type: "custom",
+    startData() { return {
+        unlocked: false,
+		points: new Decimal(0),
+    }},
+    resource: "IP",
+    baseResource: "Limes",
+    baseAmount() {return player.L.points},
+    requires: new Decimal("1.79e308"),
+    branches: ["lemons"],
+    tabFormat: [
+    "main-display",
+    "prestige-button",
+    "blank",
+    "upgrades",
+    ["display-text",
+        function() {return "You have " + format(player.L.points) + " limes."}],
+    ],
+    
+    canReset() {
+        return player.L.points.gte("1.79e308")
+},
+
+    prestigeButtonText() {
+        if (player.L.points.gte("1.79e308")) return "Reset for +" + format(getResetGain("Infinity")) + " IP"
+        return "You need Infinite limes to Infinity!"
+    },
+
+    getResetGain() {
+        gain = new Decimal(1)
+        mult = new Decimal(1)
+        exp = new Decimal(1)
+        if(hasUpgrade("Infinity", 99)) gain = player.L.points.div("1.79e308").log(5)
+        
+        return gain.times(mult).pow(exp)
+    },
+
+    getNextAt() {
+    infgain = new Decimal(0).plus(tmp.Infinity.resetGain)
+    return format(infgain.mul(1.79e308).pow(5), 1)
+    },    
+},
+)

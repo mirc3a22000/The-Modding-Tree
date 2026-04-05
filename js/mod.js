@@ -78,6 +78,12 @@ function addedPlayerData() { return {
 
 // Display extra things at the top of the page
 var displayThings = [
+	`<span v-if="player.L.points.gte('1.79e308') && !hasUpgrade('Infinity', 99)"  class="overlayThing">You have </span>
+		<h2  class="overlayThing" id="points">Infinite</h2> limes
+	<span v-if="player.L.points.lt('1e1000')"  class="overlayThing">You have </span>
+		<h2  class="overlayThing" id="points">{{format(player.L.points)}}</h2>
+		<span v-if="player.L.points.lt('1e1e6')"  class="overlayThing"> {{modInfo.pointsName}}</span>
+		<br>`
 ]
 
 // Determines when the game "ends"
