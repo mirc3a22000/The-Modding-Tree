@@ -698,7 +698,7 @@ buyables: {
             return getBuyableAmount(this.layer, this.id).pow_base(2)
         },
         cost(x) { return x.pow_base(5).mul(5) },
-        display() { return "Buy for " + format(this.cost()) + " lemons \n" + getBuyableAmount("lemons", 12) + "/150 \n Currently: x" + format(getBuyableAmount("lemons",12).pow_base(5),2)},
+        display() { return "Buy for " + format(this.cost()) + " lemons \n" + getBuyableAmount("lemons", 12) + "/150 \n Currently: x" + format(getBuyableAmount("lemons",12).pow_base(2),2)},
         canAfford() { return player[this.layer].points.gte(this.cost()) },
         buy() {
             affordable = player[this.layer].points.div(5).log(5).floor();
