@@ -1246,7 +1246,7 @@ addLayer("cosmic", {
     galaxygain = new Decimal(0).plus(tmp.cosmic.resetGain)
     return format(galaxygain.mul("1.5e26").pow(5), 1)
     },
-    layerShown() {return hasUpgrade('L', 95) || hasUpgrade('Infinity', 12)},
+    layerShown() {hasUpgrade('Infinity', 81)},
 
     
 },
