@@ -1,7 +1,3 @@
-lemonsunlocked = false
-infinityunlocked = false
-
-
 addLayer("achievementslmao", {
     row: "side",
     name: "Achievements",
@@ -76,55 +72,91 @@ addLayer("achievementslmao", {
             name: "Hey, I was promised limes!",
             tooltip: 'Get your first lemon',
             done() {return player.lemons.points.gte(1)},
-            unlocked() {return lemonsunlocked}
+            unlocked() {return hasUpgrade('L', 42) || hasAchievement("achievementslmao", 31)}
         },
         32: {
             name: "Generation? Already?",
             tooltip: `Buy upgrade #18`,
             done() {return hasUpgrade('L', 45)},
-            unlocked() {return lemonsunlocked}
+            unlocked() {return hasUpgrade('L', 42) || hasAchievement("achievementslmao", 31)}
         },
         33: {
             name: "Lemons are finally useful",
             tooltip: `Buy upgrade #21`,
             done() {return hasUpgrade('lemons', 11)},
-            unlocked() {return lemonsunlocked}
+            unlocked() {return hasUpgrade('L', 42) || hasAchievement("achievementslmao", 31)}
         },
         34: {
             name: "No longer useful",
             tooltip: `Max Lemon buyables`,
             done() {return getBuyableAmount('lemons', 11).plus(getBuyableAmount('lemons', 12)).gte(450)},
-            unlocked() {return lemonsunlocked}
+            unlocked() {return hasUpgrade('L', 42) || hasAchievement("achievementslmao", 31)}
+        },
+        35: {
+            name: "SSOOOUUURR >_<",
+            tooltip: `Get 1e100 Lemons`,
+            done() {return player.lemons.points.gte("1e100")},
+            unlocked() {return hasUpgrade('L', 42) || hasAchievement("achievementslmao", 31)}
         },
         41: {
             name: "Singularity.",
             tooltip: "Infinity for the first time",
             done() {return player.Infinity.points.gte(1)},
-            unlocked() {return infinityunlocked}
+            unlocked() {return hasUpgrade('L', 95) || hasAchievement("achievementslmao", 41)}
         },
         42: {
             name: "Oh, an actual singularity.",
             tooltip: "Unlock the Black Hole",
             done() {return hasUpgrade('Infinity', 22)},
-            unlocked() {return infinityunlocked}
+            unlocked() {return hasUpgrade('L', 95) || hasAchievement("achievementslmao", 41)}
         },
         43: {
             name: "No effort!",
-            tooltip: "Automate Lemon Buyables",
-            done() {return hasUpgrade('Infinity', 31) && hasUpgrade('Infinity', 33)},
-            unlocked() {return infinityunlocked}
+            tooltip: "Automate Lemons",
+            done() {return hasUpgrade('Infinity', 31) && hasUpgrade('Infinity', 33) && hasUpgrade('Infinity', 46)},
+            unlocked() {return hasUpgrade('L', 95) || hasAchievement("achievementslmao", 41)}
         },
         44: {
-            name: "BREAK.",
-            tooltip: "INTO MULTIPLE",
-            done() {return false},
-            unlocked() {return infinityunlocked}
+            name: "Cliche reset begone",
+            tooltip: "Break Infinity",
+            done() {return hasUpgrade('Infinity', 45)},
+            unlocked() {return hasUpgrade('L', 95) || hasAchievement("achievementslmao", 41)}
         },
         45: {
-            name: "FINISH.",
-            tooltip: "AUTOMATION",
+            name: "Outsourcing work",
+            tooltip: "Fully automate Main Lime Upgrades",
+            done() {return getBuyableAmount("Infinity", 11).gte(42)},
+            unlocked() {return hasUpgrade('L', 95) || hasAchievement("achievementslmao", 41)}
+        },
+        51: {
+            name: "CREATE",
+            tooltip: "SOMETHING COSMIC",
             done() {return false},
-            unlocked() {return infinityunlocked}
+            unlocked() {return hasUpgrade('Infinity', 81) || hasAchievement("achievementslmao", 51)}
+        },
+        52: {
+            name: "FINISH",
+            tooltip: "FIRST AUTOMATION",
+            done() {return false},
+            unlocked() {return hasUpgrade('Infinity', 81) || hasAchievement("achievementslmao", 51)}
+        },
+        53: {
+            name: "COMEBACK",
+            tooltip: "OF THE CITRIC",
+            done() {return false},
+            unlocked() {return hasUpgrade('Infinity', 81) || hasAchievement("achievementslmao", 51)}
+        },
+        54: {
+            name: "HANDS",
+            tooltip: "FREE FROM CONVERSION",
+            done() {return false},
+            unlocked() {return hasUpgrade('Infinity', 81) || hasAchievement("achievementslmao", 51)}
+        },
+        55: {
+            name: "USE",
+            tooltip: "THE THIRD TO ITS FULLEST",
+            done() {return false},
+            unlocked() {return hasUpgrade('Infinity', 81) || hasAchievement("achievementslmao", 51)}
         },
     }
 })
@@ -148,7 +180,7 @@ addLayer("L", {
     gainMult() { // Calculate the multiplier for main currency from bonuses
         mult = new Decimal(1)
         if (hasUpgrade('L', 11)) mult = mult.times(2)
-        // if (hasUpgrade('L', 12)) mult = mult.times("1e50")
+        //if (hasUpgrade('L', 12)) mult = mult.times("1e50")
         if (hasUpgrade('L', 22)) mult = mult.times(3)
         if (hasUpgrade('L', 23)) mult = mult.times(1.5)
         if (hasUpgrade('L', 21)) mult = mult.times(1.75)
@@ -188,9 +220,20 @@ addLayer("L", {
         if(hasUpgrade("Infinity", 33)) mult = mult.times(3)
         if(hasUpgrade("Infinity", 31)) mult = mult.times(2)   
         if(hasUpgrade("Infinity", 34)) mult = mult.times(2.5)
-        if(hasUpgrade("Infinity", 34)) mult = mult.times(2)
+        if(hasUpgrade("Infinity", 41)) mult = mult.times(2)
+        if(hasUpgrade("Infinity", 43)) mult = mult.times(6.5)
+        if(hasUpgrade("Infinity", 44)) mult = mult.times(5)
+        if(hasUpgrade("Infinity", 54)) mult = mult.times(6.5)
+        if(hasUpgrade("Infinity", 61)) mult = mult.times(3)
+        if(hasUpgrade("Infinity", 62)) mult = mult.times(6.5)
+        if(hasUpgrade("Infinity", 63)) mult = mult.times(10)
+        if(hasUpgrade("Infinity", 64)) mult = mult.times(20)
+        if(hasUpgrade("Infinity", 71)) mult = mult.times(9)
+        if(hasUpgrade("Infinity", 75)) mult = mult.times(1000)
 
-        if(hasUpgrade('Infinity', 22)) mult = mult.times(player.Infinity.mass.clampMin(1).log(3).plus(1))
+        infboost = player.Infinity.mass.clampMin(1).log(3).plus(1)
+        if(hasUpgrade("Infinity", 66)) infboost = infboost.pow(upgradeEffect("Infinity", 66))
+        if(hasUpgrade('Infinity', 22)) mult = mult.times(infboost)
         
         return mult
     },
@@ -230,10 +273,26 @@ addLayer("L", {
     },
 
     update() {
-        if (player.L.points.gt("1.79e308")) player.L.points = new Decimal("1.79e308")
-        if(hasUpgrade('L', 42)) lemonsunlocked = true;
-        if(hasUpgrade('L', 95)) infinityunlocked = true;
+        if (player.L.points.gt("1.79e308") && !hasUpgrade("Infinity", 45)) player.L.points = new Decimal("1.79e308")
     },
+
+    doReset(resettingLayer) {
+  // Stage 1, almost always needed, makes resetting this layer not delete your progress
+  if (layers[resettingLayer].row <= this.row) return;
+
+  // Stage 2, track which specific subfeatures you want to keep, e.g. Upgrade 11, Challenge 32, Buyable 12
+  let keptUpgrades = []
+  if (hasUpgrade("Infinity", 53)) keptUpgrades.push(51)
+
+  // Stage 3, track which main features you want to keep - all upgrades, total points, specific toggles, etc.
+  let keep = [];
+
+  // Stage 4, do the actual data reset
+  layerDataReset(this.layer, keep);
+
+  // Stage 5, add back in the specific subfeatures you saved earlier
+  player[this.layer].upgrades.push(...keptUpgrades)
+},
 
     upgrades: {
         11: {
@@ -345,7 +404,9 @@ addLayer("L", {
 
         52: {
             title: "Limus (#20)",
-            effect() {return player.lemons.points.plus(1).pow(0.1).log(65).plus(1)},
+            effect() { limusboost = player.lemons.points.clampMin(1).pow(0.1).log(65).plus(1)
+                if(hasUpgrade("Infinity", 72)) limusboost = limusboost.times(upgradeEffect("Infinity", 72))
+                return limusboost},
             effectDisplay() {return "^" + format(upgradeEffect('L', 52))},
             description: "Lemons give an exponent boost to Upgrade #6's Effect [log65(lemons^0.1)] (also unlocks Lemon Upgrades)",
             cost: new Decimal("35e25"),
@@ -564,6 +625,14 @@ addLayer("L", {
         },
 
     },
+
+
+    automate() {
+        const upgradelist = [11, 22, 23, 21, 32, 41, 33, 31, 51, 61, 71, 81, 91, 42, 43, 44, 45, 46, 52, 53, 54, 55, 56, 61, 62, 63, 64, 65, 66, 72, 73, 74, 75, 76, 82, 83, 84, 85, 86, 92, 93, 94, 95]
+        for (let step = 0; step <= toNumber(getBuyableAmount("Infinity", 11)); step++) {
+            buyUpgrade("L", upgradelist[step])
+        }
+    },
 })
 
 
@@ -592,7 +661,7 @@ addLayer("lemons", {
     "upgrades",
     ["display-text",
         function() {
-            if(!hasUpgrade('Infinity', 99) && player.L.points.gte("1.79e308")) return "You have Infinite limes"
+            if(!hasUpgrade('Infinity', 45) && player.L.points.gte("1.79e308")) return "You have Infinite limes"
             return "You have " + format(player.L.points) + " limes."}],
     ],
     
@@ -639,6 +708,12 @@ exp = new Decimal(1)
     if(hasUpgrade('Infinity', 21)) mult = mult.times(2)
     if(hasUpgrade("Infinity", 32)) mult = mult.times(2)
     if(hasUpgrade("Infinity", 34)) mult = mult.times(2.5)
+    if(hasUpgrade("Infinity", 42)) mult = mult.times(2.5)
+    if(hasUpgrade("Infinity", 44)) mult = mult.times(5)
+    if(hasUpgrade("Infinity", 54)) mult = mult.times(10)
+    if(hasUpgrade("Infinity", 61)) mult = mult.times(2)
+    if(hasUpgrade("Infinity", 63)) mult = mult.times(10)
+    if(hasUpgrade("Infinity", 71)) mult = mult.times(7)
     
     if(hasUpgrade('Infinity', 22) && player.Infinity.mass.gte(10000)) mult = mult.times(player.Infinity.mass.clampMin(1).div(10000).log(5).plus(1))
 
@@ -766,6 +841,10 @@ upgrades: {
     },
 },
 
+automate() {
+    if(hasUpgrade("Infinity", 46)) {autobuyUpgrades('lemons')}
+}
+
 })
 
 
@@ -791,7 +870,7 @@ addLayer("Infinity", {
         "prestige-button",
         ["display-text",
             function() {
-                if(!hasUpgrade('Infinity', 99) && player.L.points.gte("1.79e308")) return "You have Infinite limes"
+                if(!hasUpgrade('Infinity', 45) && player.L.points.gte("1.79e308")) return "You have Infinite limes"
                 return "You have " + format(player.L.points) + " limes."}],
         "blank",
         "upgrades",],},
@@ -811,7 +890,14 @@ addLayer("Infinity", {
             function() {
                 if(player.Infinity.mass.lt("1e9")) return "IP Boost unlocked at 1e9 mass"
                 return "IP Boost: x" + format(player.Infinity.mass.clampMin(1).div("1e9").log(7).plus(1))}, { "color": "orange", "font-size": "16px", "font-family": "Comic Sans MS" }
-        ],],
+        ],
+        "blank",
+        ["display-text",
+            function() {
+                if(!hasUpgrade("Infinity", 52)) return "Resets on Infinity"
+                return "Doesn't Reset on Infinity :D"}, { "color": "red", "font-size": "16px", "font-family": "Comic Sans MS" }
+        ],
+    "buyables",],
         unlocked() {return hasUpgrade("Infinity", 22)}},
     },
     
@@ -821,21 +907,33 @@ addLayer("Infinity", {
 
     prestigeButtonText() {
         if (player.L.points.gte("1.79e308")) return "Reset for +" + format(getResetGain("Infinity")) + " IP"
-        return "You need Infinite limes to Infinity!"
+        if(!hasUpgrade("Infinity", 45))return "You need Infinite limes to Infinity!"
+        return "You nee 1.79e308 limes to Infinity!"
     },
 
     getResetGain() {
         gain = new Decimal(1)
-        mult = new Decimal(1)
+        mult = new Decimal(10)
         exp = new Decimal(1)
-        if(hasUpgrade("Infinity", 99)) gain = player.L.points.div("1.79e308").log(5)
+        if(hasUpgrade("Infinity", 45)) gain = player.L.points.clampMin(1).div("1.79e308").log(5)
 
         if(hasUpgrade("Infinity", 32)) mult = mult.times(2)
+        if(hasUpgrade("Infinity", 42)) mult = mult.times(2)
+        if(hasUpgrade("Infinity", 62)) mult = mult.times(3)
+        if(hasUpgrade("Infinity", 71)) mult = mult.times(10)
+        if(hasUpgrade("Infinity", 73)) mult = mult.times(25)
+        if(hasUpgrade("Infinity", 75)) mult = mult.times(5)
+        if(hasUpgrade("Infinity", 76)) mult = mult.times(33)
+        if(hasUpgrade("Infinity", 81)) mult = mult.times(100)
         
 
         if(hasUpgrade('Infinity', 22) && player.Infinity.mass.gte("1e9")) mult = mult.times(player.Infinity.mass.clampMin(1).div("1e9").log(7).plus(1))
         
         return gain.times(mult).pow(exp)
+    },
+
+    onPrestige() {
+        if (!hasUpgrade("Infinity", 52)) player.Infinity.mass = new Decimal(0)
     },
 
     passiveGeneration() {
@@ -852,9 +950,24 @@ addLayer("Infinity", {
         if(hasUpgrade("Infinity", 31)) mult = mult.times(4)
         if(hasUpgrade("Infinity", 33)) mult = mult.times(1.5)
         if(hasUpgrade("Infinity", 41)) mult = mult.times(10)
+        if(hasUpgrade("Infinity", 42)) mult = mult.times(3)
+        if(hasUpgrade("Infinity", 43)) mult = mult.times(2)
+        if(hasUpgrade("Infinity", 52)) mult = mult.times(3)
+        if(hasUpgrade("Infinity", 53)) mult = mult.times(3.5)
+        if(hasUpgrade("Infinity", 54)) mult = mult.times(5.5)
+        if(hasUpgrade("Infinity", 55)) mult = mult.times(upgradeEffect("Infinity", 55))
+        if(hasUpgrade("Infinity", 61)) mult = mult.times(4.5)
+        if(hasUpgrade("Infinity", 62)) mult = mult.times(10)
+        if(hasUpgrade("Infinity", 63)) mult = mult.times(7.5)
+        if(hasUpgrade("Infinity", 64)) mult = mult.times(20)
+        if(hasUpgrade("Infinity", 65)) mult = mult.times(upgradeEffect("Infinity", 65))
+        if(hasUpgrade("Infinity", 71)) mult = mult.times(8)
+        if(hasUpgrade("Infinity", 74)) mult = mult.times(50)
 
         massgain = massgain.times(mult).pow(exp)
         player.Infinity.mass = player.Infinity.mass.plus(massgain)
+
+        if(player.Infinity.mass.lt(0)) player.Infinity.mass = new Decimal(0)
     },
 
     getNextAt() {
@@ -862,6 +975,23 @@ addLayer("Infinity", {
     return format(infgain.mul("1.79e308").pow(5), 1)
     },
     layerShown() {return hasUpgrade('L', 95) || hasUpgrade('Infinity', 12)},
+
+    buyables: {
+        11: {
+            title: "Lime upgrade autobuyer",
+            purchaseLimit: 48,
+            cost(x) {return x.pow_base(2.1).mul(6500) },
+            display() { return "Buy for " + format(this.cost()) + " mass \n" + getBuyableAmount("Infinity", 11) + "/48 \n You are autobuying " + format(getBuyableAmount("Infinity",11), 0) + " Lime Upgrades"},
+            canAfford() { return player.Infinity.mass.gte(this.cost()) },
+            buy() {
+                affordable = player.Infinity.mass.div(1.5).log(2).floor();
+                if (affordable.gt(48)) affordable = new Decimal(47)
+                player[this.layer].mass = player[this.layer].mass.minus(this.cost(affordable));
+                setBuyableAmount(this.layer, this.id, affordable.plus(1));
+            },
+            unlocked() {return hasUpgrade("Infinity", 51)}
+        }
+    },
 
     upgrades: {
         12: {
@@ -933,12 +1063,191 @@ addLayer("Infinity", {
             unlocked() {return hasUpgrade('Infinity', 33)}
         },
 
-        /* 41: {
-            title: "Booster XII (#10)",
+        41: {
+            title: "Booster XII (#11)",
             description: "10x BH Mass, 2x Limes",
             cost: new Decimal(6),
             unlocked() {return hasUpgrade('Infinity', 34)}
-        }, */
+        },
+
+        42: {
+            title: "Booster XIII (#12)",
+            description: "3x BH Mass, 2.5x Lemons and 2x IP",
+            cost: new Decimal(7),
+            unlocked() {return hasUpgrade('Infinity', 41)}
+        },
+
+        43: {
+            title: "Booster XIV (#13)",
+            description: "Hmm... 6.5x Limes and 2x BH Mass",
+            cost: new Decimal(14),
+            unlocked() {return hasUpgrade('Infinity', 42)}
+        },
+        44: {
+            title: "Booster XV (#14)",
+            description: "5x Lemons and Limes",
+            cost: new Decimal(16),
+            unlocked() {return hasUpgrade('Infinity', 43)}
+        },
+        45: {
+            title: "Limit Breaker (#15)",
+            description: "Break Infinity",
+            cost: new Decimal(20),
+            unlocked() {return hasUpgrade('Infinity', 44)}
+        },
+        46: {
+            title: "Automation III (#16)",
+            description: "Autobuy upgrades that cost lemons",
+            cost: new Decimal(200),
+            unlocked() {return hasUpgrade('Infinity', 45)}
+        },
+        51: {
+            title: "Automation IV (#17)",
+            description: "Unlock the Lime Upgrade Autobuyer (Black Hole tab)",
+            cost: new Decimal(250),
+            unlocked() {return hasUpgrade('Infinity', 46)}
+        },
+        52: {
+            title: "Keep I (#18)",
+            description: "BH Mass no longer resets on Infinity and 3x BH Mass",
+            cost: new Decimal(300),
+            unlocked() {return hasUpgrade('Infinity', 51)}
+        },
+        53: {
+            title: "Keep II (#19)",
+            description: "Keep Lime Upgrade #10 on Infinity and 3.5x BH Mass",
+            cost: new Decimal(325),
+            unlocked() {return hasUpgrade('Infinity', 52)}
+        },
+        54: {
+            title: "Booster XVI (#20)",
+            description: "5.5x BH Mass, 6.5x Limes and 10x Lemons",
+            cost: new Decimal(400),
+            unlocked() {return hasUpgrade('Infinity', 53)}
+        },
+        55: {
+            effect() {return player.Infinity.points.clampMin(1).log(6).plus(1)},
+            effectDisplay() {return format(upgradeEffect('Infinity', 55)) + "x"},
+            title: "Infinity Mass (#21)",
+            description: "IP Boosts BH Mass [log6(IP)]",
+            cost: new Decimal(460),
+            unlocked() {return hasUpgrade('Infinity', 54)}
+        },
+        61: {
+            title: "Booster XVII (#22)",
+            description: "4.5x BH Mass, 3x Limes and 2x Lemons",
+            cost: new Decimal(500),
+            unlocked() {return hasUpgrade('Infinity', 55)}
+        },
+        62: {
+            title: "Booster XVIII (#23)",
+            description: "10x BH Mass, 3x IP and 6.5x Limes",
+            cost: new Decimal(550),
+            unlocked() {return hasUpgrade('Infinity', 61)}
+        },
+        63: {
+            title: "Booster XIX (#24)",
+            description: "7.5x BH Mass, 10x Limes and Lemons",
+            cost: new Decimal(2500),
+            unlocked() {return hasUpgrade('Infinity', 62)}
+        },
+        64: {
+            title: "Booster XX (#25)",
+            description: "20x BH Mass and 20x Limes",
+            cost: new Decimal(3250),
+            unlocked() {return hasUpgrade('Infinity', 63)}
+        },
+        65: {
+            effect() {return player.Infinity.mass.clampMin(1).log(5).plus(1)},
+            effectDisplay() {return format(upgradeEffect('Infinity', 65)) + "x"},
+            title: "BH Synergy (#26)",
+            description: "5x Limes and BH Mass boosts itself [log5(mass)]",
+            cost: new Decimal(10000),
+            unlocked() {return hasUpgrade('Infinity', 64)}
+        },
+        66: {
+            effect() {return player.Infinity.points.clampMin(1).pow(0.2).log(60).plus(1)},
+            effectDisplay() {return "^" +format(upgradeEffect('Infinity', 66))},
+            title: "Limus 2 (#27)",
+            description: "IP gives an exponent boost to BH's Lime Boost [log60(IP^0.2)]",
+            cost: new Decimal(25000),
+            unlocked() {return hasUpgrade('Infinity', 65)}
+        },
+        71: {
+            title: "Too Grindy (#28)",
+            description: "20x IP, 9x Limes, 8x BH Mass and 7x Lemons",
+            cost: new Decimal(30000),
+            unlocked() {return hasUpgrade('Infinity', 66)}
+        },
+        72: {
+            effect() {return player.Infinity.points.clampMin(1).pow(0.4).log(60).plus(1)},
+            effectDisplay() {return format(upgradeEffect('Infinity', 66)) + "x"},
+            title: "OverPowered (#29)",
+            description: "IP boosts Lime Upgrade #20's effect [log60(IP^0.4)]",
+            cost: new Decimal(275000),
+            unlocked() {return hasUpgrade('Infinity', 71)}
+        },
+        73: {
+            title: "IP Boost (#30)",
+            description: "25x IP",
+            cost: new Decimal("2e6"),
+            unlocked() {return hasUpgrade('Infinity', 72)}
+        },
+        74: {
+            title: "Booster 21 (#31)",
+            description: "50x BH Mass",
+            cost: new Decimal("45e6"),
+            unlocked() {return hasUpgrade('Infinity', 73)}
+        },
+        75: {
+            title: "Booster 22 (#32)",
+            description: "1000x Limes and 5x IP",
+            cost: new Decimal("65e6"),
+            unlocked() {return hasUpgrade('Infinity', 74)}
+        },
+        76: {
+            title: "Another IP Boost (#33)",
+            description: "33x IP",
+            cost: new Decimal("500e6"),
+            unlocked() {return hasUpgrade('Infinity', 75)}
+        },
+        81: {
+            title: "IP Incremental (#34)",
+            description: "100x IP",
+            cost: new Decimal("30e9"),
+            unlocked() {return hasUpgrade('Infinity', 76)}
+        },
     },
+},
+)
+
+addLayer("cosmic", {
+    row: 2,
+    name: "???",
+    symbol: "?",
+    color: "#b300ff",
+    position: 0,
+    type: "custom",
+    startData() { return {
+        unlocked: false,
+		points: new Decimal(0),
+        dust: new Decimal(0),
+    }},
+    resource: "Galaxies",
+    baseResource: "IP",
+    baseAmount() {return player.Infinity.points},
+    requires: new Decimal("1.5e26"),
+    branches: ["Infinity"],
+
+    getResetGain() {
+        return 0
+    },
+    getNextAt() {
+    galaxygain = new Decimal(0).plus(tmp.cosmic.resetGain)
+    return format(galaxygain.mul("1.5e26").pow(5), 1)
+    },
+    layerShown() {return hasUpgrade('L', 95) || hasUpgrade('Infinity', 12)},
+
+    
 },
 )

@@ -13,8 +13,8 @@ let modInfo = {
 
 // Set your version in num and name
 let VERSION = {
-	num: "0.0.3",
-	name: "RESET LAYERR!!!",
+	num: "0.0.3.1",
+	name: "The end of the end???",
 }
 
 let changelog = `<h1>Changelog:</h1><br>
@@ -44,7 +44,11 @@ let changelog = `<h1>Changelog:</h1><br>
 		- Added Infinity<br>
 		- Added Achievements<br>
 		- Achievements only appear if you unlocked their layer now<br>
-		- New "Mechanic"<br>`
+		- New "Mechanic"<br>
+		v0.0.3.1<br>
+		- More Infinity Upgrades<br>
+		- More Achievements (kinda)<br>
+		- Finished Infinity, leaving last upgrade for the next update<br>`
 	
 
 	
@@ -79,20 +83,20 @@ function addedPlayerData() { return {
 
 // Display extra things at the top of the page
 var displayThings = [
-	function displayPoints() {if (player.L.points.gte('1.79e308') && !hasUpgrade("Infinity",99)) return `You have </span>
+	function displayPoints() {if (player.L.points.gte('1.79e308') && !hasUpgrade("Infinity", 45)) return `You have </span>
 		<h2  class="overlayThing" id="points">Infinite</h2> limes`
 		if(player.L.points.lt('1e1000')) return `You have </span>
 		<h2  class="overlayThing" id="points">${format(player.L.points)}</h2> ${modInfo.pointsName}`
 		if(player.L.points.lt('1e1e6')) return `<h2  class="overlayThing" id="points">${format(player.L.points)}</h2> ${modInfo.pointsName}</span>
 	<br>`
 	},
-	function displayPointsPSecond() {if(player.L.points.gte('1.79e308') && hasUpgrade('L', 51)) return `Infinite Limes/sec`
+	function displayPointsPSecond() {if(player.L.points.gte('1.79e308') && !hasUpgrade('Infinity', 45) && hasUpgrade('L', 51)) return `Infinite Limes/sec`
 		if(hasUpgrade('L', 51)) return format(tmp.L.resetGain.times(10)) + ` Limes/sec</span>`}
 ]
 
 // Determines when the game "ends"
 function isEndgame() {
-	return hasUpgrade("Infinity", 34)
+	return hasUpgrade("Infinity", 81)
 }
 
 
