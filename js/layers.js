@@ -913,7 +913,7 @@ addLayer("Infinity", {
 
     getResetGain() {
         gain = new Decimal(1)
-        mult = new Decimal(10)
+        mult = new Decimal(1)
         exp = new Decimal(1)
         if(hasUpgrade("Infinity", 45)) gain = player.L.points.clampMin(1).div("1.79e308").log(5)
 
