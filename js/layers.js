@@ -629,7 +629,7 @@ addLayer("L", {
 
     automate() {
         const upgradelist = [11, 22, 23, 21, 32, 41, 33, 31, 51, 61, 71, 81, 91, 42, 43, 44, 45, 46, 52, 53, 54, 55, 56, 61, 62, 63, 64, 65, 66, 72, 73, 74, 75, 76, 82, 83, 84, 85, 86, 92, 93, 94, 95]
-        for (let step = 0; step <= toNumber(getBuyableAmount("Infinity", 11)); step++) {
+        for (let step = 0; step <= toNumber(getBuyableAmount("Infinity", 11).minus(1)); step++) {
             buyUpgrade("L", upgradelist[step])
         }
     },
