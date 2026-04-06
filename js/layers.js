@@ -148,8 +148,8 @@ addLayer("L", {
     gainMult() { // Calculate the multiplier for main currency from bonuses
         mult = new Decimal(1)
         if (hasUpgrade('L', 11)) mult = mult.times(2)
-        if (hasUpgrade('L', 12)) mult = mult.times("1e50")
-       // if (hasUpgrade('L', 22)) mult = mult.times(3)
+        // if (hasUpgrade('L', 12)) mult = mult.times("1e50")
+        if (hasUpgrade('L', 22)) mult = mult.times(3)
         if (hasUpgrade('L', 23)) mult = mult.times(1.5)
         if (hasUpgrade('L', 21)) mult = mult.times(1.75)
         if (hasUpgrade('L', 32)) mult = mult.times(upgradeEffect('L', 32)).plus(1);
@@ -187,7 +187,8 @@ addLayer("L", {
         if(hasUpgrade('Infinity', 23)) mult = mult.times(2)
         if(hasUpgrade("Infinity", 33)) mult = mult.times(3)
         if(hasUpgrade("Infinity", 31)) mult = mult.times(2)   
-        if(hasUpgrade("Infinity", 34)) mult = mult.times(2.5) 
+        if(hasUpgrade("Infinity", 34)) mult = mult.times(2.5)
+        if(hasUpgrade("Infinity", 34)) mult = mult.times(2)
 
         if(hasUpgrade('Infinity', 22)) mult = mult.times(player.Infinity.mass.clampMin(1).log(3).plus(1))
         
@@ -850,6 +851,7 @@ addLayer("Infinity", {
         if(hasUpgrade("Infinity", 32)) mult = mult.times(2)
         if(hasUpgrade("Infinity", 31)) mult = mult.times(4)
         if(hasUpgrade("Infinity", 33)) mult = mult.times(1.5)
+        if(hasUpgrade("Infinity", 41)) mult = mult.times(10)
 
         massgain = massgain.times(mult).pow(exp)
         player.Infinity.mass = player.Infinity.mass.plus(massgain)
@@ -927,9 +929,16 @@ addLayer("Infinity", {
         34: {
             title: "Booster XI (#10)",
             description: "2.5x Limes and Lemons",
-            cost: new Decimal(3),
+            cost: new Decimal(5),
             unlocked() {return hasUpgrade('Infinity', 33)}
         },
+
+        /* 41: {
+            title: "Booster XII (#10)",
+            description: "10x BH Mass, 2x Limes",
+            cost: new Decimal(6),
+            unlocked() {return hasUpgrade('Infinity', 34)}
+        }, */
     },
 },
 )
