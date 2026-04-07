@@ -235,7 +235,13 @@ addLayer("L", {
         if(hasUpgrade("Infinity", 66)) infboost = infboost.pow(upgradeEffect("Infinity", 66))
         if(hasUpgrade('Infinity', 22)) mult = mult.times(infboost)
 
+        if(hasUpgrade("cosmic", 12)) mult = mult.times(12.64)
+        if(hasUpgrade("cosmic", 13)) mult = mult.times(upgradeEffect("cosmic", 13))
+        if(hasUpgrade("cosmic", 15)) mult = mult.times(35)
+
         if(hasUpgrade("cosmic", 102)) mult = mult.times(3)
+        if(hasUpgrade("cosmic", 103)) mult = mult.times(2)
+        if(hasUpgrade("cosmic", 105)) mult = mult.times(5)
         
         return mult
     },
@@ -761,6 +767,10 @@ exp = new Decimal(1)
     
     if(hasUpgrade('Infinity', 22) && player.Infinity.mass.gte(10000)) mult = mult.times(player.Infinity.mass.clampMin(1).div(10000).log(5).plus(1))
 
+    if(hasUpgrade('cosmic', 16)) mult = mult.times(upgradeEffect("cosmic", 16))
+    
+    if(hasUpgrade('cosmic', 104)) mult = mult.times(3)
+
     if (hasUpgrade('L', 65)) exp = exp.plus(0.065)
     if (hasUpgrade('L', 82)) exp = exp.plus(0.065)
     if (hasUpgrade('L', 83)) exp = exp.plus(0.1)
@@ -978,6 +988,15 @@ addLayer("Infinity", {
         if(hasUpgrade("L", 106)) mult = mult.times(5.5)
 
         if(hasUpgrade('Infinity', 22) && player.Infinity.mass.gte("1e9")) mult = mult.times(player.Infinity.mass.clampMin(1).div("1e9").log(7).plus(1))
+
+        if(hasUpgrade("cosmic", 12)) mult = mult.times(5)
+        if(hasUpgrade("cosmic", 14)) mult = mult.times(2.5)
+        if(hasUpgrade("cosmic", 21)) mult = mult.times(1.5)
+
+        if(hasUpgrade("cosmic", 111)) mult = mult.times(2)
+        if(hasUpgrade("cosmic", 121)) mult = mult.times(3)
+        if(hasUpgrade("cosmic", 122)) mult = mult.times(1.001)
+        if(hasUpgrade("cosmic", 123)) mult = mult.times(2)
         
         return gain.times(mult).pow(exp)
     },
@@ -1013,6 +1032,11 @@ addLayer("Infinity", {
         if(hasUpgrade("Infinity", 65)) mult = mult.times(upgradeEffect("Infinity", 65))
         if(hasUpgrade("Infinity", 71)) mult = mult.times(8)
         if(hasUpgrade("Infinity", 74)) mult = mult.times(50)
+
+        if(hasUpgrade("cosmic", 14)) mult = mult.times(15)
+        if(hasUpgrade("cosmic", 15)) mult = mult.times(3.5)
+        
+        if(hasUpgrade("cosmic", 122)) mult = mult.times(5.5)
 
         massgain = massgain.times(mult).pow(exp)
         player.Infinity.mass = player.Infinity.mass.plus(massgain)
@@ -1302,7 +1326,10 @@ addLayer("cosmic", {
         "blank",
         ["column", [
             ["row", [
-                ["upgrade", 11], ["upgrade", 12]
+                ["upgrade", 11], ["upgrade", 12], ["upgrade", 13], ["upgrade", 14], ["upgrade", 15], ["upgrade", 16]
+            ]],
+            ["row", [
+                ["upgrade", 21], ["upgrade", 22],
             ]],
         ]],
     ],
@@ -1314,7 +1341,13 @@ addLayer("cosmic", {
         "blank",
         ["column", [
             ["row", [
-                ["upgrade", 101], ["upgrade", 102]
+                ["upgrade", 101], ["upgrade", 102], ["upgrade", 103], ["upgrade", 104], ["upgrade", 105], 
+            ]],
+            ["row", [
+                ["upgrade", 111], ["upgrade", 112], ["upgrade", 113], 
+            ]],
+            ["row", [
+                ["upgrade", 121], ["upgrade", 122], ["upgrade", 123], 
             ]],
         ]],
     ],
@@ -1344,8 +1377,13 @@ addLayer("cosmic", {
         mult = new Decimal(1)
         exp = new Decimal(1)
 
-        if(hasUpgrade("cosmic", 101)) mult = mult.times(2)
+        if(hasUpgrade("cosmic", 21)) mult = mult.times(100)
 
+        if(hasUpgrade("cosmic", 101)) mult = mult.times(2)
+        if(hasUpgrade("cosmic", 105)) mult = mult.times(5)
+        if(hasUpgrade("cosmic", 112)) mult = mult.times(3)
+        if(hasUpgrade("cosmic", 113)) mult = mult.times(upgradeEffect("cosmic", 113))
+        
         dustgain = dustgain.times(mult).pow(exp)
         player.cosmic.dust = player.cosmic.dust.plus(dustgain)
 
@@ -1357,6 +1395,64 @@ addLayer("cosmic", {
             title: "Big Bang (#1)",
             description: "Start generating Cosmic Dust",
             cost: new Decimal(1),
+        },
+
+        12: {
+            title: "eys 2 (#2)",
+            description: "5x IP and 12.64x Limes",
+            cost: new Decimal(2),
+            unlocked() {return hasUpgrade("cosmic", 11)},
+        },
+
+        13: {
+            upgradeEffect() {return player.L.points.pow(0.05).plus(1)},
+            fullDisplay() {whatever = ``
+                if (hasUpgrade("cosmic", 13)) whatever = `Currently: x` + format(upgradeEffect("cosmic", 13),2)
+                return ` <p style="font-size: 10px;"> <b> 20th Root (#3) </b> <br>
+                Limes boost themselves, but better [root20(dust)] <br> ` + whatever + ` <br>
+                Cost: 2.5 Galaxies`},
+            cost: new Decimal(2.5),
+            unlocked() {return hasUpgrade("cosmic", 12)},
+        },
+
+        14: {
+            title: "giv me auto (#4)",
+            description: "2.5x IP and 15x BH Mass",
+            cost: new Decimal(3),
+            unlocked() {return hasUpgrade("cosmic", 13)},
+        },
+
+        15: {
+            fullDisplay() {return ` <p style="font-size: 10px;"> <b> The Heat Death (#5) </b> <br>
+                3.5x BH Mass and 35x Limes <br> <br>
+                Cost: 3.5 Galaxies`},
+            cost: new Decimal(3.5),
+            unlocked() {return hasUpgrade("cosmic", 14)},
+        },
+
+        16: {
+            effect() {return player.lemons.points.pow(0.2).plus(1)},
+            effectDisplay() {return format(upgradeEffect("cosmic", 16)) + "x"},
+            title: "more lemons (#7)",
+            description: "Lemons boost themselves",
+            cost: new Decimal(5),
+            unlocked() {return hasUpgrade("cosmic", 15)},
+        },
+
+        21: {
+            fullDisplay() {return ` <p style="font-size: 10px;"> <b> Lots of Dust (#6) </b> <br>
+                100x Cosmic Dust and 1.5x IP <br> <br>
+                Cost: 4.5 Galaxies`},
+            cost: new Decimal(4.5),
+            unlocked() {return hasUpgrade("cosmic", 14)},
+        },
+
+        22: {
+            fullDisplay() {return ` <p style="font-size: 10px;"> <b> What's Next? (#8) </b> <br>
+                Unlock ??? <br> <br>
+                Cost: ??? Galaxies`},
+            cost: new Decimal("1.79e308"),
+            unlocked() {return hasUpgrade("cosmic", 22)},
         },
 
 
@@ -1381,6 +1477,102 @@ addLayer("cosmic", {
             canAfford() {return player.cosmic.dust.gte(8)},
             pay() {player.cosmic.dust = player.cosmic.dust.minus(8)},
             unlocked() {return hasUpgrade("cosmic", 101)}
+        },
+
+        103: {
+            fullDisplay() {return ` <p style="font-size: 12px;"> <b> Cosmic Limes (#3) </b> <br>
+                Double Limes <br> <br>
+                Cost: 15 Cosmic Dust`},
+            style() {if(hasUpgrade("cosmic",103)) return
+                if(this.canAfford()) return {"background-color": "LightPink"}},
+            canAfford() {return player.cosmic.dust.gte(15)},
+            pay() {player.cosmic.dust = player.cosmic.dust.minus(15)},
+            unlocked() {return hasUpgrade("cosmic", 102)}
+        },
+
+        104: {
+            fullDisplay() {return ` <p style="font-size: 12px;"> <b> I hate LEMONS! (#5) </b> <br>
+                Triples Lemons <br> <br>
+                Cost: 30 Cosmic Dust`},
+            style() {if(hasUpgrade("cosmic",104)) return
+                if(this.canAfford()) return {"background-color": "LightPink"}},
+            canAfford() {return player.cosmic.dust.gte(30)},
+            pay() {player.cosmic.dust = player.cosmic.dust.minus(30)},
+            unlocked() {return hasUpgrade("cosmic", 103)}
+        },
+
+        105: {
+            fullDisplay() {return ` <p style="font-size: 12px;"> <b> Dusty Limes (#7) </b> <br>
+                5x Limes and Cosmic Dust <br> <br>
+                Cost: 450 Cosmic Dust`},
+            style() {if(hasUpgrade("cosmic",105)) return
+                if(this.canAfford()) return {"background-color": "LightPink"}},
+            canAfford() {return player.cosmic.dust.gte(450)},
+            pay() {player.cosmic.dust = player.cosmic.dust.minus(450)},
+            unlocked() {return hasUpgrade("cosmic", 104)}
+        },
+        112: {
+            fullDisplay() {return ` <p style="font-size: 12px;"> <b> Dusty (#4) </b> <br>
+                Triple Cosmic Dust <br> <br>
+                Cost: 17.5 Cosmic Dust`},
+            style() {if(hasUpgrade("cosmic",112)) return
+                if(this.canAfford()) return {"background-color": "LightPink"}},
+            canAfford() {return player.cosmic.dust.gte(17.5)},
+            pay() {player.cosmic.dust = player.cosmic.dust.minus(17.5)},
+            unlocked() {return hasUpgrade("cosmic", 102)}
+        },
+        113: {
+            effect() {return player.cosmic.dust.clampMin(1).log(4).plus(1)},
+            fullDisplay() {whatever = ``
+                if (hasUpgrade("cosmic", 113)) whatever = `Currently: x` + format(upgradeEffect("cosmic", 113),2)
+                return ` <p style="font-size: 12px;"> <b> Cosmic Synergy (#6) </b> <br>
+                Cosmic Dust boosts itself [log5(dust)] <br> ` + whatever + ` <br>
+                Cost: 95 Cosmic Dust`},
+            style() {if(hasUpgrade("cosmic",113)) return
+                if(this.canAfford()) return {"background-color": "LightPink"}},
+            canAfford() {return player.cosmic.dust.gte(95)},
+            pay() {player.cosmic.dust = player.cosmic.dust.minus(95)},
+            unlocked() {return hasUpgrade("cosmic", 112)}
+        },
+        111: {
+            fullDisplay() {return ` <p style="font-size: 12px;"> <b> Infinite Void (#8) </b> <br>
+                2x IP <br> <br>
+                Cost: 5000 Cosmic Dust`},
+            style() {if(hasUpgrade("cosmic",111)) return
+                if(this.canAfford()) return {"background-color": "LightPink"}},
+            canAfford() {return player.cosmic.dust.gte(5000)},
+            pay() {player.cosmic.dust = player.cosmic.dust.minus(5000)},
+            unlocked() {return hasUpgrade("cosmic", 112)}
+        },
+        121: {
+            fullDisplay() {return ` <p style="font-size: 12px;"> <b> Infinite Cosmos (#9) </b> <br>
+                3x IP <br> <br>
+                Cost: 10000 Cosmic Dust`},
+            style() {if(hasUpgrade("cosmic",121)) return
+                if(this.canAfford()) return {"background-color": "LightPink"}},
+            canAfford() {return player.cosmic.dust.gte(10000)},
+            pay() {player.cosmic.dust = player.cosmic.dust.minus(10000)},
+            unlocked() {return hasUpgrade("cosmic", 111)}
+        },
+        122: {
+            fullDisplay() {return ` <p style="font-size: 12px;"> <b> Very BIG IP (#10) </b> <br>
+                5.5x BH Mass and 1.001x IP <br> <br>
+                Cost: 250000 Cosmic Dust`},
+            style() {if(hasUpgrade("cosmic",122)) return
+                if(this.canAfford()) return {"background-color": "LightPink"}},
+            canAfford() {return player.cosmic.dust.gte(250000)},
+            pay() {player.cosmic.dust = player.cosmic.dust.minus(250000)},
+            unlocked() {return hasUpgrade("cosmic", 121)}
+        },
+        123: {
+            fullDisplay() {return ` <p style="font-size: 12px;"> <b> Actual IP Boost (#11) </b> <br>
+                2x IP <br> <br>
+                Cost: 1e6 Cosmic Dust`},
+            style() {if(hasUpgrade("cosmic",123)) return
+                if(this.canAfford()) return {"background-color": "LightPink"}},
+            canAfford() {return player.cosmic.dust.gte("1e6")},
+            pay() {player.cosmic.dust = player.cosmic.dust.minus("1e6")},
+            unlocked() {return hasUpgrade("cosmic", 122)}
         },
     },
     
