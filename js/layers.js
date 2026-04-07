@@ -129,15 +129,15 @@ addLayer("achievementslmao", {
             unlocked() {return hasUpgrade('L', 95) || hasAchievement("achievementslmao", 41)}
         },
         51: {
-            name: "CREATE",
-            tooltip: "SOMETHING COSMIC",
-            done() {return false},
+            name: "This is getting ridiculous",
+            tooltip: "Get your first galaxy",
+            done() {return player.cosmic.points.gte(1)},
             unlocked() {return hasUpgrade('Infinity', 82) || hasAchievement("achievementslmao", 51)}
         },
         52: {
-            name: "FINISH",
-            tooltip: "FIRST AUTOMATION",
-            done() {return false},
+            name: "Extended reach",
+            tooltip: "Automate all extended Lime Upgrades",
+            done() {return getBuyableAmount("Infinity", 11).gte(48)},
             unlocked() {return hasUpgrade('Infinity', 82) || hasAchievement("achievementslmao", 51)}
         },
         53: {
