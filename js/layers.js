@@ -132,31 +132,31 @@ addLayer("achievementslmao", {
             name: "CREATE",
             tooltip: "SOMETHING COSMIC",
             done() {return false},
-            unlocked() {return hasUpgrade('Infinity', 81) || hasAchievement("achievementslmao", 51)}
+            unlocked() {return hasUpgrade('Infinity', 82) || hasAchievement("achievementslmao", 51)}
         },
         52: {
             name: "FINISH",
             tooltip: "FIRST AUTOMATION",
             done() {return false},
-            unlocked() {return hasUpgrade('Infinity', 81) || hasAchievement("achievementslmao", 51)}
+            unlocked() {return hasUpgrade('Infinity', 82) || hasAchievement("achievementslmao", 51)}
         },
         53: {
             name: "COMEBACK",
             tooltip: "OF THE CITRIC",
             done() {return false},
-            unlocked() {return hasUpgrade('Infinity', 81) || hasAchievement("achievementslmao", 51)}
+            unlocked() {return hasUpgrade('Infinity', 82) || hasAchievement("achievementslmao", 51)}
         },
         54: {
             name: "HANDS",
             tooltip: "FREE FROM CONVERSION",
             done() {return false},
-            unlocked() {return hasUpgrade('Infinity', 81) || hasAchievement("achievementslmao", 51)}
+            unlocked() {return hasUpgrade('Infinity', 82) || hasAchievement("achievementslmao", 51)}
         },
         55: {
             name: "USE",
             tooltip: "THE THIRD TO ITS FULLEST",
             done() {return false},
-            unlocked() {return hasUpgrade('Infinity', 81) || hasAchievement("achievementslmao", 51)}
+            unlocked() {return hasUpgrade('Infinity', 82) || hasAchievement("achievementslmao", 51)}
         },
     }
 })
@@ -234,6 +234,8 @@ addLayer("L", {
         infboost = player.Infinity.mass.clampMin(1).log(3).plus(1)
         if(hasUpgrade("Infinity", 66)) infboost = infboost.pow(upgradeEffect("Infinity", 66))
         if(hasUpgrade('Infinity', 22)) mult = mult.times(infboost)
+
+        if(hasUpgrade("cosmic", 102)) mult = mult.times(3)
         
         return mult
     },
@@ -246,6 +248,7 @@ addLayer("L", {
         if (hasUpgrade('L', 66)) exp = exp.plus(0.1)
         if (hasUpgrade('L', 82)) exp = exp.plus(0.065)
         if (hasUpgrade('L', 83)) exp = exp.plus(0.1)
+        if (hasUpgrade('L', 101)) exp = exp.plus(0.35)
 
         return exp
     },
@@ -624,11 +627,52 @@ addLayer("L", {
             unlocked() {return hasUpgrade('L', 94)},
         },
 
+        101: {
+            title: "Welcome Back (#51)",
+            description: "+0.35 to Lime's Exponent (1e13 IP Recommended)",
+            cost: new Decimal("3.5e536"),
+            unlocked() {return hasUpgrade('Infinity', 82)},
+        },
+
+        102: {
+            title: "Very Balanced (#52)",
+            description: "150x IP (1e13 IP Recommended)",
+            cost: new Decimal("1.99e677"),
+            unlocked() {return hasUpgrade('L', 101)},
+        },
+
+        103: {
+            title: "Booster 23 (#53)",
+            description: "1000x IP and +0.2 to Lemon's Exponent (4e14 IP Recommended)",
+            cost: new Decimal("1e710"),
+            unlocked() {return hasUpgrade('L', 102)},
+        },
+
+        104: {
+            title: "MORE IP (#54)",
+            description: "5000x IP (5e17 IP Recommended)",
+            cost: new Decimal("5e838"),
+            unlocked() {return hasUpgrade('L', 103)},
+        },
+
+        105: {
+            title: "Holy Lime 2 (#55)",
+            description: "Go nuts, Have fun. 15000x IP (5e21 IP Recommended)",
+            cost: new Decimal("1e942"),
+            unlocked() {return hasUpgrade('L', 104)},
+        },
+
+        106: {
+            title: "fr (#56)",
+            description: "5.5x IP",
+            cost: new Decimal("1e1660"),
+            unlocked() {return hasUpgrade('L', 105)},
+        },
     },
 
 
     automate() {
-        const upgradelist = [11, 22, 23, 21, 32, 41, 33, 31, 51, 61, 71, 81, 91, 42, 43, 44, 45, 46, 52, 53, 54, 55, 56, 61, 62, 63, 64, 65, 66, 72, 73, 74, 75, 76, 82, 83, 84, 85, 86, 92, 93, 94, 95]
+        const upgradelist = [11, 22, 23, 21, 32, 41, 33, 31, 51, 61, 71, 81, 91, 42, 43, 44, 45, 46, 52, 53, 54, 55, 56, 61, 62, 63, 64, 65, 66, 72, 73, 74, 75, 76, 82, 83, 84, 85, 86, 92, 93, 94, 95, 101, 102, 103, 104, 105, 106]
         for (let step = 0; step <= toNumber(getBuyableAmount("Infinity", 11).minus(1)); step++) {
             buyUpgrade("L", upgradelist[step])
         }
@@ -722,6 +766,7 @@ exp = new Decimal(1)
     if (hasUpgrade('L', 83)) exp = exp.plus(0.1)
     if (hasUpgrade('L', 85)) exp = exp.plus(0.045)
     if (hasUpgrade('L', 95)) exp = exp.plus(0.065)
+    if (hasUpgrade('L', 103)) exp = exp.plus(0.2)
 
     return gain.times(mult).pow(exp)
 },
@@ -925,7 +970,12 @@ addLayer("Infinity", {
         if(hasUpgrade("Infinity", 75)) mult = mult.times(5)
         if(hasUpgrade("Infinity", 76)) mult = mult.times(33)
         if(hasUpgrade("Infinity", 81)) mult = mult.times(100)
-        
+
+        if(hasUpgrade("L", 102)) mult = mult.times(150)
+        if(hasUpgrade("L", 103)) mult = mult.times(1000)
+        if(hasUpgrade("L", 104)) mult = mult.times(5000)
+        if(hasUpgrade("L", 105)) mult = mult.times(15000)
+        if(hasUpgrade("L", 106)) mult = mult.times(5.5)
 
         if(hasUpgrade('Infinity', 22) && player.Infinity.mass.gte("1e9")) mult = mult.times(player.Infinity.mass.clampMin(1).div("1e9").log(7).plus(1))
         
@@ -1217,14 +1267,20 @@ addLayer("Infinity", {
             cost: new Decimal("30e9"),
             unlocked() {return hasUpgrade('Infinity', 76)}
         },
+        82: {
+            title: "Memories (#35)",
+            description: "Expand the Lime Tree from Lime Upgrade #50",
+            cost: new Decimal("5e12"),
+            unlocked() {return hasUpgrade('Infinity', 81)}
+        },
     },
 },
 )
 
 addLayer("cosmic", {
     row: 2,
-    name: "???",
-    symbol: "?",
+    name: "Cosmic",
+    symbol: "C",
     color: "#b300ff",
     position: 0,
     type: "custom",
@@ -1238,16 +1294,95 @@ addLayer("cosmic", {
     baseAmount() {return player.Infinity.points},
     requires: new Decimal("1.5e26"),
     branches: ["Infinity"],
+    tabFormat: {"Main": {content :["main-display",
+        "prestige-button",
+        ["display-text",
+            function() {
+                return "You have " + format(player.cosmic.points) + " IP."}],
+        "blank",
+        ["column", [
+            ["row", [
+                ["upgrade", 11], ["upgrade", 12]
+            ]],
+        ]],
+    ],
+    },
+    "Cosmic Dust": {content :[
+        ["display-text",
+            function() {return "You have " + format(player.cosmic.dust) + " Cosmic Dust"}, { "color": "pink", "font-size": "16px", "font-family": "Comic Sans MS" }
+        ],
+        "blank",
+        ["column", [
+            ["row", [
+                ["upgrade", 101], ["upgrade", 102]
+            ]],
+        ]],
+    ],
+    unlocked() {return hasUpgrade("cosmic", 11)}},
+    },
 
+    canReset() {
+        return player.Infinity.points.gte("1.5e26")
+},
     getResetGain() {
-        return 0
+        galgain = player.Infinity.points.clampMin(1).div("1.5e26").log(5).plus(1)
+        return galgain
     },
     getNextAt() {
     galaxygain = new Decimal(0).plus(tmp.cosmic.resetGain)
     return format(galaxygain.mul("1.5e26").pow(5), 1)
     },
-    layerShown() {return hasUpgrade('Infinity', 81)},
+    layerShown() {return hasUpgrade('Infinity', 82) || hasUpgrade('cosmic', 11) || player.cosmic.points.gte(1)},
 
+    prestigeButtonText() {if(player.Infinity.points.gte("1.5e26")) return "Reset for " + format(tmp.cosmic.resetGain) + " Galaxies"
+        return "You need 1.5e26 IP to reset"
+    },
+
+    update(dt) {
+        if (!hasUpgrade("cosmic", 11)) return
+        dustgain = new Decimal(0.1).times(dt)
+        mult = new Decimal(1)
+        exp = new Decimal(1)
+
+        if(hasUpgrade("cosmic", 101)) mult = mult.times(2)
+
+        dustgain = dustgain.times(mult).pow(exp)
+        player.cosmic.dust = player.cosmic.dust.plus(dustgain)
+
+        if(player.cosmic.dust.lt(0))  bplayer.cosmic.dust = new Decimal(0)
+    },
+
+    upgrades: {
+        11: {
+            title: "Big Bang (#1)",
+            description: "Start generating Cosmic Dust",
+            cost: new Decimal(1),
+        },
+
+
+
+
+        101: {
+            fullDisplay() {return ` <p style="font-size: 12px;"> <b> Useless?? (#1) </b> <br>
+                Doubles Cosmic Dust <br> <br>
+                Cost: 3.5 Cosmic Dust`},
+            style() {if(hasUpgrade("cosmic",101)) return
+                if(this.canAfford()) return {"background-color": "LightPink"}},
+            canAfford() {return player.cosmic.dust.gte(3.5)},
+            pay() {player.cosmic.dust = player.cosmic.dust.minus(3.5)},
+        },
+
+        102: {
+            fullDisplay() {return ` <p style="font-size: 12px;"> <b> Nevermind. (#2) </b> <br>
+                Triples Limes <br> <br>
+                Cost: 8 Cosmic Dust`},
+            style() {if(hasUpgrade("cosmic",102)) return
+                if(this.canAfford()) return {"background-color": "LightPink"}},
+            canAfford() {return player.cosmic.dust.gte(8)},
+            pay() {player.cosmic.dust = player.cosmic.dust.minus(8)},
+            unlocked() {return hasUpgrade("cosmic", 101)}
+        },
+    },
     
 },
 )
