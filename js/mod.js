@@ -13,8 +13,8 @@ let modInfo = {
 
 // Set your version in num and name
 let VERSION = {
-	num: "0.0.3.1",
-	name: "The end of the end???",
+	num: "0.0.4",
+	name: "WERE SUPPOSED TO BE GETTING LIMES",
 }
 
 let changelog = `<h1>Changelog:</h1><br>
@@ -48,12 +48,17 @@ let changelog = `<h1>Changelog:</h1><br>
 		v0.0.3.1<br>
 		- More Infinity Upgrades<br>
 		- More Achievements (kinda)<br>
-		- Finished Infinity, leaving last upgrade for the next update<br>`
+		- Finished Infinity, leaving last upgrade for the next update<br>
+		<br>
+	<h3>v0.0.4</h3><br>
+		- Added first half of Cosmic<br>
+		- Added ACTUAL Achievements<br>
+		- Added final Infinity upgrade and its content<br>`
 	
 
 	
 
-let winText = `Congratulations! You have reached the current end of The Lime Upgrade Tree! Rest of infinity is coming soon`
+let winText = `Congratulations! You have reached the current end of The Lime Upgrade Tree! Second half of Cosmic is coming soon`
 
 // If you add new functions anywhere inside of a layer, and those functions have an effect when called, add them here.
 // (The ones here are examples, all official functions are already taken care of)
