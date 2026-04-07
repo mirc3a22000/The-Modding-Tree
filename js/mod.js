@@ -101,7 +101,7 @@ var displayThings = [
 
 // Determines when the game "ends"
 function isEndgame() {
-	return hasUpgrade("Infinity", 81)
+	return hasUpgrade("cosmic", 21)
 }
 
 
