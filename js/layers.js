@@ -232,7 +232,7 @@ addLayer("L", {
         if (hasUpgrade('L', 84)) mult = mult.times(100)
         if (hasUpgrade('lemons', 16)) mult = mult.times(100)
         if (hasUpgrade('lemons', 21)) mult = mult.times(350)
-        if (hasUpgrade('L', 86)) mult = mult.times(2500)
+        if (hasUpgrade('L', 86)) mult = mult.times(25000)
         if (hasUpgrade('L', 92)) mult = mult.times(250000)
         if (hasUpgrade('L', 93)) mult = mult.times("1e6")
         if (hasUpgrade('L', 94)) mult = mult.times("1e8")
