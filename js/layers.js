@@ -137,26 +137,50 @@ addLayer("achievementslmao", {
         52: {
             name: "Extended reach",
             tooltip: "Automate all extended Lime Upgrades",
-            done() {return getBuyableAmount("Infinity", 11).gte(48)},
+            done() {return getBuyableAmount("Infinity", 11).gte(49)},
             unlocked() {return hasUpgrade('Infinity', 82) || hasAchievement("achievementslmao", 51)}
         },
         53: {
-            name: "COMEBACK",
-            tooltip: "OF THE CITRIC",
-            done() {return false},
+            name: "Back to normal, kinda?",
+            tooltip: "Get your first Orange(s)",
+            done() {return player.orange.points.gte(1)},
             unlocked() {return hasUpgrade('Infinity', 82) || hasAchievement("achievementslmao", 51)}
         },
         54: {
-            name: "HANDS",
-            tooltip: "FREE FROM CONVERSION",
-            done() {return false},
+            name: "How are you even doing this?",
+            tooltip: "Unlock IP generation",
+            done() {return tmp.Infinity.passiveGeneration > 0},
             unlocked() {return hasUpgrade('Infinity', 82) || hasAchievement("achievementslmao", 51)}
         },
         55: {
-            name: "USE",
-            tooltip: "THE THIRD TO ITS FULLEST",
-            done() {return false},
+            name: "As unneeded as its sibling",
+            tooltip: "Max Orange Buyables",
+            done() {return getBuyableAmount('orange', 11).plus(getBuyableAmount('orange', 12)).gte(85)},
             unlocked() {return hasUpgrade('Infinity', 82) || hasAchievement("achievementslmao", 51)}
+        },
+        61: {
+            name: "START",
+            tooltip: "OVER AGAIN",
+            done() {return false},
+            unlocked() {return hasUpgrade('cosmic', 64) || hasAchievement("achievementslmao", 61)}
+        },
+        62: {
+            name: "UPGRADE",
+            tooltip: "THE RECOVERY",
+            done() {return false},
+            unlocked() {return hasUpgrade('cosmic', 64) || hasAchievement("achievementslmao", 61)}
+        },
+        63: {
+            name: "SHORT",
+            tooltip: "TIME TO FULLY ACCOMPLISH",
+            done() {return false},
+            unlocked() {return hasUpgrade('cosmic', 64) || hasAchievement("achievementslmao", 61)}
+        },
+        64: {
+            name: "GAP",
+            tooltip: "IN THE PROGRESS",
+            done() {return false},
+            unlocked() {return hasUpgrade('cosmic', 64) || hasAchievement("achievementslmao", 61)}
         },
     }
 })
@@ -208,11 +232,11 @@ addLayer("L", {
         if (hasUpgrade('L', 84)) mult = mult.times(100)
         if (hasUpgrade('lemons', 16)) mult = mult.times(100)
         if (hasUpgrade('lemons', 21)) mult = mult.times(350)
-        if (hasUpgrade('L', 86)) mult = mult.times(25000)
+        if (hasUpgrade('L', 86)) mult = mult.times(2500)
         if (hasUpgrade('L', 92)) mult = mult.times(250000)
         if (hasUpgrade('L', 93)) mult = mult.times("1e6")
         if (hasUpgrade('L', 94)) mult = mult.times("1e8")
-        if (hasUpgrade('L', 95)) mult = mult.times("75e22")
+        if (hasUpgrade('L', 95)) mult = mult.times("7.5e21")
 
         if(hasUpgrade('Infinity', 12)) mult = mult.times(5)
         if(hasUpgrade('Infinity', 13)) mult = mult.times(3)
@@ -233,15 +257,19 @@ addLayer("L", {
 
         infboost = player.Infinity.mass.clampMin(1).log(3).plus(1)
         if(hasUpgrade("Infinity", 66)) infboost = infboost.pow(upgradeEffect("Infinity", 66))
+        if(hasUpgrade('cosmic', 35)) infboost = infboost.pow(2)
         if(hasUpgrade('Infinity', 22)) mult = mult.times(infboost)
 
         if(hasUpgrade("cosmic", 12)) mult = mult.times(12.64)
         if(hasUpgrade("cosmic", 13)) mult = mult.times(upgradeEffect("cosmic", 13))
         if(hasUpgrade("cosmic", 15)) mult = mult.times(35)
+        if(hasUpgrade("cosmic", 44)) mult = mult.times("1e650")
 
         if(hasUpgrade("cosmic", 102)) mult = mult.times(3)
         if(hasUpgrade("cosmic", 103)) mult = mult.times(2)
         if(hasUpgrade("cosmic", 105)) mult = mult.times(5)
+            
+        if(hasUpgrade("cosmic", 42)) mult = mult.times(upgradeEffect("cosmic", 42)[0])
         
         return mult
     },
@@ -593,7 +621,7 @@ addLayer("L", {
 
         86: {
             title: "Booster VIII (#46)",
-            description: "250000x Limes and 50x Lemons",
+            description: "25000x Limes and 50x Lemons",
             cost: new Decimal("2.44e225"),
             unlocked() {return hasUpgrade('L', 85)},
         },
@@ -628,7 +656,7 @@ addLayer("L", {
 
         95: {
             title: "Holy Lime (#50)",
-            description: "Here comes the Reset Layer! Multiply Limes by 750Sx and +0.065 to Lemon's exponent",
+            description: "Here comes the Reset Layer! Multiply Limes by 7.5Sx and +0.065 to Lemon's exponent",
             cost: new Decimal("5e271"),
             unlocked() {return hasUpgrade('L', 94)},
         },
@@ -637,7 +665,7 @@ addLayer("L", {
             title: "Welcome Back (#51)",
             description: "+0.35 to Lime's Exponent (1e13 IP Recommended)",
             cost: new Decimal("3.5e536"),
-            unlocked() {return hasUpgrade('Infinity', 82)},
+            unlocked() {return hasUpgrade('Infinity', 82) && hasUpgrade('L', 95)},
         },
 
         102: {
@@ -714,6 +742,15 @@ addLayer("lemons", {
             if(!hasUpgrade('Infinity', 45) && player.L.points.gte("1.79e308")) return "You have Infinite limes"
             return "You have " + format(player.L.points) + " limes."}],
     ],
+
+    hotkeys: [
+    {
+        key: "l", // What the hotkey button is. Use uppercase if it's combined with shift, or "ctrl+x" for holding down ctrl.
+        description: "l: reset your limes for lemons", // The description of the hotkey that is displayed in the game's How To Play tab
+        onPress() { if (player.lemons.unlocked) doReset("lemons") },
+        unlocked () {return player.lemons.unlocked}
+    }
+],
     
     canReset() {
         return player.L.points.gte("3e9")
@@ -764,12 +801,22 @@ exp = new Decimal(1)
     if(hasUpgrade("Infinity", 61)) mult = mult.times(2)
     if(hasUpgrade("Infinity", 63)) mult = mult.times(10)
     if(hasUpgrade("Infinity", 71)) mult = mult.times(7)
-    
-    if(hasUpgrade('Infinity', 22) && player.Infinity.mass.gte(10000)) mult = mult.times(player.Infinity.mass.clampMin(1).div(10000).log(5).plus(1))
+
+
+    bhlemonboost = player.Infinity.mass.clampMin(1).div(10000).log(5).plus(1)
+    if(hasUpgrade('cosmic', 35)) bhlemonboost = bhlemonboost.pow(2)
+    if(hasUpgrade('Infinity', 22) && player.Infinity.mass.gte(10000)) mult = mult.times(bhlemonboost)
 
     if(hasUpgrade('cosmic', 16)) mult = mult.times(upgradeEffect("cosmic", 16))
+    if(hasUpgrade('cosmic', 42)) mult = mult.times("1e40")
+    if(hasUpgrade('cosmic', 43)) mult = mult.times("1e42")
+    if(hasUpgrade('cosmic', 44)) mult = mult.times("1e63")
+    if(hasUpgrade('cosmic', 45)) mult = mult.times("1e33")
+    if(hasUpgrade("cosmic", 61)) mult = mult.times("1e33")
     
     if(hasUpgrade('cosmic', 104)) mult = mult.times(3)
+
+    if(hasUpgrade("cosmic", 42)) mult = mult.times(upgradeEffect("cosmic", 42)[1])
 
     if (hasUpgrade('L', 65)) exp = exp.plus(0.065)
     if (hasUpgrade('L', 82)) exp = exp.plus(0.065)
@@ -777,6 +824,11 @@ exp = new Decimal(1)
     if (hasUpgrade('L', 85)) exp = exp.plus(0.045)
     if (hasUpgrade('L', 95)) exp = exp.plus(0.065)
     if (hasUpgrade('L', 103)) exp = exp.plus(0.2)
+    if(hasUpgrade("cosmic", 26)) exp = exp.plus(0.45)
+    if(hasUpgrade("cosmic", 31)) exp = exp.plus(0.15)
+    if(hasUpgrade("cosmic", 34)) exp = exp.plus(0.2)
+    if(hasUpgrade("cosmic", 35)) exp = exp.plus(0.25)
+    if(hasUpgrade("cosmic", 41)) exp = exp.plus(0.5)
 
     return gain.times(mult).pow(exp)
 },
@@ -823,10 +875,10 @@ buyables: {
         buy() {
             affordable = player[this.layer].points.div(1.5).log(2).floor();
             if (affordable.gt(300)) affordable = new Decimal(299)
-            if (!hasUpgrade("Infinity", 31)) player[this.layer].points = player[this.layer].points.minus(this.cost(affordable));
+            if (!hasUpgrade("Infinity", 31) && !hasUpgrade("cosmic", 126)) player[this.layer].points = player[this.layer].points.minus(this.cost(affordable));
             setBuyableAmount(this.layer, this.id, affordable.plus(1));
         },
-        automatethis() {if(hasUpgrade("Infinity", 31) && this.canAfford()) this.buy()},
+        automatethis() {if((hasUpgrade("Infinity", 31) || hasUpgrade("cosmic", 126)) && this.canAfford()) this.buy()},
     },
     12: {
         title: "Lemon Doubler",
@@ -840,10 +892,10 @@ buyables: {
         buy() {
             affordable = player[this.layer].points.div(5).log(5).floor();
             if (affordable.gt(150)) affordable = new Decimal(149)
-            if (!hasUpgrade("Infinity", 33)) player[this.layer].points = player[this.layer].points.minus(this.cost(affordable));
+            if (!hasUpgrade("Infinity", 33) && !hasUpgrade("cosmic", 126)) player[this.layer].points = player[this.layer].points.minus(this.cost(affordable));
             setBuyableAmount(this.layer, this.id, affordable.plus(1));
         },
-        automatethis() {if(hasUpgrade("Infinity", 33) && this.canAfford()) this.buy()},
+        automatethis() {if((hasUpgrade("Infinity", 33) || hasUpgrade("cosmic", 126)) && this.canAfford()) this.buy()},
     },
     
 },
@@ -897,7 +949,7 @@ upgrades: {
 },
 
 automate() {
-    if(hasUpgrade("Infinity", 46)) {autobuyUpgrades('lemons')}
+    if(hasUpgrade("Infinity", 46) || hasUpgrade("cosmic", 126)) {autobuyUpgrades('lemons')}
 }
 
 })
@@ -934,17 +986,24 @@ addLayer("Infinity", {
             function() {return "Your Black Hole has " + format(player.Infinity.mass) + " mass."}],
         "blank",
         ["display-text",
-            function() {return "Lime Boost: x" + format(player.Infinity.mass.clampMin(1).log(3).plus(1))}, { "color": "white", "font-size": "16px", "font-family": "Comic Sans MS" }
+             
+            function() {boost = player.Infinity.mass.clampMin(1).log(3).plus(1)
+            if(hasUpgrade("cosmic", 35)) boost = boost.pow(2)
+                return "Lime Boost: x" + format(boost)}, { "color": "white", "font-size": "16px", "font-family": "Comic Sans MS" }
         ],
         ["display-text",
             function() {
                 if(player.Infinity.mass.lt(10000)) return "Lemon Boost unlocked at 10000 mass"
-                return "Lemon Boost: x" + format(player.Infinity.mass.clampMin(1).div(10000).log(5).plus(1))}, { "color": "yellow", "font-size": "16px", "font-family": "Comic Sans MS" }
+                boost = player.Infinity.mass.clampMin(1).div(10000).log(5).plus(1)
+                if(hasUpgrade("cosmic", 35)) boost = boost.pow(2)
+                return "Lemon Boost: x" + format(boost)}, { "color": "yellow", "font-size": "16px", "font-family": "Comic Sans MS" }
         ],
         ["display-text",
             function() {
                 if(player.Infinity.mass.lt("1e9")) return "IP Boost unlocked at 1e9 mass"
-                return "IP Boost: x" + format(player.Infinity.mass.clampMin(1).div("1e9").log(7).plus(1))}, { "color": "orange", "font-size": "16px", "font-family": "Comic Sans MS" }
+                boost = player.Infinity.mass.clampMin(1).div("1e9").log(7).plus(1)
+                if(hasUpgrade("cosmic", 35)) boost = boost.pow(2)
+                return "IP Boost: x" + format(boost)}, { "color": "orange", "font-size": "16px", "font-family": "Comic Sans MS" }
         ],
         "blank",
         ["display-text",
@@ -955,6 +1014,14 @@ addLayer("Infinity", {
     "buyables",],
         unlocked() {return hasUpgrade("Infinity", 22)}},
     },
+    hotkeys: [
+    {
+        key: "i", // What the hotkey button is. Use uppercase if it's combined with shift, or "ctrl+x" for holding down ctrl.
+        description: "i: reset your progress for Infinity Points", // The description of the hotkey that is displayed in the game's How To Play tab
+        onPress() { if (player.Infinity.unlocked) doReset("Infinity") },
+        unlocked() {return player.Infinity.unlocked}
+    }
+],
     
     canReset() {
         return player.L.points.gte("1.79e308")
@@ -987,25 +1054,51 @@ addLayer("Infinity", {
         if(hasUpgrade("L", 105)) mult = mult.times(15000)
         if(hasUpgrade("L", 106)) mult = mult.times(5.5)
 
-        if(hasUpgrade('Infinity', 22) && player.Infinity.mass.gte("1e9")) mult = mult.times(player.Infinity.mass.clampMin(1).div("1e9").log(7).plus(1))
+        bhipboost = player.Infinity.mass.clampMin(1).div("1e9").log(7).plus(1)
+        if(hasUpgrade("cosmic", 35)) bhipboost = bhipboost.pow(2)
+        if(hasUpgrade('Infinity', 22) && player.Infinity.mass.gte("1e9")) mult = mult.times(bhipboost)
 
         if(hasUpgrade("cosmic", 12)) mult = mult.times(5)
         if(hasUpgrade("cosmic", 14)) mult = mult.times(2.5)
         if(hasUpgrade("cosmic", 21)) mult = mult.times(1.5)
+        if(hasUpgrade("cosmic", 23)) mult = mult.times(3)
+        if(hasUpgrade("cosmic", 23)) mult = mult.times(10)
+        if(hasUpgrade("cosmic", 55)) mult = mult.times("1e10")
+        if(hasUpgrade("cosmic", 56)) mult = mult.times("1e9")
+        if(hasUpgrade("cosmic", 61)) mult = mult.times("1e11")
+        if(hasUpgrade("cosmic", 62)) mult = mult.times("1e12")
+        if(hasUpgrade("cosmic", 63)) mult = mult.times("1e13")
 
         if(hasUpgrade("cosmic", 111)) mult = mult.times(2)
         if(hasUpgrade("cosmic", 121)) mult = mult.times(3)
         if(hasUpgrade("cosmic", 122)) mult = mult.times(1.001)
         if(hasUpgrade("cosmic", 123)) mult = mult.times(2)
+        if(hasUpgrade("cosmic", 125)) mult = mult.times(3.5)
+        if(hasUpgrade("cosmic", 132)) mult = mult.times(100)
+        if(hasUpgrade("cosmic", 134)) mult = mult.times(upgradeEffect("cosmic", 134))
+
+        if(getBuyableAmount("orange",11).gte(1)) mult = mult.times(buyableEffect("orange", 11))
+
+        if(hasUpgrade("cosmic", 42)) mult = mult.times(upgradeEffect("cosmic", 42)[2])
+
+        if(hasUpgrade("cosmic", 34)) exp = exp.plus(0.1)
+        if(hasUpgrade("cosmic", 43)) exp = exp.plus(0.065)
+        if(hasUpgrade("cosmic", 44)) exp = exp.plus(0.115)
+        if(hasUpgrade("cosmic", 51)) exp = exp.plus(0.2)
+        if(hasUpgrade("cosmic", 52)) exp = exp.plus(0.145)
         
         return gain.times(mult).pow(exp)
     },
 
     onPrestige() {
         if (!hasUpgrade("Infinity", 52)) player.Infinity.mass = new Decimal(0)
+        if (tmp.Infinity.passiveGeneration > 0 && !hasAchievement("achievementslmao", 15)) {
+            player.achievementslmao.achievements.push(15)
+            doPopup("achievement","Infinite effort, no gain")}
     },
 
     passiveGeneration() {
+        if (hasUpgrade('cosmic', 131)) return 1
         return 0
     },
 
@@ -1035,8 +1128,12 @@ addLayer("Infinity", {
 
         if(hasUpgrade("cosmic", 14)) mult = mult.times(15)
         if(hasUpgrade("cosmic", 15)) mult = mult.times(3.5)
+        if(hasUpgrade("cosmic", 45)) mult = mult.times("1e10")
+        if(hasUpgrade("cosmic", 61)) mult = mult.times("1e33")
+        if(hasUpgrade("cosmic", 64)) mult = mult.times("5e9")
         
         if(hasUpgrade("cosmic", 122)) mult = mult.times(5.5)
+        if(hasUpgrade("cosmic", 126)) mult = mult.times(10)
 
         massgain = massgain.times(mult).pow(exp)
         player.Infinity.mass = player.Infinity.mass.plus(massgain)
@@ -1048,18 +1145,33 @@ addLayer("Infinity", {
     infgain = new Decimal(0).plus(tmp.Infinity.resetGain)
     return format(infgain.mul("1.79e308").pow(5), 1)
     },
-    layerShown() {return hasUpgrade('L', 95) || hasUpgrade('Infinity', 12)},
+    layerShown() {return hasUpgrade('L', 95) || hasUpgrade('Infinity', 12) || player.Infinity.points.gte(1)},
+
+    doReset(resettingLayer) {
+  if (layers[resettingLayer].row <= this.row) return;
+
+  let keptBuyables = {};
+    if (resettingLayer == "cosmic" && hasUpgrade("cosmic", 135)) keptBuyables[11] = getBuyableAmount(this.layer, 11);
+
+  let keep = [];
+
+  layerDataReset(this.layer, keep);
+
+  for (const [id, amount] of Object.entries(keptBuyables)) {
+  setBuyableAmount(this.layer, id, amount);
+}
+},
 
     buyables: {
         11: {
             title: "Lime upgrade autobuyer",
-            purchaseLimit: 48,
+            purchaseLimit: 49,
             cost(x) {return x.pow_base(2.1).mul(6500) },
-            display() { return "Buy for " + format(this.cost()) + " mass \n" + getBuyableAmount("Infinity", 11) + "/48 \n You are autobuying " + format(getBuyableAmount("Infinity",11), 0) + " Lime Upgrades"},
+            display() { return "Buy for " + format(this.cost()) + " mass \n" + getBuyableAmount("Infinity", 11) + "/49 \n You are autobuying " + format(getBuyableAmount("Infinity",11), 0) + " Lime Upgrades"},
             canAfford() { return player.Infinity.mass.gte(this.cost()) },
             buy() {
-                affordable = player.Infinity.mass.div(1.5).log(2).floor();
-                if (affordable.gt(48)) affordable = new Decimal(47)
+                affordable = player.Infinity.mass.div(6500).log(2.1).floor();
+                if (affordable.gt(49)) affordable = new Decimal(48)
                 player[this.layer].mass = player[this.layer].mass.minus(this.cost(affordable));
                 setBuyableAmount(this.layer, this.id, affordable.plus(1));
             },
@@ -1312,6 +1424,7 @@ addLayer("cosmic", {
         unlocked: false,
 		points: new Decimal(0),
         dust: new Decimal(0),
+        thenumber: new Decimal(0)
     }},
     resource: "Galaxies",
     baseResource: "IP",
@@ -1322,14 +1435,26 @@ addLayer("cosmic", {
         "prestige-button",
         ["display-text",
             function() {
-                return "You have " + format(player.cosmic.points) + " IP."}],
+                return "You have " + format(player.Infinity.points) + " IP."}],
         "blank",
         ["column", [
             ["row", [
                 ["upgrade", 11], ["upgrade", 12], ["upgrade", 13], ["upgrade", 14], ["upgrade", 15], ["upgrade", 16]
             ]],
             ["row", [
-                ["upgrade", 21], ["upgrade", 22],
+                ["upgrade", 21], ["upgrade", 22], ["upgrade", 23], ["upgrade", 24], ["upgrade", 25], ["upgrade", 26],
+            ]],
+            ["row", [
+                ["upgrade", 31], ["upgrade", 32], ["upgrade", 33], ["upgrade", 34], ["upgrade", 35], ["upgrade", 36],
+            ]],
+            ["row", [
+                ["upgrade", 41], ["upgrade", 42], ["upgrade", 43], ["upgrade", 44], ["upgrade", 45], ["upgrade", 46],
+            ]],
+            ["row", [
+                ["upgrade", 51], ["upgrade", 52], ["upgrade", 53], ["upgrade", 54], ["upgrade", 55], ["upgrade", 56],
+            ]],
+            ["row", [
+                ["upgrade", 61], ["upgrade", 62], ["upgrade", 63], ["upgrade", 64],
             ]],
         ]],
     ],
@@ -1347,18 +1472,77 @@ addLayer("cosmic", {
                 ["upgrade", 111], ["upgrade", 112], ["upgrade", 113], 
             ]],
             ["row", [
-                ["upgrade", 121], ["upgrade", 122], ["upgrade", 123], 
+                ["upgrade", 121], ["upgrade", 122], ["upgrade", 123], ["upgrade", 124], ["upgrade", 125], ["upgrade", 126] 
+            ]],
+            ["row", [
+                ["upgrade", 131], ["upgrade", 132], ["upgrade", 133], ["upgrade", 134], ["upgrade", 135], 
             ]],
         ]],
     ],
     unlocked() {return hasUpgrade("cosmic", 11)}},
+     "The Number": {content :["main-display",
+        "blank",
+        ["display-text",
+            function() {
+                return "Your number is " + format(player.cosmic.thenumber)}, { "color": "white", "font-size": "24px", "font-family": "Comic Sans MS" }],
+        ["display-text", function() { bonus = new Decimal(1)
+        if(hasUpgrade("cosmic", 45)) bonus = bonus.times(10000)
+        if(hasUpgrade("cosmic", 54)) bonus = bonus.times(10000)
+        if(hasUpgrade("cosmic", 56)) bonus = bonus.times("1e7")
+        if(hasUpgrade("cosmic", 61)) bonus = bonus.times("1e8")
+        if(hasUpgrade("cosmic", 63)) bonus = bonus.times("1e9")
+        return format(player.L.points.root(1250).plus(1).clampMax("1e150").times(bonus),2) + " Number/s"}],
+        ["display-text",
+            function() {
+                return "Lime Boost: x" + format(upgradeEffect("cosmic", 42)[0])}, { "color": "white", "font-size": "16px", "font-family": "Comic Sans MS" }],
+        ["display-text",
+            function() {
+                return "Lime Boost: x" + format(upgradeEffect("cosmic", 42)[1])}, { "color": "yellow", "font-size": "16px", "font-family": "Comic Sans MS" }],
+        ["display-text",
+            function() {
+                return "IP Boost: x" + format(upgradeEffect("cosmic", 42)[2])}, { "color": "orange", "font-size": "16px", "font-family": "Comic Sans MS" }],
+        ["display-text",
+            function() {
+                return "Galaxy Boost: x" + format(upgradeEffect("cosmic", 42)[3])}, { "color": "purple", "font-size": "16px", "font-family": "Comic Sans MS" }],
+        ["display-text",
+            function() {
+                return "Cosmic Dust Boost: x" + format(upgradeEffect("cosmic", 42)[4])}, { "color": "pink", "font-size": "16px", "font-family": "Comic Sans MS" }],
+        ["infobox", "numbers"],
+    ],
+    unlocked() {return hasUpgrade("cosmic", 42)}},
     },
+    hotkeys: [
+    {
+        key: "c", // What the hotkey button is. Use uppercase if it's combined with shift, or "ctrl+x" for holding down ctrl.
+        description: "c: reset your progress for Galaxies", // The description of the hotkey that is displayed in the game's How To Play tab
+        onPress() { if (player.cosmic.unlocked) doReset("cosmic") },
+        unlocked() {return player.cosmic.unlocked}
+    }
+],
 
     canReset() {
         return player.Infinity.points.gte("1.5e26")
 },
     getResetGain() {
         galgain = player.Infinity.points.clampMin(1).div("1.5e26").log(5).plus(1)
+        mult = new Decimal(1)
+        exp = new Decimal(1)
+
+        if(hasUpgrade("cosmic", 23)) mult = mult.times(2)
+        if(hasUpgrade("cosmic", 26)) mult = mult.times(3)
+        if(hasUpgrade("cosmic", 32)) mult = mult.times(2.5)
+        if(hasUpgrade("cosmic", 45)) mult = mult.times(5)
+        if(hasUpgrade("cosmic", 62)) mult = mult.times(10)
+        if(hasUpgrade("cosmic", 63)) mult = mult.times(2)
+
+        if(hasUpgrade("cosmic", 132)) mult = mult.times(2)
+        if(hasUpgrade("cosmic", 134)) mult = mult.times(2)
+
+        if(getBuyableAmount("orange",12).gte(1)) mult = mult.times(buyableEffect("orange", 12))
+
+        if(hasUpgrade("cosmic", 42)) mult = mult.times(upgradeEffect("cosmic", 42)[3])
+
+        galgain = galgain.times(mult).pow(exp)
         return galgain
     },
     getNextAt() {
@@ -1378,16 +1562,42 @@ addLayer("cosmic", {
         exp = new Decimal(1)
 
         if(hasUpgrade("cosmic", 21)) mult = mult.times(100)
+        if(hasUpgrade("cosmic", 24)) mult = mult.times(100)
+        if(hasUpgrade("cosmic", 33)) mult = mult.times(1000)
+        if(hasUpgrade("cosmic", 45)) mult = mult.times("1e18")
+        if(hasUpgrade("cosmic", 61)) mult = mult.times("1e29")
+        if(hasUpgrade("cosmic", 64)) mult = mult.times("1e33")
 
         if(hasUpgrade("cosmic", 101)) mult = mult.times(2)
         if(hasUpgrade("cosmic", 105)) mult = mult.times(5)
         if(hasUpgrade("cosmic", 112)) mult = mult.times(3)
         if(hasUpgrade("cosmic", 113)) mult = mult.times(upgradeEffect("cosmic", 113))
+
+        if(hasUpgrade("cosmic", 36)) mult = mult.times(upgradeEffect("cosmic", 36))
+
+        if(hasUpgrade("cosmic", 42)) mult = mult.times(upgradeEffect("cosmic", 42)[4])
         
         dustgain = dustgain.times(mult).pow(exp)
         player.cosmic.dust = player.cosmic.dust.plus(dustgain)
 
-        if(player.cosmic.dust.lt(0))  bplayer.cosmic.dust = new Decimal(0)
+        if(player.cosmic.dust.lt(0))  player.cosmic.dust = new Decimal(0)
+        bonus = new Decimal(1)
+
+        if(!hasUpgrade("cosmic", 42)) return
+        if(hasUpgrade("cosmic", 45)) bonus = bonus.times(10000)
+        if(hasUpgrade("cosmic", 54)) bonus = bonus.times(10000)
+        if(hasUpgrade("cosmic", 56)) bonus = bonus.times("1e7")
+        if(hasUpgrade("cosmic", 61)) bonus = bonus.times("1e8")
+        if(hasUpgrade("cosmic", 63)) bonus = bonus.times("1e9")
+        numbergain = player.L.points.root(1250).plus(1).clampMax("1e150").times(bonus).times(dt)
+        player.cosmic.thenumber = player.cosmic.thenumber.plus(numbergain)
+    },
+
+    infoboxes: {
+        numbers: {
+            title: "The Number",
+            body: "The Number's gain is based on limes and has its base gain hardcapped to 1e150, so upgrades will help you get more than 1e150 Number/s"
+        }
     },
 
     upgrades: {
@@ -1405,7 +1615,7 @@ addLayer("cosmic", {
         },
 
         13: {
-            upgradeEffect() {return player.L.points.pow(0.05).plus(1)},
+            effect() {return player.L.points.pow(0.05).plus(1)},
             fullDisplay() {whatever = ``
                 if (hasUpgrade("cosmic", 13)) whatever = `Currently: x` + format(upgradeEffect("cosmic", 13),2)
                 return ` <p style="font-size: 10px;"> <b> 20th Root (#3) </b> <br>
@@ -1448,14 +1658,209 @@ addLayer("cosmic", {
         },
 
         22: {
-            fullDisplay() {return ` <p style="font-size: 10px;"> <b> What's Next? (#8) </b> <br>
-                Unlock ??? <br> <br>
-                Cost: ??? Galaxies`},
-            cost: new Decimal("1.79e308"),
+            title:"What's Next? (#8)",
+            description:"Unlock Oranges",
+            cost: new Decimal(6),
+            unlocked() {return hasUpgrade("cosmic", 21)},
+        },
+
+        23: {
+            fullDisplay() {return ` <p style="font-size: 10px;"> <b> Sweet Oranges (#9) </b> <br>
+                Triple Oranges, IP and Double Galaxies <br> <br>
+                Cost: 14.5 Galaxies`},
+            cost: new Decimal(14.5),
             unlocked() {return hasUpgrade("cosmic", 22)},
         },
 
+        24: {
+            title: "funny dust (#10)",
+            description: "100x Cosmic Dust and 2x Oranges",
+            cost: new Decimal(75),
+            unlocked() {return hasUpgrade("cosmic", 23)},
+        },
 
+        25: {
+            effect() {return player.cosmic.points.clampMin(1).log(6).plus(1)},
+            effectDisplay() {return format(upgradeEffect("cosmic", 25),2) + "x"},
+            title: "Bitter (#11)",
+            description: "Galaxies boost Oranges",
+            cost: new Decimal(170),
+            unlocked() {return hasUpgrade("cosmic", 24)},
+        },
+
+        26: {
+            title: "Yellow (#12)",
+            description: "+0.45 to Lemon's Exponent and 3x Galaxies",
+            cost: new Decimal(650),
+            unlocked() {return hasUpgrade("cosmic", 25)},
+        },
+
+        31: {
+            title: "Orange (#13)",
+            description: "+0.15 to Lemon's Exponent, 4x Oranges, 10x IP",
+            cost: new Decimal(3500),
+            unlocked() {return hasUpgrade("cosmic", 26)},
+        },
+
+        32: {
+            title: "Pantone (#14)",
+            description: "7.5x Oranges and 2.5x Galaxies",
+            cost: new Decimal(5500),
+            unlocked() {return hasUpgrade("cosmic", 31)},
+        },
+
+        33: {
+            title: "Orange Juice (#15)",
+            description: "1000x Cosmic Dust and 3x Oranges",
+            cost: new Decimal(45000),
+            unlocked() {return hasUpgrade("cosmic", 32)},
+        },
+
+        34: {
+            title: "ip exponent!! (#16)",
+            description: "+0.1 to IP's Exponent, 2.5x Oranges and +0.2 to Lemon's Exponent",
+            cost: new Decimal(200000),
+            unlocked() {return hasUpgrade("cosmic", 33)},
+        },
+
+        35: {
+            title: "Not Useless (#17)",
+            description: "BH boosts seem kinda useless... Cube all of the boosts BH gives and +0.25 to Lemon's Exponent",
+            cost: new Decimal(650000),
+            unlocked() {return hasUpgrade("cosmic", 34)},
+        },
+
+        36: {
+            effect() {return player.L.points.clampMin(1).pow(0.85).log(100).plus(1)},
+            effectDisplay() {return format(upgradeEffect("cosmic", 36),2) + "x"},
+            title: "cool upgrade (#18)",
+            description: "Limes boost Cosmic Dust [log100(limes^0.85)]",
+            cost: new Decimal(750000),
+            unlocked() {return hasUpgrade("cosmic", 35)},
+        },
+
+        41: {
+            title: "giv me lime (#19)",
+            description: "This is a big one. 10x Oranges and +0.5 to Lemon's Exponent",
+            cost: new Decimal("2e6"),
+            unlocked() {return hasUpgrade("cosmic", 36)},
+        },
+
+        42: {
+            effect() {
+                return [player.cosmic.thenumber.pow(20).plus(1),
+                        player.cosmic.thenumber.pow(2).plus(1),
+                        player.cosmic.thenumber.root(4.65).plus(1),
+                        player.cosmic.thenumber.clampMin(1).pow(0.15).log(100).plus(1),
+                        player.cosmic.thenumber.root(4.25).plus(1),
+                ]
+
+            },
+            title: "UUT reference? (#20)",
+            description: "Unlock The Number and x1e40 Lemons",
+            cost: new Decimal("4e6"),
+            unlocked() {return hasUpgrade("cosmic", 41)},
+        },
+
+        43: {
+            title: "This isn getting op isn't it? (#21)",
+            description: "25x Oranges, x1e42 lemons and +0.065 to IP's Exponent",
+            cost: new Decimal("3e7"),
+            unlocked() {return hasUpgrade("cosmic", 42)},
+        },
+
+        44: {
+            title: "THIS ONE IS OP. (#22)",
+            description: "x1e650 Limes, x1e63 lemons, 15x Oranges and +0.115 to IP's Exponent",
+            cost: new Decimal("1.5e8"),
+            unlocked() {return hasUpgrade("cosmic", 43)},
+        },
+
+        45: {
+            title: "Lets Chill A Bit (#23)",
+            description: "x1e10 BH Mass, x1e18 Cosmic Dust, and 5x Galaxies",
+            cost: new Decimal("1.5e9"),
+            unlocked() {return hasUpgrade("cosmic", 44)},
+        },
+
+        46: {
+            title: "We need a bigger Number (#24)",
+            description: "10000x Number and x1e33 Lemons",
+            cost: new Decimal("1e10"),
+            unlocked() {return hasUpgrade("cosmic", 45)},
+        },
+
+        51: {
+            title: "Second Thought (#25)",
+            description: "Well you might be getting lots of Limes but what about IP? +0.2 to IP's Exponent and 10x Oranges",
+            cost: new Decimal("5e10"),
+            unlocked() {return hasUpgrade("cosmic", 45)},
+        },
+
+        52: {
+            title: "Tree (#26)",
+            description: "Stuff's going really fast now, you might or not know what this means. +0.145 to IP's Exponent and 100x Oranges",
+            cost: new Decimal("3e11"),
+            unlocked() {return hasUpgrade("cosmic", 51)},
+        },
+
+        53: {
+            title: "Yellow Red (#27)",
+            description: "Maxed the IP Doubler? Well, it's time to max the Galaxy Doubler! 1500x Oranges",
+            cost: new Decimal("1e12"),
+            unlocked() {return hasUpgrade("cosmic", 52)},
+        },
+
+        54: {
+            title: "Lebron (#28)",
+            description: "It's not enough. 10000x Number and 100000x Oranges",
+            cost: new Decimal("25e12"),
+            unlocked() {return hasUpgrade("cosmic", 53)},
+        },
+
+        55: {
+            title: "you are my sunshine (#29)",
+            description: "Pushing to the Max! 100000x Oranges and x1e10 IP",
+            cost: new Decimal("25e14"),
+            unlocked() {return hasUpgrade("cosmic", 54)},
+        },
+
+        56: {
+            fullDisplay() {return ` <p style="font-size: 10px;"> <b> my only sunshine (#30) </b> <br>
+                x1e9 IP, x1e7 Number and x1e29 Cosmic Dust <br> <br>
+                Requires: 35 Galaxy Doublers (orange layer)`},
+            canAfford() {return getBuyableAmount("orange", 12).gte(35)},
+            unlocked() {return hasUpgrade("cosmic", 55)},
+            pay() {return},
+        },
+
+        61: {
+            title: "you make me happy (#31)",
+            description: "x1e33 BH Mass, x1e8 IP, x1e8 Number and x1e33 Lemons",
+            cost: new Decimal("5e17"),
+            unlocked() {return hasUpgrade("cosmic", 56)},
+        },
+        
+        62: {
+            title: "when the skies are grey (#32)",
+            description: "x1e12 IP and 10x Galaxies",
+            cost: new Decimal("6.5e17"),
+            unlocked() {return hasUpgrade("cosmic", 61)},
+        },
+
+        63: {
+            title: "thats enough (#33)",
+            description: "x1e13 IP, x1e9 Number and 2x Galaxies",
+            cost: new Decimal("7.5e18"),
+            unlocked() {return hasUpgrade("cosmic", 62)},
+        },
+
+        64: {
+            title: "It's Time (#34)",
+            description: "x5e9 IP and x1e33 Cosmic Dust",
+            cost: new Decimal("20e18"),
+            unlocked() {return hasUpgrade("cosmic", 63)},
+        },
 
 
         101: {
@@ -1574,7 +1979,240 @@ addLayer("cosmic", {
             pay() {player.cosmic.dust = player.cosmic.dust.minus("1e6")},
             unlocked() {return hasUpgrade("cosmic", 122)}
         },
+        124: {
+            fullDisplay() {return ` <p style="font-size: 12px;"> <b> Cosmic ORANGES (#12) </b> <br>
+                2.25x Oranges <br> <br>
+                Cost: 5e6 Cosmic Dust`},
+            style() {if(hasUpgrade("cosmic",124)) return
+                if(this.canAfford()) return {"background-color": "LightPink"}},
+            canAfford() {return player.cosmic.dust.gte("5e6")},
+            pay() {player.cosmic.dust = player.cosmic.dust.minus("5e6")},
+            unlocked() {return hasUpgrade("cosmic", 123)}
+        },
+        125: {
+            fullDisplay() {return ` <p style="font-size: 12px;"> <b> Orange has your IP! (#13) </b> <br>
+                3.5x IP and 1.15x Oranges <br> <br>
+                Cost: 1e7 Cosmic Dust`},
+            style() {if(hasUpgrade("cosmic",125)) return
+                if(this.canAfford()) return {"background-color": "LightPink"}},
+            canAfford() {return player.cosmic.dust.gte("10e6")},
+            pay() {player.cosmic.dust = player.cosmic.dust.minus("10e6")},
+            unlocked() {return hasUpgrade("cosmic", 124)}
+        },
+        126: {
+            fullDisplay() {return ` <p style="font-size: 12px;"> <b> Finally!!! (#14) </b> <br>
+                Keep lemon upgrade autobuy on Cosmic and 10x BH Mass <br> <br>
+                Cost: 2.5e7 Cosmic Dust`},
+            style() {if(hasUpgrade("cosmic",126)) return
+                if(this.canAfford()) return {"background-color": "LightPink"}},
+            canAfford() {return player.cosmic.dust.gte("25e6")},
+            pay() {player.cosmic.dust = player.cosmic.dust.minus("25e6")},
+            unlocked() {return hasUpgrade("cosmic", 125)}
+        },
+        131: {
+            fullDisplay() {return ` <p style="font-size: 12px;"> <b> Greg (#15) </b> <br>
+                Generate 100% of Infinity Points gained from reset per second <br> <br>
+                Cost: 2e10 Cosmic Dust`},
+            style() {if(hasUpgrade("cosmic",131)) return
+                if(this.canAfford()) return {"background-color": "LightPink"}},
+            canAfford() {return player.cosmic.dust.gte("2e10")},
+            pay() {player.cosmic.dust = player.cosmic.dust.minus("2e10")},
+            unlocked() {return hasUpgrade("cosmic", 126)}
+        },
+        132: {
+            fullDisplay() {return ` <p style="font-size: 12px;"> <b> Interesting (#16) </b> <br>
+                100x IP and 2x Galaxies <br> <br>
+                Cost: 6.5e10 Cosmic Dust`},
+            style() {if(hasUpgrade("cosmic",132)) return
+                if(this.canAfford()) return {"background-color": "LightPink"}},
+            canAfford() {return player.cosmic.dust.gte("6.5e10")},
+            pay() {player.cosmic.dust = player.cosmic.dust.minus("6.5e10")},
+            unlocked() {return hasUpgrade("cosmic", 131)}
+        },
+        133: {
+            fullDisplay() {return ` <p style="font-size: 12px;"> <b> Orangery (#17) </b> <br>
+                2x Oranges <br> <br>
+                Cost: 2e11 Cosmic Dust`},
+            style() {if(hasUpgrade("cosmic",133)) return
+                if(this.canAfford()) return {"background-color": "LightPink"}},
+            canAfford() {return player.cosmic.dust.gte("20e10")},
+            pay() {player.cosmic.dust = player.cosmic.dust.minus("20e10")},
+            unlocked() {return hasUpgrade("cosmic", 132)}
+        },
+        134: {
+            effect() {return player.cosmic.dust.clampMin(1).log(4.25).plus(1)},
+            fullDisplay() {whatever = ``
+                if (hasUpgrade("cosmic", 134)) whatever = `Currently: x` + format(upgradeEffect("cosmic", 134),2)
+                return ` <p style="font-size: 12px;"> <b> Galactic (#18) </b> <br>
+                2x Galaxies and Cosmic Dust boosts IP [log4.25(dust)] <br> ` + whatever + ` <br>
+                Cost: 1.5e14 Cosmic Dust`},
+            style() {if(hasUpgrade("cosmic",134)) return
+                if(this.canAfford()) return {"background-color": "LightPink"}},
+            canAfford() {return player.cosmic.dust.gte("1.5e14")},
+            pay() {player.cosmic.dust = player.cosmic.dust.minus("1.5e14")},
+            unlocked() {return hasUpgrade("cosmic", 133)}
+        },
+        135: {
+            fullDisplay() {return ` <p style="font-size: 12px;"> <b> Big jump huh? (#19) </b> <br>
+                Keep Infinity Upgrade #17 Content on Cosmic <br> <br>
+                Cost: 4.99e102 Cosmic Dust`},
+            style() {if(hasUpgrade("cosmic",135)) return
+                if(this.canAfford()) return {"background-color": "LightPink"}},
+            canAfford() {return player.cosmic.dust.gte("4.99e102")},
+            pay() {player.cosmic.dust = player.cosmic.dust.minus("4.99e102")},
+            unlocked() {return hasUpgrade("cosmic", 134)}
+        },
     },
     
 },
 )
+
+addLayer("orange", {
+    row: 2,
+    name: "Orange",
+    symbol: "O",
+    color: "#ff4800",
+    position: 1,
+    type: "custom",
+    startData() { return {
+        unlocked: false,
+		points: new Decimal(0),
+    }},
+    resource: "Oranges",
+    baseResource: "IP",
+    baseAmount() {return player.Infinity.points},
+    requires: new Decimal("5e29"),
+    branches: ["cosmic"],
+    tabFormat: ["main-display",
+        "prestige-button",
+        ["display-text",
+            function() {
+                return "You have " + format(player.cosmic.points) + " IP."}],
+        "blank",
+        "buyables",
+    ],
+    hotkeys: [
+    {
+        key: "o", // What the hotkey button is. Use uppercase if it's combined with shift, or "ctrl+x" for holding down ctrl.
+        description: "o: reset your progress for Oranges", // The description of the hotkey that is displayed in the game's How To Play tab
+        onPress() { if (player.orange.unlocked) doReset("orange") },
+        unlocked() {return player.orange.unlocked}
+    }
+],
+
+    canReset() {
+        return player.Infinity.points.gte("5e29")
+},
+    getResetGain() {
+        orangain = player.Infinity.points.clampMin(1).div("5e29").log(5).plus(1)
+        mult = new Decimal(1)
+        exp = new Decimal(1)
+
+        if(hasUpgrade("cosmic", 23)) mult = mult.times(3)
+        if(hasUpgrade("cosmic", 24)) mult = mult.times(2)
+        if(hasUpgrade("cosmic", 25)) mult = mult.times(upgradeEffect("cosmic",25))
+        if(hasUpgrade("cosmic", 31)) mult = mult.times(4)
+        if(hasUpgrade("cosmic", 32)) mult = mult.times(7.5)
+        if(hasUpgrade("cosmic", 33)) mult = mult.times(3)
+        if(hasUpgrade("cosmic", 34)) mult = mult.times(2.5)
+        if(hasUpgrade("cosmic", 41)) mult = mult.times(10)
+        if(hasUpgrade("cosmic", 43)) mult = mult.times(25)
+        if(hasUpgrade("cosmic", 43)) mult = mult.times(15)
+        if(hasUpgrade("cosmic", 51)) mult = mult.times(10)
+        if(hasUpgrade("cosmic", 52)) mult = mult.times(100)
+        if(hasUpgrade("cosmic", 53)) mult = mult.times(1500)
+        if(hasUpgrade("cosmic", 54)) mult = mult.times(100000)
+        if(hasUpgrade("cosmic", 55)) mult = mult.times(100000)
+
+        if(hasUpgrade("cosmic",124)) mult = mult.times(2.25)
+        if(hasUpgrade("cosmic",125)) mult = mult.times(1.15)
+        if(hasUpgrade("cosmic", 133)) mult = mult.times(2)
+
+        orangain = orangain.times(mult).pow(exp)
+        return orangain
+    },
+    getNextAt() {
+    orangain = new Decimal(0).plus(tmp.orange.resetGain)
+    return format(orangain.mul("5e29").pow(5), 1)
+    },
+    layerShown() {return hasUpgrade('cosmic', 22)},
+
+    prestigeButtonText() {if(player.Infinity.points.gte("5e29")) return "Reset for " + format(tmp.orange.resetGain) + " Oranges"
+        return "You need 5e29 IP to reset"
+    },
+
+    buyables: {
+    11: {
+        title: "IP Doubler",
+        purchaseLimit: 50,
+        effect() {
+            return getBuyableAmount(this.layer, this.id).pow_base(1.75);
+          },
+        cost(x) {return x.pow_base(2) },
+        display() { return "Buy for " + format(this.cost()) + " oranges \n" + getBuyableAmount("orange", 11) + "/50 \n Currently: x" + format(getBuyableAmount("orange",11).pow_base(2),2)},
+        canAfford() { return player[this.layer].points.gte(this.cost()) },
+        buy() {
+            affordable = player[this.layer].points.log(2).floor();
+            if (affordable.gt(50)) affordable = new Decimal(49)
+            player[this.layer].points = player[this.layer].points.minus(this.cost(affordable));
+            setBuyableAmount(this.layer, this.id, affordable.plus(1));
+        },
+    },
+    12: {
+        title: "Galaxy Doubler",
+        purchaseLimit: 35,
+        effect() {
+            return getBuyableAmount(this.layer, this.id).pow_base(2)
+        },
+        cost(x) { return x.pow_base(6.5).mul(2.5) },
+        display() { return "Buy for " + format(this.cost()) + " oranges \n" + getBuyableAmount("orange", 12) + "/35 \n Currently: x" + format(getBuyableAmount("orange",12).pow_base(2),2)},
+        canAfford() { return player[this.layer].points.gte(this.cost()) },
+        buy() {
+            affordable = player[this.layer].points.div(2.5).log(6.5).floor();
+            if (affordable.gt(35)) affordable = new Decimal(34)
+            player[this.layer].points = player[this.layer].points.minus(this.cost(affordable));
+            setBuyableAmount(this.layer, this.id, affordable.plus(1));
+        },
+    },
+    
+},
+})
+
+
+addLayer("omega", {
+    row: 3,
+    name: "???",
+    symbol: "?",
+    color: "#006eff",
+    position: 0,
+    type: "custom",
+    startData() { return {
+        unlocked: false,
+		points: new Decimal(0),
+        lowercase: new Decimal(0),
+    }},
+    resource: "OP",
+    baseResource: "???",
+    baseAmount() {return player.Infinity.points},
+    requires: new Decimal("1e999"),
+    branches: ["cosmic"],
+    tabFormat: ["main-display",
+        "prestige-button",
+        ["display-text",
+            function() {
+                return "You have " + format(player.cosmic.points) + " IP."}],
+        "blank",
+    ],
+    tooltipLocked() {return "See you next update."},
+
+    canReset() {
+        return false
+},
+    getResetGain() {
+        return 0
+    },
+    getNextAt() {
+        return 0
+    },
+    layerShown() {return hasUpgrade('cosmic', 64)},
+},)

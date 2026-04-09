@@ -5,16 +5,16 @@ let modInfo = {
 	pointsName: "Limes",
 	modFiles: ["layers.js", "tree.js"],
 
-	discordName: "None",
-	discordLink: "discord.gg/channels/@me",
+	discordName: "Original TLUT Server",
+	discordLink: "https://discord.gg/gGBz2v7jab",
 	initialStartPoints: new Decimal (0), // Used for hard resets and new players
 	offlineLimit: 1,  // In hours
 }
 
 // Set your version in num and name
 let VERSION = {
-	num: "0.0.4",
-	name: "WERE SUPPOSED TO BE GETTING LIMES",
+	num: "0.0.4.1",
+	name: "WERE SUPPOSED TO BE GETTING LIMES (part 2)",
 }
 
 let changelog = `<h1>Changelog:</h1><br>
@@ -53,12 +53,16 @@ let changelog = `<h1>Changelog:</h1><br>
 	<h3>v0.0.4</h3><br>
 		- Added first half of Cosmic<br>
 		- Added ACTUAL Achievements<br>
-		- Added final Infinity upgrade and its content<br>`
+		- Added final Infinity upgrade and its content<br>
+		v0.0.4.1<br>
+		- Added 2nd half of Cosmic<br>
+		- Made rest of achievements obtainable<br>
+		- Added hotkeys<br>`
 	
 
 	
 
-let winText = `Congratulations! You have reached the current end of The Lime Upgrade Tree! Second half of Cosmic is coming soon`
+let winText = `Congratulations! You have reached the current end of The Lime Upgrade Tree! one point seven nine 5 three zero eight`
 
 // If you add new functions anywhere inside of a layer, and those functions have an effect when called, add them here.
 // (The ones here are examples, all official functions are already taken care of)
@@ -101,7 +105,7 @@ var displayThings = [
 
 // Determines when the game "ends"
 function isEndgame() {
-	return hasUpgrade("cosmic", 21)
+	return hasUpgrade("cosmic", 64)
 }
 
 
