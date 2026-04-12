@@ -257,7 +257,7 @@ addLayer("L", {
 
         infboost = player.Infinity.mass.clampMin(1).log(3).plus(1)
         if(hasUpgrade("Infinity", 66)) infboost = infboost.pow(upgradeEffect("Infinity", 66))
-        if(hasUpgrade('cosmic', 35)) infboost = infboost.pow(2)
+        if(hasUpgrade('cosmic', 35)) infboost = infboost.pow(3)
         if(hasUpgrade('Infinity', 22)) mult = mult.times(infboost)
 
         if(hasUpgrade("cosmic", 12)) mult = mult.times(12.64)
@@ -283,7 +283,7 @@ addLayer("L", {
         if (hasUpgrade('L', 82)) exp = exp.plus(0.065)
         if (hasUpgrade('L', 83)) exp = exp.plus(0.1)
         if (hasUpgrade('L', 101)) exp = exp.plus(0.35)
-
+        
         return exp
     },
 
@@ -804,7 +804,7 @@ exp = new Decimal(1)
 
 
     bhlemonboost = player.Infinity.mass.clampMin(1).div(10000).log(5).plus(1)
-    if(hasUpgrade('cosmic', 35)) bhlemonboost = bhlemonboost.pow(2)
+    if(hasUpgrade('cosmic', 35)) bhlemonboost = bhlemonboost.pow(3)
     if(hasUpgrade('Infinity', 22) && player.Infinity.mass.gte(10000)) mult = mult.times(bhlemonboost)
 
     if(hasUpgrade('cosmic', 16)) mult = mult.times(upgradeEffect("cosmic", 16))
@@ -988,21 +988,22 @@ addLayer("Infinity", {
         ["display-text",
              
             function() {boost = player.Infinity.mass.clampMin(1).log(3).plus(1)
-            if(hasUpgrade("cosmic", 35)) boost = boost.pow(2)
+            if(hasUpgrade("Infinity", 66)) boost = boost.pow(upgradeEffect('Infinity', 66))
+            if(hasUpgrade("cosmic", 35)) boost = boost.pow(3)
                 return "Lime Boost: x" + format(boost)}, { "color": "white", "font-size": "16px", "font-family": "Comic Sans MS" }
         ],
         ["display-text",
             function() {
                 if(player.Infinity.mass.lt(10000)) return "Lemon Boost unlocked at 10000 mass"
                 boost = player.Infinity.mass.clampMin(1).div(10000).log(5).plus(1)
-                if(hasUpgrade("cosmic", 35)) boost = boost.pow(2)
+                if(hasUpgrade("cosmic", 35)) boost = boost.pow(3)
                 return "Lemon Boost: x" + format(boost)}, { "color": "yellow", "font-size": "16px", "font-family": "Comic Sans MS" }
         ],
         ["display-text",
             function() {
                 if(player.Infinity.mass.lt("1e9")) return "IP Boost unlocked at 1e9 mass"
                 boost = player.Infinity.mass.clampMin(1).div("1e9").log(7).plus(1)
-                if(hasUpgrade("cosmic", 35)) boost = boost.pow(2)
+                if(hasUpgrade("cosmic", 35)) boost = boost.pow(3)
                 return "IP Boost: x" + format(boost)}, { "color": "orange", "font-size": "16px", "font-family": "Comic Sans MS" }
         ],
         "blank",
@@ -1055,7 +1056,7 @@ addLayer("Infinity", {
         if(hasUpgrade("L", 106)) mult = mult.times(5.5)
 
         bhipboost = player.Infinity.mass.clampMin(1).div("1e9").log(7).plus(1)
-        if(hasUpgrade("cosmic", 35)) bhipboost = bhipboost.pow(2)
+        if(hasUpgrade("cosmic", 35)) bhipboost = bhipboost.pow(3)
         if(hasUpgrade('Infinity', 22) && player.Infinity.mass.gte("1e9")) mult = mult.times(bhipboost)
 
         if(hasUpgrade("cosmic", 12)) mult = mult.times(5)
@@ -1065,9 +1066,10 @@ addLayer("Infinity", {
         if(hasUpgrade("cosmic", 23)) mult = mult.times(10)
         if(hasUpgrade("cosmic", 55)) mult = mult.times("1e10")
         if(hasUpgrade("cosmic", 56)) mult = mult.times("1e9")
-        if(hasUpgrade("cosmic", 61)) mult = mult.times("1e11")
+        if(hasUpgrade("cosmic", 61)) mult = mult.times("1e8")
         if(hasUpgrade("cosmic", 62)) mult = mult.times("1e12")
         if(hasUpgrade("cosmic", 63)) mult = mult.times("1e13")
+        if(hasUpgrade("cosmic", 64)) mult = mult.times("5e9")
 
         if(hasUpgrade("cosmic", 111)) mult = mult.times(2)
         if(hasUpgrade("cosmic", 121)) mult = mult.times(3)
@@ -1130,7 +1132,6 @@ addLayer("Infinity", {
         if(hasUpgrade("cosmic", 15)) mult = mult.times(3.5)
         if(hasUpgrade("cosmic", 45)) mult = mult.times("1e10")
         if(hasUpgrade("cosmic", 61)) mult = mult.times("1e33")
-        if(hasUpgrade("cosmic", 64)) mult = mult.times("5e9")
         
         if(hasUpgrade("cosmic", 122)) mult = mult.times(5.5)
         if(hasUpgrade("cosmic", 126)) mult = mult.times(10)
@@ -1367,7 +1368,7 @@ addLayer("Infinity", {
         },
         72: {
             effect() {return player.Infinity.points.clampMin(1).pow(0.4).log(60).plus(1)},
-            effectDisplay() {return format(upgradeEffect('Infinity', 66)) + "x"},
+            effectDisplay() {return format(upgradeEffect('Infinity', 72)) + "x"},
             title: "OverPowered (#29)",
             description: "IP boosts Lime Upgrade #20's effect [log60(IP^0.4)]",
             cost: new Decimal(275000),
@@ -2040,11 +2041,11 @@ addLayer("cosmic", {
             unlocked() {return hasUpgrade("cosmic", 132)}
         },
         134: {
-            effect() {return player.cosmic.dust.clampMin(1).log(4.25).plus(1)},
+            effect() {return player.cosmic.dust.clampMin(1).root(4.25).plus(1)},
             fullDisplay() {whatever = ``
                 if (hasUpgrade("cosmic", 134)) whatever = `Currently: x` + format(upgradeEffect("cosmic", 134),2)
                 return ` <p style="font-size: 12px;"> <b> Galactic (#18) </b> <br>
-                2x Galaxies and Cosmic Dust boosts IP [log4.25(dust)] <br> ` + whatever + ` <br>
+                2x Galaxies and Cosmic Dust boosts IP [root4.25(dust)] <br> ` + whatever + ` <br>
                 Cost: 1.5e14 Cosmic Dust`},
             style() {if(hasUpgrade("cosmic",134)) return
                 if(this.canAfford()) return {"background-color": "LightPink"}},
@@ -2146,9 +2147,9 @@ addLayer("orange", {
         title: "IP Doubler",
         purchaseLimit: 50,
         effect() {
-            return getBuyableAmount(this.layer, this.id).pow_base(1.75);
+            return getBuyableAmount(this.layer, this.id).pow_base(2);
           },
-        cost(x) {return x.pow_base(2) },
+        cost(x) {return x.pow_base(1.75) },
         display() { return "Buy for " + format(this.cost()) + " oranges \n" + getBuyableAmount("orange", 11) + "/50 \n Currently: x" + format(getBuyableAmount("orange",11).pow_base(2),2)},
         canAfford() { return player[this.layer].points.gte(this.cost()) },
         buy() {
@@ -2181,8 +2182,8 @@ addLayer("orange", {
 
 addLayer("omega", {
     row: 3,
-    name: "???",
-    symbol: "?",
+    name: "Omega",
+    symbol: "Ω",
     color: "#006eff",
     position: 0,
     type: "custom",
@@ -2192,9 +2193,9 @@ addLayer("omega", {
         lowercase: new Decimal(0),
     }},
     resource: "OP",
-    baseResource: "???",
+    baseResource: "IP",
     baseAmount() {return player.Infinity.points},
-    requires: new Decimal("1e999"),
+    requires: new Decimal("1.79e3008"),
     branches: ["cosmic"],
     tabFormat: ["main-display",
         "prestige-button",
@@ -2203,16 +2204,26 @@ addLayer("omega", {
                 return "You have " + format(player.cosmic.points) + " IP."}],
         "blank",
     ],
-    tooltipLocked() {return "See you next update."},
+    tooltipLocked() {return "See you next update"},
 
     canReset() {
-        return false
+        return player.Infinity.points.gte("1.79e3008")
 },
     getResetGain() {
-        return 0
-    },
-    getNextAt() {
-        return 0
+        gain = player.Infinity.points.clampMin(1).div("1.79e308").log(5).plus(1)
+        mult = new Decimal(1)
+        exp = new Decimal(1)
+
+        gain = gain.times(mult).pow(exp)
+
+        return gain
     },
     layerShown() {return hasUpgrade('cosmic', 64)},
+    getNextAt() {
+        return tmp.omega.getResetGain
+    },
+    
+    /*prestigeButtonText() {if(player.Infinity.points.gte("1.79e308")) return "Reset for " + format(tmp.omega.resetGain) + " OP"
+        return "You need 1.79e308 IP to reset"
+    },*/
 },)
