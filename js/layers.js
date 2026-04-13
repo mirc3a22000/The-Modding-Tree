@@ -2153,7 +2153,7 @@ addLayer("orange", {
         display() { return "Buy for " + format(this.cost()) + " oranges \n" + getBuyableAmount("orange", 11) + "/50 \n Currently: x" + format(getBuyableAmount("orange",11).pow_base(2),2)},
         canAfford() { return player[this.layer].points.gte(this.cost()) },
         buy() {
-            affordable = player[this.layer].points.log(2).floor();
+            affordable = player[this.layer].points.log(1.75).floor();
             if (affordable.gt(50)) affordable = new Decimal(49)
             player[this.layer].points = player[this.layer].points.minus(this.cost(affordable));
             setBuyableAmount(this.layer, this.id, affordable.plus(1));
@@ -2191,24 +2191,52 @@ addLayer("omega", {
         unlocked: false,
 		points: new Decimal(0),
         lowercase: new Decimal(0),
+        tickrate: new Decimal(5),
+        newrate: new Decimal(5)
     }},
     resource: "OP",
     baseResource: "IP",
     baseAmount() {return player.Infinity.points},
     requires: new Decimal("1.79e3008"),
     branches: ["cosmic"],
-    tabFormat: ["main-display",
+    tabFormat: { "Main": {content: ["main-display",
         "prestige-button",
         ["display-text",
             function() {
                 return "You have " + format(player.cosmic.points) + " IP."}],
         "blank",
-    ],
+        ["column", [
+            ["row", [
+                ["upgrade", 11], ["upgrade", 12], ["upgrade", 13], ["upgrade", 14], ["upgrade", 15], ["upgrade", 16]
+            ]]]],
+            ["column", [
+            ["row", [
+                ["upgrade", 21], ["upgrade", 22], ["upgrade", 23], ["upgrade", 24], ["upgrade", 25], ["upgrade", 26]
+            ]]]],
+        ]},
+        "Evil Tab": {content: [
+        ["display-text",
+            function() {
+                return "You have " + format(player.omega.lowercase) + " ω Points."}, {"color": "cyan", "font-size": "16px", "font-family": "Comic Sans MS" }],
+        ["display-text",
+            function() {
+                return format(tmp.omega.getlowercaseGain) + " ω Points/" + format(player.omega.tickrate) + "s"}, {"color": "gray", "font-size": "10px", "font-family": "Comic Sans MS" }],
+        "blank",
+        ["column", [
+            ["row", [
+                ["upgrade", 111], ["upgrade", 112], ["upgrade", 113], ["upgrade", 114], ["upgrade", 115], ["upgrade", 116]
+            ]]]],
+            ["column", [
+            ["row", [
+                ["upgrade", 121], ["upgrade", 122], ["upgrade", 123], ["upgrade", 124], ["upgrade", 125], ["upgrade", 126]
+            ]]]],
+        ],
+    unlocked() {return hasUpgrade("omega",11)}}},
     tooltipLocked() {return "See you next update"},
 
-    canReset() {
-        return player.Infinity.points.gte("1.79e3008")
-},
+    /*canReset() {
+        return player.Infinity.points.gte("1.79e308")
+},*/
     getResetGain() {
         gain = player.Infinity.points.clampMin(1).div("1.79e308").log(5).plus(1)
         mult = new Decimal(1)
@@ -2218,7 +2246,30 @@ addLayer("omega", {
 
         return gain
     },
-    layerShown() {return hasUpgrade('cosmic', 64)},
+
+    getlowercaseGain() {
+        gain = new Decimal(1)
+        mult = new Decimal(1)
+        exp = new Decimal(1)
+
+        if(hasUpgrade("omega", 111)) mult = mult.times(2)
+        if(hasUpgrade("omega", 12)) mult = mult.times(15)
+
+        gain = gain.times(mult).pow(exp)
+
+        return gain
+    },
+
+    update(diff) {
+        player.omega.tickrate = new Decimal(5)
+        if(hasUpgrade("omega",111)) player.omega.tickrate = player.omega.tickrate.minus(0.25)
+        if(hasUpgrade("omega",12)) player.omega.tickrate = player.omega.tickrate.minus(0.5)
+        player.omega.newrate = player.omega.newrate.minus(new Decimal(1).times(diff))
+        if (player.omega.newrate.lte(0)) {player.omega.lowercase = player.omega.lowercase.plus(this.getlowercaseGain())
+            player.omega.newrate = player.omega.tickrate
+        }
+    },
+    layerShown() {return hasUpgrade('cosmic', 64) || player.omega.points.gte(0.1)},
     getNextAt() {
         return tmp.omega.getResetGain
     },
@@ -2226,4 +2277,28 @@ addLayer("omega", {
     /*prestigeButtonText() {if(player.Infinity.points.gte("1.79e308")) return "Reset for " + format(tmp.omega.resetGain) + " OP"
         return "You need 1.79e308 IP to reset"
     },*/
-},)
+
+    upgrades: {
+    11: {
+            name: "Lowercase (#1)",
+            description: "Unlock ω",
+            cost: new Decimal(1),
+    },
+    12: {
+            name: "The Grind is REAL (#2)",
+            description: "15x ω Points and -0.5 ω Tick",
+            cost: new Decimal(7),
+            unlocked() {return hasUpgrade("omega", 11)},
+    },
+
+    111: {
+            fullDisplay() {return ` <p style="font-size: 12px;"> <b> Very Epic (#1) </b> <br>
+                2x ω Points and -0.25 ω Tick <br> <br>
+                Cost: 10 ω Points`},
+            style() {if(hasUpgrade("omega",111)) return
+                if(this.canAfford()) return {"background-color": "cyan"}},
+            canAfford() {return player.omega.lowercase.gte("10")},
+            pay() {player.omega.lowercase = player.omega.lowercase.minus("10")},
+            unlocked() {return hasUpgrade("omega", 11)},
+    },
+},})
