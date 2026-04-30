@@ -144,7 +144,8 @@ var systemComponents = {
     },
 
     'options-tab': {
-        template: `
+        template: `<div>
+		<div style="font-size: 24px;"> Settings </div> 
         <table>
             <tr>
                 <td><button class="opt" onclick="save()">Save</button></td>
@@ -165,8 +166,21 @@ var systemComponents = {
                 <td><button class="opt" onclick="toggleOpt('hideChallenges')">Completed Challenges: {{ options.hideChallenges?"HIDDEN":"SHOWN" }}</button></td>
                 <td><button class="opt" onclick="toggleOpt('forceOneTab'); needsCanvasUpdate = true">Single-Tab Mode: {{ options.forceOneTab?"ALWAYS":"AUTO" }}</button></td>
 				<td><button class="opt" onclick="toggleOpt('forceTooltips'); needsCanvasUpdate = true">Shift-Click to Toggle Tooltips: {{ options.forceTooltips?"ON":"OFF" }}</button></td>
-				</tr> 
-        </table>`
+				</tr>
+        </table>
+		<br> <br> 
+		<div style="font-size: 24px;"> Savebanks </div> 
+		<table>
+			<tr>
+				<td><button style = 'background-color: yellow' class="opt" onclick="SaveBankThing('lemons'); needsCanvasUpdate = true;">Lemons</td>
+				<td><button style = 'background-color: orange' class="opt" onclick="SaveBankThing('infinity'); needsCanvasUpdate = true">Infinity</td>
+				<td><button style = 'background-color: purple' class="opt" onclick="SaveBankThing('cosmic'); needsCanvasUpdate = true">Cosmic</td>
+			</tr>
+			<tr>
+				<td><button style = 'background-color: orangered' class="opt" onclick="SaveBankThing('orange'); needsCanvasUpdate = true">Oranges</td>
+				<td><button style = 'background-color: blue' class="opt" onclick="SaveBankThing('omega'); needsCanvasUpdate = true">Omega</td>
+			</tr>
+		</table> </div>`
     },
 
     'back-button': {

@@ -184,36 +184,36 @@ function fixData(defaultData, newData) {
 		}
 	}
 }
-function load() {
-	let get = localStorage.getItem(modInfo.id);
+function load(saveString = null) {
+    let get = saveString ?? localStorage.getItem(modInfo.id);
 
-	if (get === null || get === undefined) {
-		player = getStartPlayer();
-		options = getStartOptions();
-	}
-	else {
-		player = Object.assign(getStartPlayer(), JSON.parse(decodeURIComponent(escape(atob(get)))));
-		fixSave();
-		loadOptions();
-	}
+    if (get === null || get === undefined) {
+        player = getStartPlayer();
+        options = getStartOptions();
+    }
+    else {
+        player = Object.assign(getStartPlayer(), JSON.parse(decodeURIComponent(escape(atob(get)))));
+        fixSave();
+        loadOptions();
+    }
 
-	if (options.offlineProd) {
-		if (player.offTime === undefined)
-			player.offTime = { remain: 0 };
-		player.offTime.remain += (Date.now() - player.time) / 1000;
-	}
-	player.time = Date.now();
-	versionCheck();
-	changeTheme();
-	changeTreeQuality();
-	updateLayers();
-	setupModInfo();
+    if (options.offlineProd) {
+        if (player.offTime === undefined)
+            player.offTime = { remain: 0 };
+        player.offTime.remain += (Date.now() - player.time) / 1000;
+    }
+    player.time = Date.now();
+    versionCheck();
+    changeTheme();
+    changeTreeQuality();
+    updateLayers();
+    setupModInfo();
 
-	setupTemp();
-	updateTemp();
-	updateTemp();
-	updateTabFormats()
-	loadVue();
+    setupTemp();
+    updateTemp();
+    updateTemp();
+    updateTabFormats()
+    loadVue();
 }
 
 function loadOptions() {

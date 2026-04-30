@@ -159,28 +159,40 @@ addLayer("achievementslmao", {
             unlocked() {return hasUpgrade('Infinity', 82) || hasAchievement("achievementslmao", 51)}
         },
         61: {
-            name: "START",
-            tooltip: "OVER AGAIN",
-            done() {return false},
+            name: "How is this related to Limes???",
+            tooltip: "Get 1 OP",
+            done() {return player.omega.points.gte(1)},
             unlocked() {return hasUpgrade('cosmic', 64) || hasAchievement("achievementslmao", 61)}
         },
         62: {
-            name: "UPGRADE",
-            tooltip: "THE RECOVERY",
-            done() {return false},
+            name: "How does this give us more limes???",
+            tooltip: "Get a ω upgrade",
+            done() {return hasUpgrade('omega', 111)},
             unlocked() {return hasUpgrade('cosmic', 64) || hasAchievement("achievementslmao", 61)}
         },
         63: {
-            name: "SHORT",
-            tooltip: "TIME TO FULLY ACCOMPLISH",
-            done() {return false},
+            name: "That's all?",
+            tooltip: "Fully buy ω upgrades.",
+            done() {return hasUpgrade('omega', 131)},
             unlocked() {return hasUpgrade('cosmic', 64) || hasAchievement("achievementslmao", 61)}
         },
         64: {
-            name: "GAP",
-            tooltip: "IN THE PROGRESS",
-            done() {return false},
+            name: "Minor Inconvenience",
+            tooltip: "Find the gap",
+            done() {return hasUpgrade("omega", 25)},
             unlocked() {return hasUpgrade('cosmic', 64) || hasAchievement("achievementslmao", 61)}
+        },
+        65: {
+            name: "CONVENTIONALLY",
+            tooltip: "NAMED RESET",
+            done() {return false},
+            unlocked() {return hasUpgrade('omega', 26) || hasAchievement("achievementslmao", 64)}
+        },
+        71: {
+            name: "THE END.",
+            tooltip: "final update soon :P",
+            done() {return false},
+            unlocked() {return hasUpgrade('omega', 26) || hasAchievement("achievementslmao", 64)}
         },
     }
 })
@@ -270,6 +282,8 @@ addLayer("L", {
         if(hasUpgrade("cosmic", 105)) mult = mult.times(5)
             
         if(hasUpgrade("cosmic", 42)) mult = mult.times(upgradeEffect("cosmic", 42)[0])
+        
+        if(hasUpgrade("omega", 11)) mult = mult.times(tmp.omega.lowercaseboostgain[0])
         
         return mult
     },
@@ -818,6 +832,8 @@ exp = new Decimal(1)
 
     if(hasUpgrade("cosmic", 42)) mult = mult.times(upgradeEffect("cosmic", 42)[1])
 
+    if(hasUpgrade("omega", 115)) mult = mult.times(tmp.omega.lowercaseboostgain[1])
+
     if (hasUpgrade('L', 65)) exp = exp.plus(0.065)
     if (hasUpgrade('L', 82)) exp = exp.plus(0.065)
     if (hasUpgrade('L', 83)) exp = exp.plus(0.1)
@@ -1082,6 +1098,7 @@ addLayer("Infinity", {
         if(getBuyableAmount("orange",11).gte(1)) mult = mult.times(buyableEffect("orange", 11))
 
         if(hasUpgrade("cosmic", 42)) mult = mult.times(upgradeEffect("cosmic", 42)[2])
+        if(hasUpgrade("omega", 11)) mult = mult.times(tmp.omega.lowercaseboostgain[2])
 
         if(hasUpgrade("cosmic", 34)) exp = exp.plus(0.1)
         if(hasUpgrade("cosmic", 43)) exp = exp.plus(0.065)
@@ -1542,6 +1559,8 @@ addLayer("cosmic", {
         if(getBuyableAmount("orange",12).gte(1)) mult = mult.times(buyableEffect("orange", 12))
 
         if(hasUpgrade("cosmic", 42)) mult = mult.times(upgradeEffect("cosmic", 42)[3])
+
+        if(hasUpgrade("omega", 11)) mult = mult.times(tmp.omega.lowercaseboostgain[3])
 
         galgain = galgain.times(mult).pow(exp)
         return galgain
@@ -2129,6 +2148,8 @@ addLayer("orange", {
         if(hasUpgrade("cosmic",125)) mult = mult.times(1.15)
         if(hasUpgrade("cosmic", 133)) mult = mult.times(2)
 
+        if(hasUpgrade("omega", 11)) mult = mult.times(tmp.omega.lowercaseboostgain[4])
+
         orangain = orangain.times(mult).pow(exp)
         return orangain
     },
@@ -2209,9 +2230,13 @@ addLayer("omega", {
             ["row", [
                 ["upgrade", 11], ["upgrade", 12], ["upgrade", 13], ["upgrade", 14], ["upgrade", 15], ["upgrade", 16]
             ]]]],
-            ["column", [
+        ["column", [
             ["row", [
                 ["upgrade", 21], ["upgrade", 22], ["upgrade", 23], ["upgrade", 24], ["upgrade", 25], ["upgrade", 26]
+            ]]]],
+        ["column", [
+            ["row", [
+                ["upgrade", 31], ["upgrade", 32], ["upgrade", 33], ["upgrade", 34], ["upgrade", 35], ["upgrade", 36]
             ]]]],
         ]},
         "Evil Tab": {content: [
@@ -2221,26 +2246,61 @@ addLayer("omega", {
         ["display-text",
             function() {
                 return format(tmp.omega.getlowercaseGain) + " ω Points/" + format(player.omega.tickrate) + "s"}, {"color": "gray", "font-size": "10px", "font-family": "Comic Sans MS" }],
+        ["display-text",
+            function() {
+                return "x" + format(tmp.omega.lowercaseboostgain[0]) + " Limes"}, {"color": "white", "font-size": "10px", "font-family": "Comic Sans MS" }
+        ],
+        ["display-text",
+            function() {
+                if(hasUpgrade("omega", 115)) return "x" + format(tmp.omega.lowercaseboostgain[1]) + " Lemons"}, {"color": "yellow", "font-size": "10px", "font-family": "Comic Sans MS" }
+        ],
+        ["display-text",
+            function() {
+                if(hasUpgrade("omega", 124)) return "x" + format(tmp.omega.lowercaseboostgain[2]) + " IP"}, {"color": "orange", "font-size": "10px", "font-family": "Comic Sans MS" }
+        ],
+        ["display-text",
+            function() {
+                if(hasUpgrade("omega", 126)) return "x" + format(tmp.omega.lowercaseboostgain[3]) + " Galaxies"}, {"color": "purple", "font-size": "10px", "font-family": "Comic Sans MS" }
+        ],
+        ["display-text",
+            function() {
+                if(hasUpgrade("omega", 131)) return "x" + format(tmp.omega.lowercaseboostgain[4]) + " Oranges"}, {"color": "orange", "font-size": "10px", "font-family": "Comic Sans MS" }
+        ],
         "blank",
         ["column", [
             ["row", [
                 ["upgrade", 111], ["upgrade", 112], ["upgrade", 113], ["upgrade", 114], ["upgrade", 115], ["upgrade", 116]
             ]]]],
-            ["column", [
+        ["column", [
             ["row", [
                 ["upgrade", 121], ["upgrade", 122], ["upgrade", 123], ["upgrade", 124], ["upgrade", 125], ["upgrade", 126]
             ]]]],
+        ["column", [
+            ["row", [
+                ["upgrade", 131]
+            ]]]],
         ],
     unlocked() {return hasUpgrade("omega",11)}}},
-    tooltipLocked() {return "See you next update"},
 
-    /*canReset() {
+    canReset() {
         return player.Infinity.points.gte("1.79e308")
-},*/
+},
+
+    hotkeys: [
+    {
+        key: "m", // What the hotkey button is. Use uppercase if it's combined with shift, or "ctrl+x" for holding down ctrl.
+        description: "m: reset your progress for Omega", // The description of the hotkey that is displayed in the game's How To Play tab
+        onPress() { if (player.omega.unlocked) doReset("omega") },
+        unlocked() {return player.omega.unlocked}
+    }
+],
+
     getResetGain() {
         gain = player.Infinity.points.clampMin(1).div("1.79e308").log(5).plus(1)
         mult = new Decimal(1)
         exp = new Decimal(1)
+
+        if(hasUpgrade("omega", 26)) mult = mult.times(2)
 
         gain = gain.times(mult).pow(exp)
 
@@ -2253,17 +2313,79 @@ addLayer("omega", {
         exp = new Decimal(1)
 
         if(hasUpgrade("omega", 111)) mult = mult.times(2)
+        if(hasUpgrade("omega", 112)) mult = mult.times(1.65)
+        if(hasUpgrade("omega", 113)) mult = mult.times(1.35)
+        if(hasUpgrade("omega", 114)) mult = mult.times(1.5)
+        if(hasUpgrade("omega", 116)) mult = mult.times(3)
+        if(hasUpgrade("omega", 121)) mult = mult.times(2)
+        if(hasUpgrade("omega", 122)) mult = mult.times(5)
+        if(hasUpgrade("omega", 123)) mult = mult.times(1.1)
+        if(hasUpgrade("omega", 124)) mult = mult.times(2)
+        if(hasUpgrade("omega", 125)) mult = mult.times(1.5)
+        if(hasUpgrade("omega", 126)) mult = mult.times(3)
+        if(hasUpgrade("omega", 131)) mult = mult.times(2)
+
         if(hasUpgrade("omega", 12)) mult = mult.times(15)
+        if(hasUpgrade("omega", 13)) mult = mult.times(7.5)
+        if(hasUpgrade("omega", 21)) mult = mult.times(3)
+        if(hasUpgrade("omega", 22)) mult = mult.times(10)
+        if(hasUpgrade("omega", 23)) mult = mult.times(5)
+        if(hasUpgrade("omega", 24)) mult = mult.times(2.5)
+        if(hasUpgrade("omega", 25)) mult = mult.times(upgradeEffect("omega", 25))
+        if(hasUpgrade("omega", 26)) mult = mult.times(5)
 
         gain = gain.times(mult).pow(exp)
 
         return gain
     },
 
+    lowercaseboostgain() {
+        limeboostbase = new Decimal(50)
+        lemonboostbase = new Decimal(10)
+        ipboostbase = new Decimal(0.001)
+        galaxyboostbase = new Decimal(0.00001)
+        orangeboostbase = new Decimal(0.000005)
+
+        if(!hasUpgrade("omega", 115)) lemonboostbase = new Decimal(0)
+        if(!hasUpgrade("omega", 124)) ipboostbase = new Decimal(0)
+        if(!hasUpgrade("omega", 126)) galaxyboostbase = new Decimal(0)
+        if(!hasUpgrade("omega", 131)) orangeboostbase = new Decimal(0)
+
+        if(hasUpgrade("omega", 114)) limeboostbase = limeboostbase.plus(25)
+        if(hasUpgrade("omega", 116)) lemonboostbase = lemonboostbase.plus(7.5)
+        if(hasUpgrade("omega", 121)) limeboostbase = limeboostbase.plus(50)
+        if(hasUpgrade("omega", 121)) lemonboostbase = lemonboostbase.plus(6.5)
+        if(hasUpgrade("omega", 123)) limeboostbase = limeboostbase.plus(75)
+        if(hasUpgrade("omega", 125)) ipboostbase = ipboostbase.plus(0.01)
+        if(hasUpgrade("omega", 126)) ipboostbase = ipboostbase.plus(0.02)
+        if(hasUpgrade("omega", 126)) lemonboostbase = lemonboostbase.plus(35)
+        if(hasUpgrade("omega", 131)) galaxyboostbase = galaxyboostbase.plus("0.000005")
+
+        if(hasUpgrade("omega", 13)) orangeboostbase = orangeboostbase.plus("0.000005")
+        if(hasUpgrade("omega", 13)) ipboostbase = ipboostbase.plus(0.1)
+        if(hasUpgrade("omega", 22)) ipboostbase = ipboostbase.plus(0.15)
+        if(hasUpgrade("omega", 23)) limeboostbase = limeboostbase.plus("1e33")
+        if(hasUpgrade("omega", 24)) lemonboostbase = lemonboostbase.plus("1e30")
+        
+        if(hasUpgrade("omega", 21)) ipboostbase = ipboostbase.times(upgradeEffect('omega', 21))
+        
+
+        limeboostbase = limeboostbase.times(player.omega.lowercase).plus(1)
+        lemonboostbase = lemonboostbase.times(player.omega.lowercase).plus(1)
+        ipboostbase = ipboostbase.times(player.omega.lowercase).plus(1)
+        galaxyboostbase = galaxyboostbase.times(player.omega.lowercase).plus(1)
+        orangeboostbase = orangeboostbase.times(player.omega.lowercase).plus(1)
+
+        return [limeboostbase, lemonboostbase, ipboostbase, galaxyboostbase, orangeboostbase]
+    },
+
     update(diff) {
         player.omega.tickrate = new Decimal(5)
         if(hasUpgrade("omega",111)) player.omega.tickrate = player.omega.tickrate.minus(0.25)
+        if(hasUpgrade("omega",113)) player.omega.tickrate = player.omega.tickrate.minus(0.15)
+        if(hasUpgrade("omega",131)) player.omega.tickrate = player.omega.tickrate.minus(0.6)
         if(hasUpgrade("omega",12)) player.omega.tickrate = player.omega.tickrate.minus(0.5)
+        if(hasUpgrade("omega",23)) player.omega.tickrate = player.omega.tickrate.minus(0.25)
         player.omega.newrate = player.omega.newrate.minus(new Decimal(1).times(diff))
         if (player.omega.newrate.lte(0)) {player.omega.lowercase = player.omega.lowercase.plus(this.getlowercaseGain())
             player.omega.newrate = player.omega.tickrate
@@ -2274,21 +2396,73 @@ addLayer("omega", {
         return tmp.omega.getResetGain
     },
     
-    /*prestigeButtonText() {if(player.Infinity.points.gte("1.79e308")) return "Reset for " + format(tmp.omega.resetGain) + " OP"
+    prestigeButtonText() {if(player.Infinity.points.gte("1.79e308")) return "Reset for " + format(tmp.omega.resetGain) + " OP"
         return "You need 1.79e308 IP to reset"
-    },*/
+    },
 
     upgrades: {
     11: {
-            name: "Lowercase (#1)",
+            title: "Lowercase (#1)",
             description: "Unlock ω",
             cost: new Decimal(1),
     },
     12: {
-            name: "The Grind is REAL (#2)",
+            title: "The Grind is REAL (#2)",
             description: "15x ω Points and -0.5 ω Tick",
             cost: new Decimal(7),
             unlocked() {return hasUpgrade("omega", 11)},
+    },
+    13: {
+            title: "Welcome to Omega! (#3)",
+            description: "4.5x ω Points, +0.1 to ω's IP Boost Base and +0.0000005 to ω's Orange Boost Base",
+            cost: new Decimal(9),
+            unlocked() {return hasUpgrade("omega", 12)},
+    },
+    21: {
+            effect() {return player.Infinity.points.clampMin(1).pow(0.15).log(100).plus(1)},
+            effectDisplay() {return "x" + format(upgradeEffect('omega', 21))},
+            title: "Is it worth the grind? (#4)",
+            description: "3x ω Points and IP boosts ω's IP Boost Base [log100(IP^0.15)+1]",
+            cost: new Decimal(10),
+            unlocked() {return hasUpgrade("omega", 12)},
+    },
+    22: {
+            title: "Absolute Infinity (#5)",
+            description: "10x ω Points and +0.15 to ω's IP Boost Base",
+            cost: new Decimal(12),
+            unlocked() {return hasUpgrade("omega", 21)},
+    },
+    23: {
+            title: "THY LIMES MUST NOT BE FORGOTTEN (#6)",
+            description: "5x ω Points, -0.25 ω Tick and +1e33 to ω's Lime Boost Base",
+            cost: new Decimal(14),
+            unlocked() {return hasUpgrade("omega", 22)},
+    },
+    24: {
+            title: "CREATURE OF LEMONS (#7)",
+            description: "2.5x ω Points and +1e30 to ω's Lemon Boost Base",
+            cost: new Decimal(15),
+            unlocked() {return hasUpgrade("omega", 23)},
+    },
+    25: {
+            effect() {return player.omega.lowercase.log(8.5)},
+            effectDisplay() {return "x" + format(upgradeEffect('omega', 25))},
+            title: "Useful..? (#8)",
+            description: "ω Points boost themselves [log8.5(ω)]",
+            cost: new Decimal(16),
+            unlocked() {return hasUpgrade("omega", 24)},
+    },
+    26: {
+            title: "RESET 2 TIMES (#9)",
+            description: "2x ω OP and 5x ω Points",
+            cost: new Decimal(34),
+            unlocked() {return hasUpgrade("omega", 25)},
+    },
+    31: {
+            title: "??? (#10)",
+            description: "??? and Unlock ???",
+            cost: new Decimal("1.79e308"),
+            unlocked() {return hasUpgrade("omega", 26)},
     },
 
     111: {
@@ -2301,4 +2475,147 @@ addLayer("omega", {
             pay() {player.omega.lowercase = player.omega.lowercase.minus("10")},
             unlocked() {return hasUpgrade("omega", 11)},
     },
+    112: {
+            fullDisplay() {return ` <p style="font-size: 12px;"> <b> Funny Booster (#2) </b> <br>
+                1.65x ω Points <br> <br>
+                Cost: 25 ω Points`},
+            style() {if(hasUpgrade("omega",112)) return
+                if(this.canAfford()) return {"background-color": "cyan"}},
+            canAfford() {return player.omega.lowercase.gte("25")},
+            pay() {player.omega.lowercase = player.omega.lowercase.minus("25")},
+            unlocked() {return hasUpgrade("omega", 111)},
+    },
+    113: {
+            fullDisplay() {return ` <p style="font-size: 12px;"> <b> Trust the Process (#3) </b> <br>
+                1.35x ω Points and -0.15 ω Tick <br> <br>
+                Cost: 35 ω Points`},
+            style() {if(hasUpgrade("omega",113)) return
+                if(this.canAfford()) return {"background-color": "cyan"}},
+            canAfford() {return player.omega.lowercase.gte("35")},
+            pay() {player.omega.lowercase = player.omega.lowercase.minus("35")},
+            unlocked() {return hasUpgrade("omega", 112)},
+    },
+    114: {
+            fullDisplay() {return ` <p style="font-size: 12px;"> <b> No Name I (#4) </b> <br>
+                +25 to ω's Lime Boost Base and 1.5x ω Points <br> <br>
+                Cost: 50 ω Points`},
+            style() {if(hasUpgrade("omega",114)) return
+                if(this.canAfford()) return {"background-color": "cyan"}},
+            canAfford() {return player.omega.lowercase.gte("50")},
+            pay() {player.omega.lowercase = player.omega.lowercase.minus("50")},
+            unlocked() {return hasUpgrade("omega", 113)},
+    },
+    115: {
+            fullDisplay() {return ` <p style="font-size: 12px;"> <b> Grind em' Limes! (#5) </b> <br>
+                ω now boosts Lemons <br> <br>
+                Cost: 100 ω Points`},
+            style() {if(hasUpgrade("omega",115)) return
+                if(this.canAfford()) return {"background-color": "cyan"}},
+            canAfford() {return player.omega.lowercase.gte("100")},
+            pay() {player.omega.lowercase = player.omega.lowercase.minus("100")},
+            unlocked() {return hasUpgrade("omega", 114)},
+    },
+    116: {
+            fullDisplay() {return ` <p style="font-size: 12px;"> <b> No Name II (#6) </b> <br>
+                3x ω Points and +7.5 to ω's Lemon Boost Base <br> <br>
+                Cost: 235 ω Points`},
+            style() {if(hasUpgrade("omega",116)) return
+                if(this.canAfford()) return {"background-color": "cyan"}},
+            canAfford() {return player.omega.lowercase.gte("235")},
+            pay() {player.omega.lowercase = player.omega.lowercase.minus("235")},
+            unlocked() {return hasUpgrade("omega", 115)},
+    },
+    121: {
+            fullDisplay() {return ` <p style="font-size: 12px;"> <b> All in One (#7) </b> <br>
+                2x ω Points, +50 to ω's Lime Boost Base and +6.5 to ω's Lemon Boost Base <br> <br>
+                Cost: 700 ω Points`},
+            style() {if(hasUpgrade("omega",121)) return
+                if(this.canAfford()) return {"background-color": "cyan"}},
+            canAfford() {return player.omega.lowercase.gte("700")},
+            pay() {player.omega.lowercase = player.omega.lowercase.minus("700")},
+            unlocked() {return hasUpgrade("omega", 116)},
+    },
+    122: {
+            fullDisplay() {return ` <p style="font-size: 12px;"> <b> BIG (#8) </b> <br>
+                5x ω Points <br> <br>
+                Cost: 1500 ω Points`},
+            style() {if(hasUpgrade("omega",122)) return
+                if(this.canAfford()) return {"background-color": "cyan"}},
+            canAfford() {return player.omega.lowercase.gte("1500")},
+            pay() {player.omega.lowercase = player.omega.lowercase.minus("1500")},
+            unlocked() {return hasUpgrade("omega", 121)},
+    },
+    123: {
+            fullDisplay() {return ` <p style="font-size: 12px;"> <b> Grindin (#9) </b> <br>
+                1.1x ω Points and +75 to ω's Lime Boost Base <br> <br>
+                Cost: 6500 ω Points`},
+            style() {if(hasUpgrade("omega",123)) return
+                if(this.canAfford()) return {"background-color": "cyan"}},
+            canAfford() {return player.omega.lowercase.gte("6500")},
+            pay() {player.omega.lowercase = player.omega.lowercase.minus("6500")},
+            unlocked() {return hasUpgrade("omega", 122)},
+    },
+    124: {
+            fullDisplay() {return ` <p style="font-size: 12px;"> <b> Even IP? (#10) </b> <br>
+                2x ω Points and ω now boosts IP <br> <br>
+                Cost: 8750 ω Points`},
+            style() {if(hasUpgrade("omega",124)) return
+                if(this.canAfford()) return {"background-color": "cyan"}},
+            canAfford() {return player.omega.lowercase.gte("8750")},
+            pay() {player.omega.lowercase = player.omega.lowercase.minus("8750")},
+            unlocked() {return hasUpgrade("omega", 123)},
+    },
+    125: {
+            fullDisplay() {return ` <p style="font-size: 12px;"> <b> More Costs (#11) </b> <br>
+                1.5x ω Points and +0.01 to ω's IP Boost Base <br> <br>
+                Cost: 45000 ω Points and 1 Galaxy`},
+            style() {if(hasUpgrade("omega",125)) return
+                if(this.canAfford()) return {"background-color": "cyan"}},
+            canAfford() {return player.omega.lowercase.gte("45000") && player.cosmic.points.gte("1")},
+            pay() {player.omega.lowercase = player.omega.lowercase.minus("45000"); player.cosmic.points = player.cosmic.points.minus("1")},
+            unlocked() {return hasUpgrade("omega", 124)},
+    },
+    126: {
+            fullDisplay() {return ` <p style="font-size: 12px;"> <b> Recovering... (#12) </b> <br>
+                3x ω Points, +0.02 to ω's IP Boost Base, +35 to ω's Lemon Boost Base and ω now boosts Galaxies <br> <br>
+                Cost: 135000 ω Points and 250000 Cosmic Dust`},
+            style() {if(hasUpgrade("omega",126)) return
+                if(this.canAfford()) return {"background-color": "cyan"}},
+            canAfford() {return player.omega.lowercase.gte("135000") && player.cosmic.dust.gte("250000")},
+            pay() {player.omega.lowercase = player.omega.lowercase.minus("135000"); player.cosmic.dust = player.cosmic.dust.minus("250000")},
+            unlocked() {return hasUpgrade("omega", 125)},
+    },
+    131: {
+            fullDisplay() {return ` <p style="font-size: 12px;"> <b> Oranges too.? (#13) </b> <br>
+                2x ω Points, -0.6 ω Tick, +0.000005 to ω's Galaxy Boost Base and ω now boosts Oranges <br> <br>
+                Cost: 250000 ω Points`},
+            style() {if(hasUpgrade("omega",131)) return
+                if(this.canAfford()) return {"background-color": "cyan"}},
+            canAfford() {return player.omega.lowercase.gte("250000")},
+            pay() {player.omega.lowercase = player.omega.lowercase.minus("250000")},
+            unlocked() {return hasUpgrade("omega", 126)},
+    },
 },})
+
+addLayer("grapefruit", {
+    row: 3,
+    name: "Grapefruits",
+    symbol: "?",
+    color: "#ee1069",
+    position: 1,
+    type: "custom",
+    startData() { return {
+        unlocked: false,
+		points: new Decimal(0),
+    }},
+    resource: "OP",
+    baseResource: "IP",
+    baseAmount() {return player.Infinity.points},
+    requires: new Decimal("1.79e3008"),
+    branches: ["omega"],
+
+    unlocked() {return false},
+    tooltipLocked() {return "See ya final update (hopefully) (i had enough of this)"},
+    getResetGain() {return new Decimal(0)},
+    getNextAt() {return new Decimal(0)},
+})
