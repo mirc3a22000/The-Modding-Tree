@@ -2614,6 +2614,7 @@ addLayer("grapefruit", {
     requires: new Decimal("1.79e3008"),
     branches: ["omega"],
 
+    layerShown() {return hasUpgrade("omega", 126)},
     unlocked() {return false},
     tooltipLocked() {return "See ya final update (hopefully) (i had enough of this)"},
     getResetGain() {return new Decimal(0)},
