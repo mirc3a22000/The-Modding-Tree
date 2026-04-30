@@ -156,8 +156,11 @@ function SaveBankThing(savename){
 	player.omega.points = new Decimal(0)
 	player.omega.lowercase = new Decimal(0)
 
+	player.achievementslmao.achievements = []
+
 	if(savename=="lemons") {
 		player.L.upgrades = [11, 22, 23, 21, 32, 41, 33, 31, 51, 61, 71, 81, 91, 42]
+		player.achievementslmao.achievements = [21, 22, 23]
 	}
 	if(savename=="infinity") {
 		player.L.upgrades = [11, 22, 23, 21, 32, 41, 33, 31, 51, 61, 71, 81, 91, 42, 43, 44, 45, 46, 52, 53, 54, 55, 56, 61, 62, 63, 64, 65, 66, 72, 73, 74, 75, 76, 82, 83, 84, 85, 86, 92, 93, 94, 95]
@@ -165,6 +168,7 @@ function SaveBankThing(savename){
 		setBuyableAmount('lemons', 11, new Decimal(300))
 		setBuyableAmount('lemons', 12, new Decimal(150))
 		player.L.points = new Decimal("1.75e308")
+		player.achievementslmao.achievements = [21, 22, 23, 24, 31, 32, 33, 34, 35]
 	}
 	if(savename=="cosmic") {
 		player.L.upgrades = [11, 22, 23, 21, 32, 41, 33, 31, 51, 61, 71, 81, 91, 42, 43, 44, 45, 46, 52, 53, 54, 55, 56, 61, 62, 63, 64, 65, 66, 72, 73, 74, 75, 76, 82, 83, 84, 85, 86, 92, 93, 94, 95,101,102,103,104,105]
@@ -173,6 +177,7 @@ function SaveBankThing(savename){
 		setBuyableAmount('lemons', 11, new Decimal(300))
 		setBuyableAmount('lemons', 12, new Decimal(150))
 		player.Infinity.points = new Decimal("1.5e26")
+		player.achievementslmao.achievements = [21, 22, 23, 24, 25, 31, 32, 33, 34, 35, 41, 42, 43, 44, 45]
 	}
 	if(savename=="orange") {
 		player.L.upgrades = [11, 22, 23, 21, 32, 41, 33, 31, 51, 61, 71, 81, 91, 42, 43, 44, 45, 46, 52, 53, 54, 55, 56, 61, 62, 63, 64, 65, 66, 72, 73, 74, 75, 76, 82, 83, 84, 85, 86, 92, 93, 94, 95,101,102,103,104,105,106]
@@ -182,6 +187,7 @@ function SaveBankThing(savename){
 		setBuyableAmount('lemons', 11, new Decimal(300))
 		setBuyableAmount('lemons', 12, new Decimal(150))
 		player.Infinity.points = new Decimal("5e29")
+		player.achievementslmao.achievements = [21, 22, 23, 24, 25, 31, 32, 33, 34, 35, 41, 42, 43, 44, 45, 51, 52]
 	}
 	if(savename=="omega") {
 		player.L.upgrades = [11, 22, 23, 21, 32, 41, 33, 31, 51, 61, 71, 81, 91, 42, 43, 44, 45, 46, 52, 53, 54, 55, 56, 61, 62, 63, 64, 65, 66, 72, 73, 74, 75, 76, 82, 83, 84, 85, 86, 92, 93, 94, 95,101,102,103,104,105,106]
@@ -192,6 +198,7 @@ function SaveBankThing(savename){
 		setBuyableAmount('lemons', 12, new Decimal(150))
 		setBuyableAmount('orange', 11, new Decimal(50))
 		setBuyableAmount('orange', 12, new Decimal(35))
+		player.achievementslmao.achievements = [21, 22, 23, 24, 25, 31, 32, 33, 34, 35, 41, 42, 43, 44, 45, 51, 52, 53, 54, 55]
 		player.Infinity.points = new Decimal("1.79e308")
 	}
 }
