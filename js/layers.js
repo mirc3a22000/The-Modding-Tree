@@ -2218,7 +2218,7 @@ addLayer("omega", {
     resource: "OP",
     baseResource: "IP",
     baseAmount() {return player.Infinity.points},
-    requires: new Decimal("1.79e3008"),
+    requires: new Decimal("1.79e308"),
     branches: ["cosmic"],
     tabFormat: { "Main": {content: ["main-display",
         "prestige-button",
