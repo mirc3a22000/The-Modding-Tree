@@ -2391,7 +2391,7 @@ addLayer("omega", {
             player.omega.newrate = player.omega.tickrate
         }
     },
-    layerShown() {return hasUpgrade('cosmic', 64) || player.omega.points.gte(0.1)},
+    layerShown() {return hasUpgrade('cosmic', 64) || player.omega.points.gte(0.1)  || hasUpgrade("omega",11)},
     getNextAt() {
         return tmp.omega.getResetGain
     },
